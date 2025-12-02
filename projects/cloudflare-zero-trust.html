@@ -3,19 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cloudflare Zero-Trust — MRDTech Docs</title>
+  <title>Cloudflare Zero-Trust for Homelab</title>
   <link rel="icon" href="../favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    html { scroll-behavior: smooth; }
-    .glow:hover { box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35); }
+    .codebox {
+      @apply whitespace-pre-wrap break-words bg-slate-800/50 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700;
+    }
+    body { scroll-behavior: smooth; }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200">
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
       <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
       <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
@@ -27,91 +29,114 @@
     </div>
   </header>
 
-  <!-- PAGE WRAPPER -->
-  <main class="max-w-4xl mx-auto px-5 py-12">
+  <!-- Main -->
+  <main class="max-w-5xl mx-auto px-5 py-14">
 
-    <!-- TITLE -->
-    <h1 class="text-3xl sm:text-4xl font-bold text-slate-100">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">
       Cloudflare Zero-Trust for Homelab
     </h1>
-    <p class="mt-2 text-slate-400 text-lg">
+
+    <p class="mt-4 text-slate-400 leading-relaxed">
       Identity-aware access for Immich, Wizarr, RustDesk, Uptime Kuma, AdGuard Home, and internal dashboards —
-      without exposing ports to the internet.
+      all without exposing ports to the internet. This guide walks through setting up Cloudflare Zero-Trust and
+      Cloudflare Tunnel securely in a homelab environment.
     </p>
 
-    <!-- DOC CONTENT -->
-    <section class="mt-10 space-y-10">
+    <!-- Section 1 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">1. Create Cloudflare Zero-Trust Application</h2>
 
-      <div>
-        <h2 class="text-2xl font-semibold text-emerald-300">1. Create Cloudflare Zero-Trust Application</h2>
-        <p class="mt-2 text-slate-300">
-          1. Go to Cloudflare Dashboard → Zero Trust  
-          2. Open <strong>Access → Applications</strong>  
-          3. Click <strong>Add Application</strong>  
-          4. Choose <strong>Self-Hosted</strong>  
-        </p>
-      </div>
+      <p class="mt-3 text-slate-300">
+        Follow these steps inside Cloudflare Dashboard:
+      </p>
 
-      <div>
-        <h2 class="text-2xl font-semibold text-emerald-300">2. Configure Policies</h2>
-        <p class="mt-2 text-slate-300">
-          Recommended:
-        </p>
-        <ul class="list-disc ml-6 text-slate-300 mt-2 space-y-1">
-          <li>Email → your Gmail/Microsoft login</li>
-          <li>Geo-blocking (optional)</li>
-          <li>Device posture: Require Tailscale installed</li>
-        </ul>
-      </div>
+      <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-300">
+        <li>Go to <strong>Cloudflare Dashboard → Zero Trust</strong></li>
+        <li>Open <strong>Access → Applications</strong></li>
+        <li>Click <strong>Add Application</strong></li>
+        <li>Select <strong>Self-Hosted</strong></li>
+      </ol>
 
-      <div>
-        <h2 class="text-2xl font-semibold text-emerald-300">3. Install Cloudflare Tunnel on Host</h2>
-        <pre class="bg-slate-900 p-4 rounded-xl text-sm mt-3 text-emerald-300">
-curl -fsSL https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation | bash
-        </pre>
-      </div>
+      <p class="mt-4 text-slate-400">
+        This creates the secure identity layer Cloudflare uses for authentication.
+      </p>
+    </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold text-emerald-300">4. Add Services (Immich, RustDesk, AdGuard, etc.)</h2>
-        <p class="mt-2 text-slate-300">
-          Example tunnel route:
-        </p>
+    <!-- Section 2 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">2. Configure Access Policies</h2>
 
-        <pre class="bg-slate-900 p-4 rounded-xl text-sm text-emerald-300 mt-3">
+      <p class="mt-3 text-slate-300">Recommended rules:</p>
+
+      <ul class="mt-4 list-disc list-inside space-y-2 text-slate-300">
+        <li>Email → your Gmail/Microsoft login</li>
+        <li>(Optional) Geo-blocking by region</li>
+        <li>Device posture: Require Tailscale installed (optional hardening)</li>
+      </ul>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">3. Install Cloudflare Tunnel on Your Host</h2>
+
+      <p class="mt-3 text-slate-300">
+        Run this command on the server hosting your services:
+      </p>
+
+      <pre class="codebox mt-4"><code>
+curl -fsSL https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation \| bash
+      </code></pre>
+
+      <p class="mt-4 text-slate-400">
+        This installs the Cloudflare connector service (cloudflared).
+      </p>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">4. Add Services (Immich, RustDesk, AdGuard, etc.)</h2>
+
+      <p class="mt-3 text-slate-300">Example <code>config.yml</code> for cloudflared:</p>
+
+      <pre class="codebox mt-4"><code>
 tunnel: YOURTUNNELID
 ingress:
   - hostname: immich.mrdtech.me
-    service: http://10.10.10.50:2283
+    service: http://10.10.50.2283
+
   - hostname: adguard.mrdtech.me
-    service: http://10.10.10.21
-  - hostname: kuma.mrdtech.me
-    service: http://10.10.10.90
+    service: http://10.10.10.21:3000
+
+  - hostname: rustdesk.mrdtech.me
+    service: http://10.10.10.33:21117
+
   - service: http_status:404
-        </pre>
-      </div>
+      </code></pre>
 
-      <div>
-        <h2 class="text-2xl font-semibold text-emerald-300">5. Verify Access</h2>
-        <p class="mt-2 text-slate-300">
-          When accessing your domain:
-        </p>
-        <ul class="list-disc ml-6 text-slate-300 mt-2">
-          <li>Cloudflare login should appear</li>
-          <li>After authentication → your app loads</li>
-        </ul>
-      </div>
-
+      <p class="mt-4 text-slate-400">
+        Each hostname maps to an internal service inside your homelab.
+      </p>
     </section>
 
-    <div class="mt-16 text-sm">
-      <a href="/" class="text-emerald-300 hover:underline">← Back to Portfolio</a>
-    </div>
+    <!-- Section 5 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">5. Start and Enable the Tunnel</h2>
 
+      <pre class="codebox mt-4"><code>
+sudo systemctl enable cloudflared
+sudo systemctl start cloudflared
+      </code></pre>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-10 text-center text-xs text-slate-500">
+      © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+    </footer>
   </main>
 
-  <footer class="py-10 text-center text-xs text-slate-500">
-    © <script>document.write(new Date().getFullYear())</script> Michael Dziegiel — MRDTech
-  </footer>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 
 </body>
 </html>
