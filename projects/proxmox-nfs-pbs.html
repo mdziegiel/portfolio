@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proxmox Homelab — NFS Storage & PBS Backups</title>
+  <link rel="icon" href="../favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+    pre { background: rgba(15,23,42,0.85); padding: 16px; border-radius: 10px; overflow-x: auto; }
+  </style>
+</head>
+
+<body class="bg-[#0b0c0e] text-slate-200">
+
+  <header class="border-b border-slate-800 bg-black/40 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
+      <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
+      <span class="text-slate-500 text-sm">Proxmox NFS + PBS Runbook</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-5 py-10">
+
+    <h1 class="text-3xl font-bold text-slate-100">Proxmox Homelab — NFS Storage & PBS Backups</h1>
+    <p class="mt-3 text-slate-400 text-lg">
+      End-to-end layout and configuration for a Proxmox cluster using NFS shared storage
+      and a dedicated Proxmox Backup Server (PBS) instance. Includes storage layout, permissions,
+      datastore design, retention, and restore workflow.
+    </p>
+
+    <hr class="my-8 border-slate-800" />
+
+    <!-- SECTION 1 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">1. NFS Server Setup (QNAP or Linux)</h2>
+
+      <p class="mt-2 text-slate-300">Create an export:</p>
+
+<pre><code>/mnt/pool1/proxmox-nfs  *(rw,sync,no_subtree_check,no_root_squash)</code></pre>
+
+      <p class="mt-4 text-slate-300">Restart NFS service:</p>
+
+<pre><code>systemctl restart nfs-kernel-server</code></pre>
+
+      <p class="mt-4 text-slate-400 text-sm">
+        Note: If using QNAP → Enable NFS v3 + v4, set "No mapping", and add Proxmox node IPs to allowed hosts.
+      </p>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">2. Add NFS Storage to Proxmox</h2>
+
+      <p class="mt-3 text-slate-300">In Proxmox UI:</p>
+
+<pre><code>Datacenter → Storage → Add → NFS</code></pre>
+
+      <p class="mt-4 font-semibold text-slate-200">Recommended settings:</p>
+
+<pre><code>ID: nfs-storage
+Server: 10.10.10.50
+Export: /mnt/pool1/proxmox-nfs
+Content: VZDump backup, ISO, Container template
+Nodes: (all)
+Enable:
+    ✓ Subdir
+    ✓ Shared</code></pre>
+
+      <p class="mt-4 text-slate-300">
+        Validate the share by checking:
+      </p>
+
+<pre><code>pvesm status</code></pre>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">3. Deploy Proxmox Backup Server (PBS)</h2>
+
+      <p class="mt-3 text-slate-300">Install PBS (recommended LXC excluded — use VM or bare-metal):</p>
+
+<pre><code>apt update
+apt install proxmox-backup-server</code></pre>
+
+      <p class="mt-4 text-slate-300">Access web UI:</p>
+
+<pre><code>https://10.10.10.60:8007</code></pre>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">4. Create PBS Datastore</h2>
+
+      <p class="mt-2 text-slate-300">From PBS UI:</p>
+
+<pre><code>Datastores → Add</code></pre>
+
+      <p class="mt-4 font-semibold">Recommended:</p>
+
+<pre><code>Name: pbs-data
+Path: /mnt/pool2/pbs
+GC Schedule: daily
+Prune Schedule: daily
+Retention:
+    Keep last: 7
+    Keep daily: 14
+    Keep weekly: 4
+    Keep monthly: 3</code></pre>
+
+      <p class="mt-4 text-slate-400 text-sm">
+        Keep retention light for homelab. Adjust based on disk pool size.
+      </p>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">5. Add PBS as Backup Target to Proxmox</h2>
+
+<pre><code>Datacenter → Storage → Add → Proxmox Backup Server</code></pre>
+
+      <p class="mt-4 font-semibold text-slate-200">Settings:</p>
+
+<pre><code>ID: pbs
+Server: 10.10.10.60
+Datastore: pbs-data
+User: root@pam
+Password: (API token recommended)
+Fingerprint: (paste from PBS UI)
+Content: VZDump backup
+</code></pre>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">6. Create Backup Jobs</h2>
+
+      <p class="mt-3 text-slate-300">In Proxmox UI:</p>
+
+<pre><code>Datacenter → Backup → Add</code></pre>
+
+      <p class="mt-4 font-semibold text-slate-200">Recommended homelab schedule:</p>
+
+<pre><code>Schedule: Daily @ 02:00
+Mode: Snapshot
+Storage: pbs
+Selection: All nodes →
+    ✓ VMs
+    ✓ LXCs
+Compression: ZSTD
+</code></pre>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">7. Restore Workflow</h2>
+
+      <p class="mt-3 text-slate-300">VM/LXC Restore:</p>
+
+<pre><code>Proxmox → Server View → (VM) → Backup → Restore</code></pre>
+
+      <p class="mt-4 font-semibold">File-level Restore:</p>
+
+<pre><code>PBS → Backups → (VM/LXC) → File Restore</code></pre>
+    </section>
+
+    <footer class="py-10 text-center text-xs text-slate-500">
+      © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
