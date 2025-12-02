@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdGuard Home + Unbound Recursive DNS — Guide</title>
+  <link rel="icon" href="../favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+    pre { background: rgba(15,23,42,0.85); padding: 16px; border-radius: 10px; overflow-x: auto; }
+  </style>
+</head>
+
+<body class="bg-[#0b0c0e] text-slate-200">
+  <header class="border-b border-slate-800 bg-black/40 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
+      <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
+      <span class="text-slate-500 text-sm">AdGuard + Unbound Guide</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-5 py-10">
+
+    <h1 class="text-3xl font-bold text-slate-100">AdGuard Home + Unbound Recursive DNS</h1>
+    <p class="mt-3 text-slate-400 text-lg">
+      A privacy-focused DNS stack using AdGuard Home for filtering and Unbound as a full recursive resolver.
+      Supports DNSSEC, ECS-off, Split-DNS, and secure upstreams for internal services.
+    </p>
+
+    <hr class="my-8 border-slate-800" />
+
+    <!-- SECTION 1 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">1. Install Unbound</h2>
+      <p class="mt-2 text-slate-300 text-sm">
+        Unbound acts as your internal recursive DNS resolver. Run on a separate VM/LXC (recommended).
+      </p>
+
+<pre><code>apt update && apt install unbound</code></pre>
+
+      <p class="mt-3 text-slate-300">Download the hardened config preset:</p>
+
+<pre><code>wget https://www.internic.net/domain/named.cache -O /var/lib/unbound/root.hints</code></pre>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">2. Harden Unbound Configuration</h2>
+
+      <p class="mt-2 text-slate-300">Place this full config at:</p>
+<pre><code>/etc/unbound/unbound.conf.d/recursive.conf</code></pre>
+
+<pre><code>server:
+    verbosity: 1
+    interface: 0.0.0.0
+    port: 53
+    do-ip4: yes
+    do-ip6: no
+    do-udp: yes
+    do-tcp: yes
+
+    # Security
+    hide-identity: yes
+    hide-version: yes
+    harden-glue: yes
+    harden-dnssec-stripped: yes
+    harden-referral-path: yes
+    harden-algo-downgrade: yes
+    harden-large-queries: yes
+
+    # DNSSEC
+    auto-trust-anchor-file: "/var/lib/unbound/root.key"
+
+    # Privacy
+    qname-minimisation: yes
+    minimal-responses: yes
+    aggressive-nsec: yes
+    prefetch: yes
+
+    # Disable EDNS Client Subnet (ECS)
+    send-client-subnet: "0.0.0.0/0"
+
+    # Root servers
+    root-hints: "/var/lib/unbound/root.hints"
+
+    # Cache
+    msg-cache-size: 150m
+    rrset-cache-size: 300m
+    cache-max-ttl: 86400
+    infra-cache-numhosts: 10000
+
+    # Performance
+    num-threads: 2
+    so-reuseport: yes
+
+remote-control:
+    control-enable: no
+</code></pre>
+
+<pre><code>systemctl restart unbound</code></pre>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">3. Configure AdGuard Home to Use Unbound</h2>
+
+      <p class="mt-3">In AdGuard Home → <strong>Settings → DNS settings → Upstream DNS servers</strong>:</p>
+
+<pre><code>http://10.10.10.34:53</code></pre>
+
+      <p class="text-slate-400 text-sm mt-3">
+        Ensure this is the ONLY upstream server. Remove Google, Cloudflare, Quad9, etc.
+      </p>
+
+      <p class="mt-4 text-slate-300">Recommended performance settings:</p>
+
+<pre><code>Enable DNSSEC: ✓  
+Enable cache boost: ✓  
+Disable IPv6 (unless fully deployed): Recommended  
+</code></pre>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">4. Add Split-DNS for Internal Hostnames</h2>
+
+      <p class="mt-2 text-slate-300">In AdGuard Home → DNS rewrites:</p>
+
+<pre><code>immich.mrdtech.me → 10.10.50.228
+rustdesk.mydomain.com → 10.10.10.230
+adguard.local → 10.10.10.21
+unbound.local → 10.10.10.34
+</code></pre>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">5. Verification</h2>
+
+<pre><code>dig google.com @10.10.10.34
+dig +dnssec cloudflare.com @10.10.10.34
+dig example.com @10.10.10.21
+</code></pre>
+
+      <p class="mt-3 text-slate-300">
+        All results should show **NO “status: SERVFAIL”** and DNSSEC should validate properly.
+      </p>
+    </section>
+
+    <footer class="py-10 text-center text-xs text-slate-500">
+      © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
