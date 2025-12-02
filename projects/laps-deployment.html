@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Microsoft LAPS Deployment — Case Study</title>
+  <link rel="icon" href="../favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    .section { margin-top: 2rem; }
+    .code { background: #0f172a; padding: 1rem; border-radius: 0.5rem; font-size: 0.9rem; }
+  </style>
+</head>
+
+<body class="bg-[#0b0c0e] text-slate-200">
+
+  <main class="max-w-4xl mx-auto px-6 py-10">
+
+    <a href="/" class="text-emerald-400 hover:text-emerald-300">← Back to Portfolio</a>
+
+    <h1 class="text-3xl font-bold tracking-tight mt-6">
+      Microsoft LAPS Deployment — Skyterra Case Study
+    </h1>
+
+    <p class="mt-3 text-slate-400">
+      A multi-tenant rollout of Microsoft LAPS across Skyterra-managed clients to automate
+      local admin password rotation, strengthen security posture, and reduce privilege exposure.
+    </p>
+
+    <!-- Section 1 -->
+    <div class="section">
+      <h2 class="text-xl font-semibold text-emerald-300">1. Overview</h2>
+      <p class="mt-2 text-slate-300 leading-relaxed">
+        Skyterra oversaw hundreds of Windows endpoints across dozens of tenants.
+        Legacy local admin passwords were static, reused, and highly privileged.
+        Microsoft LAPS was deployed to securely rotate, store, and audit local admin credentials.
+      </p>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <h2 class="text-xl font-semibold text-emerald-300">2. Environment</h2>
+      <ul class="list-disc list-inside mt-2 text-slate-300 space-y-1">
+        <li>Azure AD / Entra ID (cloud-only & hybrid tenants)</li>
+        <li>Intune-managed endpoints</li>
+        <li>Windows 10/11 (H1 & H2 releases)</li>
+        <li>Conditional Access & MFA-enforced environments</li>
+      </ul>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+      <h2 class="text-xl font-semibold text-emerald-300">3. Deployment Strategy</h2>
+      <p class="mt-2 text-slate-300">
+        The project was rolled out in three phases:
+      </p>
+      <ol class="list-decimal list-inside mt-3 text-slate-300 space-y-2">
+        <li><strong>Assessment</strong> — Verified prerequisites and removed conflicting legacy LAPS.</li>
+        <li><strong>Intune Policy Deployment</strong> — Configured password rotation, length, and recovery settings.</li>
+        <li><strong>Monitoring & Validation</strong> — Confirmed passwords were rotated and stored properly.</li>
+      </ol>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section">
+      <h2 class="text-xl font-semibold text-emerald-300">4. Required Intune Settings</h2>
+      <p class="mt-2 text-slate-300">Below is an example Windows LAPS policy:</p>
+
+      <pre class="code text-emerald-300">
+Settings:
+  - Enable LAPS: Enabled
+  - Password Age: 7 days
+  - Password Length: 16
+  - Recovery: Enabled
+  - Directory: Entra ID
+      </pre>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="section">
+      <h2 class="text-xl font-semibold text-emerald-300">5. Results</h2>
+      <ul class="list-disc list-inside mt-2 text-slate-300 space-y-1">
+        <li>Eliminated password reuse across all tenants.</li>
+        <li>Reduced attack surface on local admin accounts.</li>
+        <li>Help Desk could securely retrieve one-time passwords via Azure portal.</li>
+        <li>Improved audit trails and compliance posture.</li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 text-xs text-slate-500">
+      © <script>document.write(new Date().getFullYear())</script> Michael Dziegiel — All Rights Reserved.
+    </footer>
+
+  </main>
+
+</body>
+</html>
