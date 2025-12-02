@@ -8,9 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    .codebox {
-      @apply whitespace-pre-wrap break-words bg-slate-800/50 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700;
-    }
     body { scroll-behavior: smooth; }
   </style>
 </head>
@@ -46,9 +43,7 @@
     <section class="mt-12">
       <h2 class="text-2xl font-bold text-slate-100">1. Create Cloudflare Zero-Trust Application</h2>
 
-      <p class="mt-3 text-slate-300">
-        Follow these steps inside Cloudflare Dashboard:
-      </p>
+      <p class="mt-3 text-slate-300">Follow these steps inside Cloudflare Dashboard:</p>
 
       <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-300">
         <li>Go to <strong>Cloudflare Dashboard → Zero Trust</strong></li>
@@ -79,13 +74,13 @@
     <section class="mt-12">
       <h2 class="text-2xl font-bold text-slate-100">3. Install Cloudflare Tunnel on Your Host</h2>
 
-      <p class="mt-3 text-slate-300">
-        Run this command on the server hosting your services:
-      </p>
+      <p class="mt-3 text-slate-300">Run this command on the server hosting your services:</p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="whitespace-pre-wrap break-words bg-slate-800/50 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700 mt-4">
+<code>
 curl -fsSL https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation \| bash
-      </code></pre>
+</code>
+</pre>
 
       <p class="mt-4 text-slate-400">
         This installs the Cloudflare connector service (cloudflared).
@@ -98,11 +93,12 @@ curl -fsSL https://developers.cloudflare.com/cloudflare-one/connections/connect-
 
       <p class="mt-3 text-slate-300">Example <code>config.yml</code> for cloudflared:</p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="whitespace-pre-wrap break-words bg-slate-800/50 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700 mt-4">
+<code>
 tunnel: YOURTUNNELID
 ingress:
   - hostname: immich.mrdtech.me
-    service: http://10.10.50.2283
+    service: http://10.10.50.228:3001
 
   - hostname: adguard.mrdtech.me
     service: http://10.10.10.21:3000
@@ -111,7 +107,8 @@ ingress:
     service: http://10.10.10.33:21117
 
   - service: http_status:404
-      </code></pre>
+</code>
+</pre>
 
       <p class="mt-4 text-slate-400">
         Each hostname maps to an internal service inside your homelab.
@@ -122,10 +119,13 @@ ingress:
     <section class="mt-12">
       <h2 class="text-2xl font-bold text-slate-100">5. Start and Enable the Tunnel</h2>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="whitespace-pre-wrap break-words bg-slate-800/50 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700 mt-4">
+<code>
 sudo systemctl enable cloudflared
 sudo systemctl start cloudflared
-      </code></pre>
+</code>
+</pre>
+
     </section>
 
     <!-- Footer -->
@@ -137,6 +137,10 @@ sudo systemctl start cloudflared
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
