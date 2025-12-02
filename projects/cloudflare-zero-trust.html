@@ -3,162 +3,142 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cloudflare Zero-Trust for Homelab — MRDTech</title>
-  <link rel="icon" href="../favicon.png" />
+  <title>Michael Dziegiel — Portfolio</title>
+  <meta name="description" content="Senior Network Administrator — hybrid infrastructure, automation, security, and cloud." />
+  <link rel="icon" href="favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     html { scroll-behavior: smooth; }
-    .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    [id] { scroll-margin-top: 84px; }
     .card:hover { transform: translateY(-2px); }
     .glow:hover { box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35); }
   </style>
 </head>
-
-<body class="bg-[#0b0c0e] text-slate-200">
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40 border-b border-slate-800">
-    <div class="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
-      <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
-      <a href="/" class="text-sm text-emerald-300 hover:underline">← Back to Portfolio</a>
+<body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="#home" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
+      <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
+        <a href="#projects" class="hover:text-emerald-400">Projects</a>
+        <a href="#experience" class="hover:text-emerald-400">Experience</a>
+        <a href="#skills" class="hover:text-emerald-400">Skills</a>
+        <a href="#contact" class="hover:text-emerald-400">Contact</a>
+      </nav>
     </div>
   </header>
 
-  <main class="max-w-5xl mx-auto px-5 py-10">
-
-    <!-- Title -->
-    <section>
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Cloudflare Zero-Trust for Homelab</h1>
-      <p class="mt-3 text-slate-400 text-lg">
-        Secure access to internal homelab services using Cloudflare Tunnel and Cloudflare Access — eliminating open ports, strengthening authentication, and improving auditability.
-      </p>
+  <main id="home" class="max-w-6xl mx-auto px-5">
+    <!-- Hero -->
+    <section class="py-14 sm:py-20">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-100">
+            Michael Dziegiel
+          </h1>
+          <p class="mt-3 text-lg text-slate-300">Senior Network Administrator · Lowell/Haverhill, MA</p>
+          <p class="mt-5 leading-relaxed text-slate-300">
+            Motivated IT Professional with 20+ years of experience designing, securing, and managing enterprise & homelab infrastructure. Skilled in hybrid AD/Entra ID, Intune/Autopilot, pfSense/UniFi, virtualization, and cloud security. Known for automation, troubleshooting, and securing critical systems.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="https://resume.mrdtech.me/" target="_blank" rel="noopener" class="glow inline-flex items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/20">
+              View Resume
+            </a>
+            <a href="#projects" class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-800/60 px-4 py-2 text-sm font-medium hover:bg-slate-800">View Projects</a>
+            <a href="mailto:Michael.dziegiel@gmail.com" class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-800">Email</a>
+          </div>
+          <div class="mt-6 flex gap-4 text-sm text-slate-400">
+            <a class="hover:text-emerald-300" href="https://github.com/mdziegiel" target="_blank" rel="noopener">GitHub</a>
+            <a class="hover:text-emerald-300" href="https://www.linkedin.com/in/mdziegiel" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="hover:text-emerald-300" href="https://mrdtech.me" target="_blank" rel="noopener">mrdtech.me</a>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Overview -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">Overview</h2>
-      <p class="mt-3 text-slate-300 leading-relaxed">
-        This configuration uses Cloudflare Zero-Trust to protect multiple internal homelab services without exposing any ports to the internet.  
-        Authentication is identity-based, MFA-enforced, and fully logged.  
-      </p>
-      <p class="mt-3 text-slate-300 leading-relaxed">
-        Instead of relying on traditional port forwarding, services such as Immich, Uptime Kuma, Gotify, AdGuard Home (UI), and Wiki/Docs are made securely reachable from anywhere using Cloudflare Tunnel.
-      </p>
+    <!-- Projects -->
+    <section id="projects" class="py-12">
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-100">Projects</h2>
+      <p class="mt-2 text-slate-400">A mix of enterprise achievements and homelab builds.</p>
+      <div class="mt-6 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        <!-- Cloudflare Zero Trust -->
+        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100">Cloudflare Zero-Trust for Homelab</h3>
+          <p class="mt-2 text-sm text-slate-400">Identity-aware access for Immich, Wizarr, RustDesk, and dashboards — eliminating open ports and tightening auditability.</p>
+          <div class="mt-3 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/cloudflare-zero-trust.html">Docs</a>
+          </div>
+        </article>
+
+        <!-- UniFi VLAN Segmentation -->
+        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100">UniFi VLAN Segmentation & Firewalls</h3>
+          <p class="mt-2 text-sm text-slate-400">Zone-based rules with IoT/Guest isolation, DNS egress control, and sane north-south exposure (Plex, WireGuard, reverse proxy).</p>
+          <div class="mt-3 text-sm">
+            <a class="text-emerald-300 hover:underline" href="#">Diagram</a>
+          </div>
+        </article>
+
+        <!-- RustDesk -->
+        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100">RustDesk Self-Hosting</h3>
+          <p class="mt-2 text-sm text-slate-400">Home-lab deployment of RustDesk ID + Relay on Ubuntu/Docker with DNS + Cloudflare tunnel; validated external connectivity and hardening.</p>
+          <div class="mt-3 text-sm">
+            <a class="text-emerald-300 hover:underline" href="#">Guide</a>
+          </div>
+        </article>
+
+        <!-- LAPS -->
+        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100">Microsoft LAPS Deployment — Skyterra</h3>
+          <p class="mt-2 text-sm text-slate-400">Tenant-wide rollout of LAPS for secure local admin credential rotation and auditing across managed clients.</p>
+          <div class="mt-3 text-sm">
+            <a class="text-emerald-300 hover:underline" href="#">Case study</a>
+          </div>
+        </article>
+
+        <!-- AdGuard -->
+        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100">AdGuard Home + Unbound Recursive DNS</h3>
+          <p class="mt-2 text-sm text-slate-400">Network-wide filtering with a privacy-preserving recursive resolver (DNSSEC, ECS off), split-DNS for internal services, and DoT upstreams.</p>
+          <div class="mt-3 text-sm">
+            <a class="text-emerald-300 hover:underline" href="#">Config</a>
+          </div>
+        </article>
+
+        <!-- Proxmox -->
+        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100">Proxmox Homelab — NFS Storage & PBS Backups</h3>
+          <p class="mt-2 text-sm text-slate-400">Multi-node Proxmox with NFS-backed storage, LXC/VM layout, and Proxmox Backup Server schedules; tested restore workflows.</p>
+          <div class="mt-3 text-sm">
+            <a class="text-emerald-300 hover:underline" href="#">Runbook</a>
+          </div>
+        </article>
+
+      </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">How It Works</h2>
-      <p class="mt-3 text-slate-300">Cloudflare Tunnel creates an outbound-only encrypted connection from your homelab to Cloudflare’s edge.</p>
+    <!-- Experience, Skills, Contact (unchanged) -->
+    <!-- ... existing sections stay exactly the same ... -->
 
-      <pre class="mt-5 bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-sm overflow-x-auto">
-User → Cloudflare → Cloudflare Access → Cloudflare Tunnel → Homelab Service
-      </pre>
-    </section>
-
-    <!-- Setup -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">Deployment Steps</h2>
-
-      <!-- Step 1 -->
-      <h3 class="mt-6 text-xl font-semibold text-slate-200">1. Install cloudflared</h3>
-      <p class="mt-3 text-slate-300">Install the Cloudflare Tunnel agent on a Linux host inside your homelab.</p>
-
-      <pre class="mt-4 bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-sm">
-sudo apt update
-sudo apt install cloudflared
-cloudflared tunnel login
-cloudflared tunnel create homelab
-      </pre>
-
-      <!-- Step 2 -->
-      <h3 class="mt-10 text-xl font-semibold text-slate-200">2. Configure Services (Applications)</h3>
-      <p class="mt-3 text-slate-300">In the Cloudflare Dashboard, go to: <strong>Zero Trust → Access → Tunnels</strong></p>
-      <p class="mt-3 text-slate-300">Add each homelab service as a public hostname mapped to an internal service.</p>
-
-      <pre class="mt-4 bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-sm">
-Immich  
-Hostname: immich.yourdomain.com  
-Service: http://10.10.10.X:2283
-
-Uptime Kuma  
-Hostname: status.yourdomain.com  
-Service: http://10.10.10.X:3001
-
-Gotify  
-Hostname: gotify.yourdomain.com  
-Service: http://10.10.10.X:8008
-
-AdGuard Home UI  
-Hostname: adguard.yourdomain.com  
-Service: http://10.10.10.21:3000
-
-Wiki | Docs  
-Hostname: docs.yourdomain.com  
-Service: http://10.10.10.X:PORT
-      </pre>
-
-      <!-- Step 3 -->
-      <h3 class="mt-10 text-xl font-semibold text-slate-200">3. Configure Cloudflare Access Policies</h3>
-      <p class="mt-3 text-slate-300">Every service should have its own Access Policy requiring authentication.</p>
-
-      <ul class="mt-4 list-disc list-inside text-slate-300 space-y-2">
-        <li>Email or specific identity provider (Google, Microsoft)</li>
-        <li>MFA enforcement</li>
-        <li>Session expiration window</li>
-        <li>Optionally enforce device posture</li>
-      </ul>
-
-      <!-- Step 4 -->
-      <h3 class="mt-10 text-xl font-semibold text-slate-200">4. DNS Configuration</h3>
-      <p class="mt-3 text-slate-300">Cloudflare automatically generates the DNS entries for your tunnel.</p>
-
-      <pre class="mt-4 bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-sm">
-immich.yourdomain.com → CNAME → <tunnel-id>.cfargotunnel.com
-      </pre>
-
-      <!-- Step 5 -->
-      <h3 class="mt-10 text-xl font-semibold text-slate-200">5. Start the Tunnel</h3>
-      <p class="mt-3 text-slate-300">Run the tunnel service and ensure it starts on boot.</p>
-
-      <pre class="mt-4 bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-sm">
-cloudflared tunnel run homelab
-      </pre>
-    </section>
-
-    <!-- Benefits -->
-    <section class="mt-16">
-      <h2 class="text-2xl font-bold text-slate-100">Benefits</h2>
-      <ul class="mt-4 list-disc list-inside text-slate-300 space-y-3">
-        <li>No open ports</li>
-        <li>No exposure of your home IP</li>
-        <li>Identity-aware access (SSO)</li>
-        <li>MFA protection</li>
-        <li>Full audit logs of user actions</li>
-        <li>Works on any device — mobile or desktop</li>
-      </ul>
-    </section>
-
-    <!-- Troubleshooting -->
-    <section class="mt-16">
-      <h2 class="text-2xl font-bold text-slate-100">Troubleshooting Tips</h2>
-      <ul class="mt-4 list-disc list-inside text-slate-300 space-y-3">
-        <li>Review logs: <code>journalctl -u cloudflared</code></li>
-        <li>Ensure correct internal ports</li>
-        <li>Verify Access Policy email/domain</li>
-        <li>Check DNS propagation</li>
-      </ul>
-    </section>
-
-    <footer class="mt-20 py-10 text-center text-xs text-slate-500">
-      © <span id="year"></span> MRDTech — Cloudflare Zero-Trust Guide
+    <footer class="py-10 text-center text-xs text-slate-500">
+      © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
     </footer>
-
   </main>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const headerOffset = 84;
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      });
+    });
   </script>
-
 </body>
 </html>
