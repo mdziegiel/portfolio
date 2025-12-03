@@ -8,7 +8,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    body { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+    pre { background: rgba(15,23,42,0.85); padding: 16px; border-radius: 10px; overflow-x: auto; }
   </style>
 </head>
 
@@ -17,56 +19,51 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
-      <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
-      <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
-        <a href="/#projects" class="hover:text-emerald-400">Projects</a>
-        <a href="/#experience" class="hover:text-emerald-400">Experience</a>
-        <a href="/#skills" class="hover:text-emerald-400">Skills</a>
-        <a href="/#contact" class="hover:text-emerald-400">Contact</a>
-      </nav>
+      <a href="../index.html#projects" class="text-slate-100 font-semibold tracking-tight text-lg">← Back to Projects</a>
+      <span class="text-slate-500 text-sm">Home Assistant Guide</span>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-5 py-14">
+  <!-- Main -->
+  <main class="max-w-5xl mx-auto px-5 py-14">
 
-    <a href="/#projects" class="text-sm text-emerald-300 hover:underline">← Back to Projects</a>
-
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100 mt-6">
+    <!-- Title -->
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">
       Home Assistant Automations — Homelab
     </h1>
 
-    <p class="mt-4 text-slate-400 leading-relaxed">
-      Home Assistant powers IoT automations, dashboards, and system monitoring across a dedicated VLAN.
-      This guide covers Docker Compose deployment, VLAN design, and security best practices.
+    <p class="mt-4 text-slate-400 leading-relaxed max-w-3xl">
+      Home Assistant powers IoT automations, dashboards, presence detection, and sensor monitoring
+      across a dedicated IoT VLAN. This guide covers Docker deployment, network design, VLAN rules,
+      and automation examples used in my homelab.
     </p>
 
-    <!-- Section 1 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">1. Prerequisites</h2>
+    <hr class="my-10 border-slate-800" />
+
+    <!-- SECTION 1 -->
+    <section class="mb-14">
+      <h2 class="text-2xl font-semibold text-emerald-400">1. Prerequisites</h2>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li>Ubuntu host or Proxmox LXC/VM</li>
+        <li>Ubuntu host, Proxmox VM, or LXC</li>
         <li>Docker + Docker Compose installed</li>
-        <li>Dedicated VLAN for IoT devices</li>
-        <li>mDNS reflector enabled on firewall</li>
+        <li>Dedicated IoT VLAN (recommended)</li>
+        <li>mDNS reflector enabled on firewall (for discovery)</li>
       </ul>
     </section>
 
-    <!-- Section 2 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">2. Deploy Home Assistant with Docker Compose</h2>
+    <!-- SECTION 2 -->
+    <section class="mb-14">
+      <h2 class="text-2xl font-semibold text-emerald-400">2. Deploy Home Assistant with Docker Compose</h2>
 
-      <p class="mt-3 text-slate-300">Create deployment directory:</p>
+      <p class="mt-3 text-slate-300">Create a working directory:</p>
 
-      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-mkdir -p /opt/homeassistant
-cd /opt/homeassistant
-      </code></pre>
+<pre><code>mkdir -p /opt/homeassistant
+cd /opt/homeassistant</code></pre>
 
       <p class="mt-4 text-slate-300">Create <code>docker-compose.yml</code>:</p>
 
-      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-version: "3.9"
+<pre><code>version: "3.9"
 
 services:
   homeassistant:
@@ -78,64 +75,63 @@ services:
       - TZ=America/New_York
     network_mode: host
     restart: unless-stopped
-      </code></pre>
+</code></pre>
 
-      <p class="mt-4 text-slate-400">
-        <strong>Note:</strong> Home Assistant <strong>must</strong> run in <strong>host mode</strong> for discovery, mDNS, and integrations.
+      <p class="mt-4 text-slate-400 text-sm">
+        <strong>Note:</strong> Home Assistant requires <strong>host networking</strong> for integrations,
+        autodiscovery, Chromecast, Apple devices, ESPHome, and mDNS.
       </p>
 
-      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-docker compose up -d
-      </code></pre>
+<pre><code>docker compose up -d</code></pre>
 
-      <p class="mt-4 text-slate-300 text-sm">
-        Access HA: <strong>http://your-server-ip:8123</strong>
+      <p class="mt-4 text-slate-300">
+        Access UI: <strong>http://your-server-ip:8123</strong>
       </p>
     </section>
 
-    <!-- Section 3 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">3. VLAN & Network Design</h2>
+    <!-- SECTION 3 -->
+    <section class="mb-14">
+      <h2 class="text-2xl font-semibold text-emerald-400">3. VLAN & Network Design</h2>
 
       <p class="mt-3 text-slate-300">Recommended segmentation:</p>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li><strong>IoT VLAN</strong> — cameras, sensors, smart plugs</li>
-        <li><strong>Home VLAN</strong> — phones, laptops</li>
-        <li><strong>HA VLAN</strong> (optional)</li>
+        <li><strong>IoT VLAN</strong> — Cameras, plugs, sensors, smart home devices</li>
+        <li><strong>Home VLAN</strong> — PCs, phones, tablets</li>
+        <li><strong>Optional HA VLAN</strong> — Dedicated host for HA + MQTT</li>
       </ul>
 
-      <p class="mt-4 text-slate-400">Allow the following between VLANs:</p>
+      <p class="mt-6 text-slate-400">Allow these ports between VLANs:</p>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li><strong>TCP 80/443</strong></li>
-        <li><strong>UDP 5353</strong> (mDNS)</li>
-        <li>Vendor-specific ports (Hue, ONVIF, ESPHome)</li>
+        <li><strong>TCP 8123</strong> (Home Assistant UI/API)</li>
+        <li><strong>UDP 5353</strong> (mDNS discovery)</li>
+        <li><strong>TCP/UDP 5683</strong> (Matter / Thread)</li>
+        <li>Vendor-specific ports (Hue bridge, ONVIF, ESPHome uploads)</li>
       </ul>
     </section>
 
-    <!-- Section 4 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">4. Key Integrations</h2>
+    <!-- SECTION 4 -->
+    <section class="mb-14">
+      <h2 class="text-2xl font-semibold text-emerald-400">4. Key Integrations</h2>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li>UniFi Protect — video + motion events</li>
-        <li>AdGuard Home — DNS filtering & telemetry</li>
-        <li>Uptime Kuma — service uptime monitoring</li>
-        <li>Tailscale — secure remote access</li>
-        <li>MQTT (Mosquitto) — sensors & IoT</li>
-        <li>ESPHome — custom automations</li>
+        <li>UniFi Protect — cameras + motion events</li>
+        <li>AdGuard Home — DNS & telemetry</li>
+        <li>Uptime Kuma — service uptime + alerts</li>
+        <li>Tailscale — remote access to HA UI</li>
+        <li>MQTT (Mosquitto) — sensors, switches, HA automations</li>
+        <li>ESPHome — embedded devices + custom sensors</li>
       </ul>
     </section>
 
-    <!-- Section 5 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">5. Example Automations</h2>
+    <!-- SECTION 5 -->
+    <section class="mb-14">
+      <h2 class="text-2xl font-semibold text-emerald-400">5. Example Automations</h2>
 
-      <p class="mt-3 text-slate-300">Automation 1 — Alert when Uptime Kuma reports a failure:</p>
+      <p class="mt-4 text-slate-300">Automation 1 — Service outage alert (Uptime Kuma → HA):</p>
 
-      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-alias: Service Down Alert
+<pre><code>alias: Service Down Alert
 trigger:
   - platform: webhook
     webhook_id: uptime_kuma_down
@@ -143,12 +139,11 @@ action:
   - service: notify.mobile_app_pixel
     data:
       message: "A monitored service is DOWN."
-      </code></pre>
+</code></pre>
 
-      <p class="mt-6 text-slate-300">Automation 2 — Motion → Lights:</p>
+      <p class="mt-8 text-slate-300">Automation 2 — Motion turns on lights:</p>
 
-      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-alias: Motion Lighting
+<pre><code>alias: Motion Lighting
 trigger:
   - platform: state
     entity_id: binary_sensor.driveway_motion
@@ -156,12 +151,11 @@ trigger:
 action:
   - service: light.turn_on
     entity_id: light.driveway
-      </code></pre>
+</code></pre>
 
-      <p class="mt-6 text-slate-300">Automation 3 — Night mode when house unoccupied:</p>
+      <p class="mt-8 text-slate-300">Automation 3 — Night mode when house is empty:</p>
 
-      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-alias: Night Mode Away
+<pre><code>alias: Night Mode Away
 trigger:
   - platform: state
     entity_id: group.family
@@ -173,12 +167,14 @@ action:
       temperature: 64
   - service: lock.lock
     entity_id: lock.front_door
-      </code></pre>
+</code></pre>
     </section>
 
-    <footer class="mt-20 py-10 text-center text-xs text-slate-500">
+    <!-- Footer -->
+    <footer class="py-10 text-center text-xs text-slate-500">
       © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
     </footer>
+
   </main>
 
   <script>
