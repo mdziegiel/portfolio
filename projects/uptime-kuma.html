@@ -8,66 +8,62 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    body { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+    pre { background: rgba(15,23,42,0.85); padding: 16px; border-radius: 10px; overflow-x: auto; }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200">
 
-<header class="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-slate-800">
-  <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
-    <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
-    <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
-      <a href="/#projects" class="hover:text-emerald-400">Projects</a>
-      <a href="/#experience" class="hover:text-emerald-400">Experience</a>
-      <a href="/#skills" class="hover:text-emerald-400">Skills</a>
-      <a href="/#contact" class="hover:text-emerald-400">Contact</a>
-    </nav>
-  </div>
-</header>
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-black/40 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
+      <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
+      <span class="text-slate-500 text-sm">Uptime Kuma Guide</span>
+    </div>
+  </header>
 
-<main class="max-w-4xl mx-auto px-5 py-14">
+  <!-- Main -->
+  <main class="max-w-5xl mx-auto px-5 py-10">
 
-  <a href="/#projects" class="text-sm text-emerald-300 hover:underline">← Back to Projects</a>
+    <!-- Title -->
+    <h1 class="text-3xl font-bold text-slate-100">Uptime Kuma Monitoring — Homelab</h1>
 
-  <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100 mt-6">
-    Uptime Kuma Monitoring — Homelab
-  </h1>
+    <p class="mt-4 text-slate-400 text-lg leading-relaxed max-w-3xl">
+      Uptime Kuma is a powerful uptime monitoring platform providing service checks, SSL expiry alerts,
+      Docker health checks, and status notifications. This guide covers installation using Docker Compose.
+    </p>
 
-  <p class="mt-4 text-slate-400 leading-relaxed">
-    Uptime Kuma provides uptime monitoring, SSL expiry alerts, Docker health checks, and status reporting.
-    This guide shows deployment via Docker Compose inside a homelab environment.
-  </p>
+    <hr class="my-8 border-slate-800" />
 
-  <!-- Section 1 -->
-  <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">1. Prerequisites</h2>
+    <!-- SECTION 1 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">1. Prerequisites</h2>
 
-    <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-      <li>Ubuntu host with Docker + Compose</li>
-      <li>Optional reverse proxy (NPM, Cloudflare Tunnel, Traefik)</li>
-      <li>Persistent storage directory</li>
-    </ul>
-  </section>
+      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
+        <li>Ubuntu/Debian host with Docker + Docker Compose</li>
+        <li>Optional reverse proxy (NPM, Cloudflare Tunnel, Traefik)</li>
+        <li>Persistent storage directory</li>
+      </ul>
+    </section>
 
-  <!-- Section 2 -->
-  <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">2. Create Working Directory</h2>
+    <!-- SECTION 2 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">2. Create Working Directory</h2>
 
-    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-mkdir -p /opt/uptime-kuma
+<pre><code>mkdir -p /opt/uptime-kuma
 cd /opt/uptime-kuma
-    </code></pre>
-  </section>
+</code></pre>
+    </section>
 
-  <!-- Section 3 -->
-  <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">3. Docker Compose Deployment</h2>
+    <!-- SECTION 3 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">3. Deploy with Docker Compose</h2>
 
-    <p class="mt-3 text-slate-300">Save as <code>docker-compose.yml</code>:</p>
+      <p class="mt-3 text-slate-300">Create <code>docker-compose.yml</code>:</p>
 
-    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-version: "3.8"
+<pre><code>version: "3.8"
 
 services:
   uptime-kuma:
@@ -80,69 +76,68 @@ services:
       - ./data:/app/data
     environment:
       - TZ=America/New_York
-    </code></pre>
+</code></pre>
 
-    <p class="mt-4 text-slate-300">Start the container:</p>
+      <p class="mt-4 text-slate-300">Start the stack:</p>
 
-    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-docker compose up -d
-    </code></pre>
+<pre><code>docker compose up -d
+</code></pre>
 
-    <p class="mt-4 text-slate-300 text-sm">
-      Access: <strong>http://your-server-ip:3001</strong>
-    </p>
-  </section>
+      <p class="mt-4 text-slate-400 text-sm">
+        Access at: <strong>http://your-server-ip:3001</strong>
+      </p>
+    </section>
 
-  <!-- Section 4 -->
-  <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">4. Optional — Cloudflare Zero Trust</h2>
+    <!-- SECTION 4 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">4. Optional — Cloudflare Zero Trust</h2>
 
-    <p class="mt-3 text-slate-300">Example Tunnel configuration:</p>
+      <p class="mt-3 text-slate-300">Cloudflare Tunnel config example:</p>
 
-    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
-- hostname: uptime.mrdtech.me
+<pre><code>- hostname: uptime.mrdtech.me
   service: http://10.10.10.50:3001
-    </code></pre>
-  </section>
+</code></pre>
+    </section>
 
-  <!-- Section 5 -->
-  <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">5. Recommended Monitor Types</h2>
+    <!-- SECTION 5 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">5. Recommended Monitor Types</h2>
 
-    <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-      <li>HTTP/S — apps & dashboards</li>
-      <li>Ping — servers & IoT devices</li>
-      <li>TCP — SSH, RDP, SQL, VPN</li>
-      <li>DNS resolution tests</li>
-      <li>Docker container health</li>
-      <li>Push notifications (triggers)</li>
-    </ul>
-  </section>
+      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
+        <li>HTTP/S — web apps, dashboards, health checks</li>
+        <li>Ping — servers, IoT devices, access points</li>
+        <li>TCP — SSH, RDP, SQL, VPN</li>
+        <li>DNS — resolution tests</li>
+        <li>Docker — container health monitoring</li>
+        <li>Push — alerts triggered by your scripts or automations</li>
+      </ul>
+    </section>
 
-  <!-- Section 6 -->
-  <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">6. Notification Integrations</h2>
+    <!-- SECTION 6 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">6. Notification Integrations</h2>
 
-    <p class="mt-3 text-slate-300">Supported channels:</p>
+      <p class="mt-3 text-slate-300">Supported notification services:</p>
 
-    <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-      <li>Discord</li>
-      <li>Telegram</li>
-      <li>Email / SMTP</li>
-      <li>Slack</li>
-      <li>Pushover</li>
-      <li>Microsoft Teams</li>
-    </ul>
-  </section>
+      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
+        <li>Discord</li>
+        <li>Telegram</li>
+        <li>Email / SMTP</li>
+        <li>Slack</li>
+        <li>Pushover</li>
+        <li>Microsoft Teams</li>
+      </ul>
+    </section>
 
-  <footer class="mt-20 py-10 text-center text-xs text-slate-500">
-    © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
-  </footer>
-</main>
+    <!-- Footer -->
+    <footer class="py-10 text-center text-xs text-slate-500">
+      © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+    </footer>
+  </main>
 
-<script>
-  document.getElementById('y').textContent = new Date().getFullYear();
-</script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 
 </body>
 </html>
