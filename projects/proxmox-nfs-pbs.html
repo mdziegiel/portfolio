@@ -16,20 +16,24 @@
 
 <body class="bg-[#0b0c0e] text-slate-200">
 
+  <!-- Header -->
   <header class="border-b border-slate-800 bg-black/40 backdrop-blur sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
       <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
-      <span class="text-slate-500 text-sm">Proxmox NFS + PBS Runbook</span>
+      <span class="text-slate-500 text-sm">Proxmox NFS + PBS Guide</span>
     </div>
   </header>
 
+  <!-- Main -->
   <main class="max-w-5xl mx-auto px-5 py-10">
 
+    <!-- Title -->
     <h1 class="text-3xl font-bold text-slate-100">Proxmox Homelab — NFS Storage & PBS Backups</h1>
-    <p class="mt-3 text-slate-400 text-lg">
-      End-to-end layout and configuration for a Proxmox cluster using NFS shared storage
-      and a dedicated Proxmox Backup Server (PBS) instance. Includes storage layout, permissions,
-      datastore design, retention, and restore workflow.
+
+    <p class="mt-4 text-slate-400 text-lg leading-relaxed max-w-3xl">
+      End-to-end configuration for using NFS storage with a Proxmox cluster and a dedicated
+      Proxmox Backup Server (PBS). Includes NFS export, Proxmox storage config, datastore setup,
+      retention, and restore workflow.
     </p>
 
     <hr class="my-8 border-slate-800" />
@@ -38,16 +42,16 @@
     <section class="mb-12">
       <h2 class="text-2xl font-semibold text-emerald-400">1. NFS Server Setup (QNAP or Linux)</h2>
 
-      <p class="mt-2 text-slate-300">Create an export:</p>
+      <p class="mt-2 text-slate-300">Create NFS export:</p>
 
 <pre><code>/mnt/pool1/proxmox-nfs  *(rw,sync,no_subtree_check,no_root_squash)</code></pre>
 
-      <p class="mt-4 text-slate-300">Restart NFS service:</p>
+      <p class="mt-4 text-slate-300">Restart NFS:</p>
 
 <pre><code>systemctl restart nfs-kernel-server</code></pre>
 
       <p class="mt-4 text-slate-400 text-sm">
-        Note: If using QNAP → Enable NFS v3 + v4, set "No mapping", and add Proxmox node IPs to allowed hosts.
+        QNAP: Enable NFSv3 + v4 → Set “No Mapping” → Add Proxmox node IPs to Allowed Hosts.
       </p>
     </section>
 
@@ -55,7 +59,7 @@
     <section class="mb-12">
       <h2 class="text-2xl font-semibold text-emerald-400">2. Add NFS Storage to Proxmox</h2>
 
-      <p class="mt-3 text-slate-300">In Proxmox UI:</p>
+      <p class="mt-3 text-slate-300">In Proxmox:</p>
 
 <pre><code>Datacenter → Storage → Add → NFS</code></pre>
 
@@ -65,14 +69,13 @@
 Server: 10.10.10.50
 Export: /mnt/pool1/proxmox-nfs
 Content: VZDump backup, ISO, Container template
-Nodes: (all)
+Nodes: all
 Enable:
-    ✓ Subdir
-    ✓ Shared</code></pre>
+  ✓ Subdir
+  ✓ Shared
+</code></pre>
 
-      <p class="mt-4 text-slate-300">
-        Validate the share by checking:
-      </p>
+      <p class="mt-4 text-slate-300">Validate storage:</p>
 
 <pre><code>pvesm status</code></pre>
     </section>
@@ -81,12 +84,13 @@ Enable:
     <section class="mb-12">
       <h2 class="text-2xl font-semibold text-emerald-400">3. Deploy Proxmox Backup Server (PBS)</h2>
 
-      <p class="mt-3 text-slate-300">Install PBS (recommended LXC excluded — use VM or bare-metal):</p>
+      <p class="mt-3 text-slate-300">Install on VM or bare-metal:</p>
 
 <pre><code>apt update
-apt install proxmox-backup-server</code></pre>
+apt install proxmox-backup-server
+</code></pre>
 
-      <p class="mt-4 text-slate-300">Access web UI:</p>
+      <p class="mt-4 text-slate-300">Access PBS UI:</p>
 
 <pre><code>https://10.10.10.60:8007</code></pre>
     </section>
@@ -95,41 +99,42 @@ apt install proxmox-backup-server</code></pre>
     <section class="mb-12">
       <h2 class="text-2xl font-semibold text-emerald-400">4. Create PBS Datastore</h2>
 
-      <p class="mt-2 text-slate-300">From PBS UI:</p>
+      <p class="mt-2 text-slate-300">PBS UI:</p>
 
 <pre><code>Datastores → Add</code></pre>
 
-      <p class="mt-4 font-semibold">Recommended:</p>
+      <p class="mt-4 font-semibold text-slate-200">Recommended:</p>
 
 <pre><code>Name: pbs-data
 Path: /mnt/pool2/pbs
 GC Schedule: daily
 Prune Schedule: daily
 Retention:
-    Keep last: 7
-    Keep daily: 14
-    Keep weekly: 4
-    Keep monthly: 3</code></pre>
+  Keep last: 7
+  Keep daily: 14
+  Keep weekly: 4
+  Keep monthly: 3
+</code></pre>
 
       <p class="mt-4 text-slate-400 text-sm">
-        Keep retention light for homelab. Adjust based on disk pool size.
+        For homelabs, use light pruning — PBS is dedup-heavy but can grow quickly.
       </p>
     </section>
 
     <!-- SECTION 5 -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold text-emerald-400">5. Add PBS as Backup Target to Proxmox</h2>
+      <h2 class="text-2xl font-semibold text-emerald-400">5. Add PBS to Proxmox</h2>
 
 <pre><code>Datacenter → Storage → Add → Proxmox Backup Server</code></pre>
 
-      <p class="mt-4 font-semibold text-slate-200">Settings:</p>
+      <p class="mt-4 font-semibold text-slate-200">Config:</p>
 
 <pre><code>ID: pbs
 Server: 10.10.10.60
 Datastore: pbs-data
 User: root@pam
-Password: (API token recommended)
-Fingerprint: (paste from PBS UI)
+Password: (use API token if possible)
+Fingerprint: (copy from PBS UI)
 Content: VZDump backup
 </code></pre>
     </section>
@@ -138,7 +143,7 @@ Content: VZDump backup
     <section class="mb-12">
       <h2 class="text-2xl font-semibold text-emerald-400">6. Create Backup Jobs</h2>
 
-      <p class="mt-3 text-slate-300">In Proxmox UI:</p>
+      <p class="mt-3 text-slate-300">In Proxmox:</p>
 
 <pre><code>Datacenter → Backup → Add</code></pre>
 
@@ -147,9 +152,9 @@ Content: VZDump backup
 <pre><code>Schedule: Daily @ 02:00
 Mode: Snapshot
 Storage: pbs
-Selection: All nodes →
-    ✓ VMs
-    ✓ LXCs
+Selection:
+  ✓ VMs
+  ✓ LXCs
 Compression: ZSTD
 </code></pre>
     </section>
@@ -158,22 +163,25 @@ Compression: ZSTD
     <section class="mb-12">
       <h2 class="text-2xl font-semibold text-emerald-400">7. Restore Workflow</h2>
 
-      <p class="mt-3 text-slate-300">VM/LXC Restore:</p>
+      <p class="mt-3 text-slate-300">VM/LXC restore:</p>
 
 <pre><code>Proxmox → Server View → (VM) → Backup → Restore</code></pre>
 
-      <p class="mt-4 font-semibold">File-level Restore:</p>
+      <p class="mt-4 font-semibold text-slate-200">File-level restore:</p>
 
 <pre><code>PBS → Backups → (VM/LXC) → File Restore</code></pre>
     </section>
 
+    <!-- Footer -->
     <footer class="py-10 text-center text-xs text-slate-500">
       © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
     </footer>
+
   </main>
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
