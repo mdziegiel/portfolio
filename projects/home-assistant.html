@@ -8,14 +8,12 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    .codebox {
-      @apply whitespace-pre-wrap break-words bg-slate-800/50 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700;
-    }
     body { scroll-behavior: smooth; }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200">
+
   <!-- Header -->
   <header class="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
@@ -29,18 +27,17 @@
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="max-w-5xl mx-auto px-5 py-14">
+  <main class="max-w-4xl mx-auto px-5 py-14">
 
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">
+    <a href="/#projects" class="text-sm text-emerald-300 hover:underline">← Back to Projects</a>
+
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100 mt-6">
       Home Assistant Automations — Homelab
     </h1>
 
     <p class="mt-4 text-slate-400 leading-relaxed">
-      Home Assistant is the central automation engine of the homelab, running on a dedicated VLAN
-      with IoT isolation, custom dashboards, integrations, and automations for lighting, cameras,
-      notifications, and system monitoring. This guide covers Docker Compose deployment on Ubuntu,
-      VLAN design, and recommended security practices.
+      Home Assistant powers IoT automations, dashboards, and system monitoring across a dedicated VLAN.
+      This guide covers Docker Compose deployment, VLAN design, and security best practices.
     </p>
 
     <!-- Section 1 -->
@@ -50,8 +47,8 @@
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
         <li>Ubuntu host or Proxmox LXC/VM</li>
         <li>Docker + Docker Compose installed</li>
-        <li>Dedicated VLAN for IoT devices (recommended)</li>
-        <li>mDNS reflector enabled on your firewall (UDM/pfSense)</li>
+        <li>Dedicated VLAN for IoT devices</li>
+        <li>mDNS reflector enabled on firewall</li>
       </ul>
     </section>
 
@@ -59,20 +56,16 @@
     <section class="mt-12">
       <h2 class="text-2xl font-bold text-slate-100">2. Deploy Home Assistant with Docker Compose</h2>
 
-      <p class="mt-3 text-slate-300">
-        Create the directory:
-      </p>
+      <p class="mt-3 text-slate-300">Create deployment directory:</p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 mkdir -p /opt/homeassistant
 cd /opt/homeassistant
       </code></pre>
 
-      <p class="mt-4 text-slate-300">
-        Create <code>docker-compose.yml</code>:
-      </p>
+      <p class="mt-4 text-slate-300">Create <code>docker-compose.yml</code>:</p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 version: "3.9"
 
 services:
@@ -88,15 +81,15 @@ services:
       </code></pre>
 
       <p class="mt-4 text-slate-400">
-        <strong>Note:</strong> Home Assistant must run in <strong>host mode</strong> for mDNS, discovery, and integrations to work correctly.
+        <strong>Note:</strong> Home Assistant <strong>must</strong> run in <strong>host mode</strong> for discovery, mDNS, and integrations.
       </p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 docker compose up -d
       </code></pre>
 
       <p class="mt-4 text-slate-300 text-sm">
-        Access HA at: <strong>http://your-server-ip:8123</strong>
+        Access HA: <strong>http://your-server-ip:8123</strong>
       </p>
     </section>
 
@@ -104,24 +97,20 @@ docker compose up -d
     <section class="mt-12">
       <h2 class="text-2xl font-bold text-slate-100">3. VLAN & Network Design</h2>
 
-      <p class="mt-3 text-slate-300">
-        Recommended segmentation for Home Assistant:
-      </p>
+      <p class="mt-3 text-slate-300">Recommended segmentation:</p>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li><strong>IoT VLAN:</strong> Cameras, smart plugs, sensors</li>
-        <li><strong>Home VLAN:</strong> Phones, laptops, dashboards</li>
-        <li><strong>HA VLAN (optional):</strong> If running HA on a dedicated subnet</li>
+        <li><strong>IoT VLAN</strong> — cameras, sensors, smart plugs</li>
+        <li><strong>Home VLAN</strong> — phones, laptops</li>
+        <li><strong>HA VLAN</strong> (optional)</li>
       </ul>
 
-      <p class="mt-4 text-slate-400">
-        Allow the following between Home Assistant and IoT VLAN:
-      </p>
+      <p class="mt-4 text-slate-400">Allow the following between VLANs:</p>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li><strong>TCP 80/443</strong> (local APIs)</li>
-        <li><strong>UDP 5353</strong> (mDNS discovery)</li>
-        <li><strong>Vendor ports:</strong> ESPHome, ONVIF, Hue, etc.</li>
+        <li><strong>TCP 80/443</strong></li>
+        <li><strong>UDP 5353</strong> (mDNS)</li>
+        <li>Vendor-specific ports (Hue, ONVIF, ESPHome)</li>
       </ul>
     </section>
 
@@ -130,12 +119,12 @@ docker compose up -d
       <h2 class="text-2xl font-bold text-slate-100">4. Key Integrations</h2>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li><strong>UniFi Protect</strong> — camera feeds + motion events</li>
-        <li><strong>AdGuard Home</strong> — DNS filtering & stats</li>
-        <li><strong>Uptime Kuma</strong> — service uptime monitoring</li>
-        <li><strong>Tailscale</strong> — remote access with ACLs</li>
-        <li><strong>MQTT (Mosquitto)</strong> — sensors, ESP32, IoT devices</li>
-        <li><strong>ESPHome</strong> — custom sensors & switches</li>
+        <li>UniFi Protect — video + motion events</li>
+        <li>AdGuard Home — DNS filtering & telemetry</li>
+        <li>Uptime Kuma — service uptime monitoring</li>
+        <li>Tailscale — secure remote access</li>
+        <li>MQTT (Mosquitto) — sensors & IoT</li>
+        <li>ESPHome — custom automations</li>
       </ul>
     </section>
 
@@ -143,9 +132,9 @@ docker compose up -d
     <section class="mt-12">
       <h2 class="text-2xl font-bold text-slate-100">5. Example Automations</h2>
 
-      <p class="mt-3 text-slate-300">Automation 1 — Alert when a service monitored by Uptime Kuma goes down:</p>
+      <p class="mt-3 text-slate-300">Automation 1 — Alert when Uptime Kuma reports a failure:</p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 alias: Service Down Alert
 trigger:
   - platform: webhook
@@ -156,9 +145,9 @@ action:
       message: "A monitored service is DOWN."
       </code></pre>
 
-      <p class="mt-6 text-slate-300">Automation 2 — Turn on lights when camera detects motion:</p>
+      <p class="mt-6 text-slate-300">Automation 2 — Motion → Lights:</p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 alias: Motion Lighting
 trigger:
   - platform: state
@@ -169,9 +158,9 @@ action:
     entity_id: light.driveway
       </code></pre>
 
-      <p class="mt-6 text-slate-300">Automation 3 — Night mode when everyone leaves home:</p>
+      <p class="mt-6 text-slate-300">Automation 3 — Night mode when house unoccupied:</p>
 
-      <pre class="codebox mt-4"><code>
+      <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 alias: Night Mode Away
 trigger:
   - platform: state
@@ -187,20 +176,6 @@ action:
       </code></pre>
     </section>
 
-    <!-- Section 6 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">6. Hardening & Security</h2>
-
-      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li>Place IoT devices in a separate VLAN</li>
-        <li>Use Tailscale or Cloudflare Tunnel for remote access</li>
-        <li>Enable two-factor authentication</li>
-        <li>Limit HA firewall rules to only required ports</li>
-        <li>Keep integrations updated (especially MQTT + ESPHome)</li>
-      </ul>
-    </section>
-
-    <!-- Footer -->
     <footer class="mt-20 py-10 text-center text-xs text-slate-500">
       © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
     </footer>
