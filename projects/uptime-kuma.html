@@ -8,9 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    .codebox {
-      @apply whitespace-pre-wrap break-words bg-slate-800/50 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700;
-    }
     body { scroll-behavior: smooth; }
   </style>
 </head>
@@ -29,16 +26,17 @@
   </div>
 </header>
 
-<main class="max-w-5xl mx-auto px-5 py-14">
+<main class="max-w-4xl mx-auto px-5 py-14">
 
-  <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">
+  <a href="/#projects" class="text-sm text-emerald-300 hover:underline">← Back to Projects</a>
+
+  <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100 mt-6">
     Uptime Kuma Monitoring — Homelab
   </h1>
 
   <p class="mt-4 text-slate-400 leading-relaxed">
-    Uptime Kuma is a lightweight, self-hosted monitoring platform used to track service uptime,
-    SSL certificate expiry, Docker health checks, and internal/external web services.
-    This guide covers deployment using Docker Compose on Ubuntu in a homelab environment.
+    Uptime Kuma provides uptime monitoring, SSL expiry alerts, Docker health checks, and status reporting.
+    This guide shows deployment via Docker Compose inside a homelab environment.
   </p>
 
   <!-- Section 1 -->
@@ -46,17 +44,17 @@
     <h2 class="text-2xl font-bold text-slate-100">1. Prerequisites</h2>
 
     <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-      <li>Ubuntu host with Docker + Docker Compose installed</li>
-      <li>Reverse proxy (optional): Nginx Proxy Manager, Cloudflare Tunnel, or Traefik</li>
+      <li>Ubuntu host with Docker + Compose</li>
+      <li>Optional reverse proxy (NPM, Cloudflare Tunnel, Traefik)</li>
       <li>Persistent storage directory</li>
     </ul>
   </section>
 
   <!-- Section 2 -->
   <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">2. Create the Uptime Kuma Directory</h2>
+    <h2 class="text-2xl font-bold text-slate-100">2. Create Working Directory</h2>
 
-    <pre class="codebox mt-4"><code>
+    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 mkdir -p /opt/uptime-kuma
 cd /opt/uptime-kuma
     </code></pre>
@@ -66,11 +64,9 @@ cd /opt/uptime-kuma
   <section class="mt-12">
     <h2 class="text-2xl font-bold text-slate-100">3. Docker Compose Deployment</h2>
 
-    <p class="mt-3 text-slate-300">
-      Save the following as <code>docker-compose.yml</code>:
-    </p>
+    <p class="mt-3 text-slate-300">Save as <code>docker-compose.yml</code>:</p>
 
-    <pre class="codebox mt-4"><code>
+    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 version: "3.8"
 
 services:
@@ -86,26 +82,24 @@ services:
       - TZ=America/New_York
     </code></pre>
 
-    <p class="mt-4 text-slate-400">Start Uptime Kuma:</p>
+    <p class="mt-4 text-slate-300">Start the container:</p>
 
-    <pre class="codebox mt-4"><code>
+    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 docker compose up -d
     </code></pre>
 
     <p class="mt-4 text-slate-300 text-sm">
-      Access it at: <strong>http://your-server-ip:3001</strong>
+      Access: <strong>http://your-server-ip:3001</strong>
     </p>
   </section>
 
   <!-- Section 4 -->
   <section class="mt-12">
-    <h2 class="text-2xl font-bold text-slate-100">4. Optional — Expose Through Cloudflare Tunnel</h2>
+    <h2 class="text-2xl font-bold text-slate-100">4. Optional — Cloudflare Zero Trust</h2>
 
-    <p class="mt-3 text-slate-300">
-      If using Cloudflare Zero Trust, add an entry to your tunnel config:
-    </p>
+    <p class="mt-3 text-slate-300">Example Tunnel configuration:</p>
 
-    <pre class="codebox mt-4"><code>
+    <pre class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 mt-4 text-sm overflow-x-auto"><code>
 - hostname: uptime.mrdtech.me
   service: http://10.10.10.50:3001
     </code></pre>
@@ -116,12 +110,12 @@ docker compose up -d
     <h2 class="text-2xl font-bold text-slate-100">5. Recommended Monitor Types</h2>
 
     <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-      <li>HTTP/S (Apps, Services, Dashboards)</li>
-      <li>Ping (Servers, IoT devices)</li>
-      <li>TCP (SSH, RDP, SQL, WireGuard)</li>
-      <li>DNS Resolution</li>
-      <li>Docker Container Health Checks</li>
-      <li>Push Notifications for automation triggers</li>
+      <li>HTTP/S — apps & dashboards</li>
+      <li>Ping — servers & IoT devices</li>
+      <li>TCP — SSH, RDP, SQL, VPN</li>
+      <li>DNS resolution tests</li>
+      <li>Docker container health</li>
+      <li>Push notifications (triggers)</li>
     </ul>
   </section>
 
@@ -129,11 +123,11 @@ docker compose up -d
   <section class="mt-12">
     <h2 class="text-2xl font-bold text-slate-100">6. Notification Integrations</h2>
 
-    <p class="mt-3 text-slate-300">Supported channels include:</p>
+    <p class="mt-3 text-slate-300">Supported channels:</p>
 
     <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-      <li>Discord Webhooks</li>
-      <li>Telegram Bots</li>
+      <li>Discord</li>
+      <li>Telegram</li>
       <li>Email / SMTP</li>
       <li>Slack</li>
       <li>Pushover</li>
@@ -141,7 +135,6 @@ docker compose up -d
     </ul>
   </section>
 
-  <!-- Footer -->
   <footer class="mt-20 py-10 text-center text-xs text-slate-500">
     © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
   </footer>
