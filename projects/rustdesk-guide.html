@@ -3,46 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RustDesk Self-Hosting — Guide · Michael Dziegiel</title>
-  <meta name="description" content="Home-lab deployment of RustDesk ID + Relay with DNS, firewall, and hardening." />
+  <title>RustDesk Self-Hosting — Homelab</title>
   <link rel="icon" href="../favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    html { scroll-behavior: smooth; }
-    [id] { scroll-margin-top: 84px; }
-    .card:hover { transform: translateY(-2px); }
-    .glow:hover { box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35); }
-    pre {
-      background-color: #020617;
-      padding: 1rem 1.25rem;
-      border-radius: 0.75rem;
-      overflow-x: auto;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      border: 1px solid rgba(30,64,175,0.4);
+    .codebox {
+      @apply whitespace-pre-wrap break-words bg-slate-800/60 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700;
     }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-    .step-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.75rem;
-      height: 1.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background-color: rgba(16,185,129,0.1);
-      color: rgb(52,211,153);
-      border: 1px solid rgba(16,185,129,0.4);
-      margin-right: 0.5rem;
-    }
+    body { scroll-behavior: smooth; }
   </style>
 </head>
 
-<body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
+<body class="bg-[#0b0c0e] text-slate-200">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40 border-b border-slate-900/60">
+  <header class="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
       <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
       <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
@@ -54,65 +30,53 @@
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-5 py-10 sm:py-14">
-    <!-- Back link -->
-    <a href="/#projects" class="inline-flex items-center text-sm text-slate-400 hover:text-emerald-300 mb-6">
-      <span class="mr-2">←</span> Back to projects
-    </a>
+  <!-- Main -->
+  <main class="max-w-5xl mx-auto px-5 py-14">
 
-    <!-- Hero -->
-    <section class="mb-10">
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">
-        RustDesk Self-Hosting for Homelab
-      </h1>
-      <p class="mt-3 text-slate-300 max-w-2xl">
-        Home-lab deployment of <span class="font-semibold">RustDesk ID + Relay</span> on Linux,
-        fronted by firewall / reverse proxy and DNS. Provides secure remote access to internal
-        servers and PCs without relying on third-party clouds.
-      </p>
-      <div class="mt-4 flex flex-wrap gap-3 text-xs text-slate-400">
-        <span class="px-2 py-1 rounded-full border border-slate-700 bg-slate-900/60">Ubuntu / Linux</span>
-        <span class="px-2 py-1 rounded-full border border-slate-700 bg-slate-900/60">Docker (optional)</span>
-        <span class="px-2 py-1 rounded-full border border-slate-700 bg-slate-900/60">pfSense / Firewall</span>
-        <span class="px-2 py-1 rounded-full border border-slate-700 bg-slate-900/60">DNS + TLS</span>
-      </div>
-    </section>
+    <!-- Title -->
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">
+      RustDesk Self-Hosting — Homelab
+    </h1>
 
-    <!-- 1. Prerequisites -->
-    <section class="mt-10 space-y-4">
-      <h2 class="text-2xl font-bold text-slate-100 flex items-center">
-        <span class="step-badge">1</span> Prerequisites
-      </h2>
-      <p class="text-slate-300">
-        This guide assumes a typical homelab setup with a virtualized Linux host and an edge
-        firewall (pfSense/OPNsense/UniFi/etc.).
-      </p>
-      <ul class="list-disc list-inside text-sm text-slate-300 space-y-1.5">
-        <li>Public DNS record, e.g. <code>rustdesk.yourdomain.com</code> pointing to your WAN or tunnel.</li>
-        <li>Linux server or VM (Ubuntu / Debian recommended).</li>
-        <li>Firewall or reverse proxy capable of publishing TCP ports for RustDesk.</li>
-        <li>RustDesk clients installed on endpoints (Windows/macOS/Linux).</li>
+    <p class="mt-4 text-slate-400 leading-relaxed max-w-3xl">
+      Self-hosted RustDesk <strong>ID</strong> and <strong>Relay</strong> servers on Linux or Docker.
+      Provides secure remote access to internal PCs and servers without relying on third-party cloud
+      infrastructure. Ideal for homelab or small business use.
+    </p>
+
+    <!-- Section 1 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">1. Prerequisites</h2>
+
+      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
+        <li>Linux host (Ubuntu/Debian recommended)</li>
+        <li>Docker + Docker Compose (optional but recommended)</li>
+        <li>Firewall capable of forwarding TCP 21114–21119</li>
+        <li>Public DNS record, e.g. <code>rustdesk.mydomain.com</code></li>
       </ul>
-      <p class="text-xs text-slate-500">
-        RustDesk’s defaults use ports <code>21114–21119/TCP</code> for ID and relay. You can
-        remap these on your firewall as needed, but keep the internal ports consistent.
+
+      <p class="mt-3 text-slate-400 text-sm">
+        RustDesk uses <strong>21114–21119/TCP</strong> for ID, NAT traversal, relay, and console.
       </p>
     </section>
 
-    <!-- 2. Deploy RustDesk Server -->
-    <section class="mt-10 space-y-4">
-      <h2 class="text-2xl font-bold text-slate-100 flex items-center">
-        <span class="step-badge">2</span> Deploy RustDesk Server (ID + Relay)
-      </h2>
-      <p class="text-slate-300">
-        The server side consists of two services:
-        <span class="font-semibold">hbbs</span> (ID/broker) and <span class="font-semibold">hbbr</span> (relay).
-        Easiest option in a lab is Docker Compose.
+    <!-- Section 2 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">2. Deploy RustDesk with Docker Compose</h2>
+
+      <p class="mt-3 text-slate-300">
+        Create the RustDesk directory:
       </p>
 
-      <h3 class="text-sm font-semibold text-slate-200 mt-4">2.1 Create a Docker Compose file</h3>
-      <p class="text-sm text-slate-300">Example <code>docker-compose.yml</code>:</p>
-      <pre><code>version: "3.8"
+      <pre class="codebox mt-4"><code>
+mkdir -p /opt/rustdesk
+cd /opt/rustdesk
+      </code></pre>
+
+      <p class="mt-4 text-slate-300">Create <code>docker-compose.yml</code>:</p>
+
+      <pre class="codebox mt-4"><code>
+version: "3.8"
 
 services:
   hbbs:
@@ -121,10 +85,10 @@ services:
     command: hbbs -r hbbr:21117
     restart: unless-stopped
     ports:
-      - "21114:21114"   # ID registration
-      - "21115:21115"   # NAT traversal
-      - "21116:21116"   # Web console / API
-      - "21117:21117"   # TCP relay (to hbbr)
+      - "21114:21114"
+      - "21115:21115"
+      - "21116:21116"
+      - "21117:21117"
     volumes:
       - ./data:/root/.config/rustdesk-server
 
@@ -135,102 +99,79 @@ services:
     restart: unless-stopped
     ports:
       - "21118:21118"
-      - "21119:21119"   # Relay
-</code></pre>
+      - "21119:21119"
+      </code></pre>
 
-      <h3 class="text-sm font-semibold text-slate-200 mt-4">2.2 Start the stack</h3>
-      <pre><code>mkdir -p /opt/rustdesk
-cd /opt/rustdesk
-# create docker-compose.yml here, then:
+      <pre class="codebox mt-4"><code>
 docker compose up -d
-docker compose ps</code></pre>
+docker compose ps
+      </code></pre>
 
-      <p class="text-sm text-slate-300">
-        Confirm the containers are <span class="text-emerald-300">Up</span> and listening on
-        the expected ports (e.g. with <code>ss -tulpen</code> or <code>netstat</code>).
+      <p class="mt-3 text-slate-400 text-sm">
+        Both containers should show <span class="text-emerald-300 font-semibold">Up</span>.
       </p>
     </section>
 
-    <!-- 3. Publish Through Firewall / Reverse Proxy -->
-    <section class="mt-10 space-y-4">
-      <h2 class="text-2xl font-bold text-slate-100 flex items-center">
-        <span class="step-badge">3</span> Publish Through Firewall / Reverse Proxy
-      </h2>
-      <p class="text-slate-300">
-        Next, make the RustDesk ports reachable from the internet through your edge device.
-        You can either forward the ports directly or place them behind a reverse proxy / tunnel.
+    <!-- Section 3 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">3. Firewall / Reverse Proxy Publishing</h2>
+
+      <p class="mt-3 text-slate-300">
+        For direct WAN access, create inbound NAT rules:
       </p>
 
-      <h3 class="text-sm font-semibold text-slate-200 mt-3">3.1 Basic port forward (pfSense / router)</h3>
-      <ul class="list-disc list-inside text-sm text-slate-300 space-y-1.5">
-        <li>Create NAT rules from WAN → RustDesk host for TCP <code>21114–21119</code>.</li>
-        <li>Lock source addresses down if possible (e.g. your own office IP ranges).</li>
-        <li>Create matching firewall rules allowing those ports to the RustDesk server.</li>
+      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
+        <li><strong>21114/TCP</strong> — ID Registration</li>
+        <li><strong>21115/TCP</strong> — NAT Traversal</li>
+        <li><strong>21116/TCP</strong> — Web Console</li>
+        <li><strong>21117–21119/TCP</strong> — Relay</li>
       </ul>
 
-      <h3 class="text-sm font-semibold text-slate-200 mt-3">3.2 Optionally put RustDesk behind TLS / SNI</h3>
-      <p class="text-sm text-slate-300">
-        For environments using HAProxy, NGINX, or Cloudflare Tunnel:
+      <p class="mt-4 text-slate-400">
+        If using Cloudflare Tunnel or HAProxy, forward raw TCP to the RustDesk server.
       </p>
-      <ul class="list-disc list-inside text-sm text-slate-300 space-y-1.5">
-        <li>Terminate TLS on the proxy and forward raw TCP to the RustDesk ports.</li>
-        <li>Ensure health checks only target the RustDesk ports you actually publish.</li>
-        <li>Keep RustDesk server itself on a private RFC1918 network — no public IP on the host.</li>
-      </ul>
     </section>
 
-    <!-- 4. Configure RustDesk Clients -->
-    <section class="mt-10 space-y-4">
-      <h2 class="text-2xl font-bold text-slate-100 flex items-center">
-        <span class="step-badge">4</span> Configure RustDesk Clients
-      </h2>
-      <p class="text-slate-300">
-        Once the server is reachable, point your RustDesk clients at your self-hosted ID
-        and relay.
-      </p>
-      <ol class="list-decimal list-inside text-sm text-slate-300 space-y-1.5">
-        <li>Open RustDesk on a client machine.</li>
-        <li>Go to <span class="font-semibold">Settings → Network</span>.</li>
-        <li>Set <span class="font-semibold">ID Server</span> to <code>rustdesk.yourdomain.com:21114</code>.</li>
-        <li>Set <span class="font-semibold">Relay Server</span> to <code>rustdesk.yourdomain.com:21117</code> (or your mapped relay port).</li>
-        <li>Save, restart RustDesk, and verify the status shows <span class="text-emerald-300">Ready</span>.</li>
+    <!-- Section 4 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">4. Configure RustDesk Clients</h2>
+
+      <ol class="list-decimal list-inside mt-4 text-slate-300 space-y-2">
+        <li>Open RustDesk → <strong>Settings → Network</strong></li>
+        <li>ID Server: <code>rustdesk.yourdomain.com:21114</code></li>
+        <li>Relay Server: <code>rustdesk.yourdomain.com:21117</code></li>
+        <li>Restart RustDesk</li>
+        <li>Confirm status shows <span class="text-emerald-300 font-semibold">Ready</span></li>
       </ol>
-
-      <p class="text-sm text-slate-300">
-        Try a test connection between two internal machines first. Then validate an external
-        machine off your network can reach them via the same ID.
-      </p>
     </section>
 
-    <!-- 5. Hardening -->
-    <section class="mt-10 space-y-4">
-      <h2 class="text-2xl font-bold text-slate-100 flex items-center">
-        <span class="step-badge">5</span> Hardening & Best Practices
-      </h2>
-      <ul class="list-disc list-inside text-sm text-slate-300 space-y-1.5">
-        <li><span class="font-semibold">Strong passwords:</span> enforce complex passwords for unattended access.</li>
-        <li><span class="font-semibold">Limit who can connect:</span> only deploy RustDesk to trusted admin endpoints; avoid leaving servers logged in with RustDesk always open.</li>
-        <li><span class="font-semibold">Restrict ports:</span> if possible, only allow known source IP ranges or a VPN to hit RustDesk.</li>
-        <li><span class="font-semibold">Monitor logs:</span> ship container / system logs to your logging stack (e.g. Wazuh, Loki, Syslog).</li>
-        <li><span class="font-semibold">Backups:</span> backup the RustDesk config volume <code>./data</code> as part of your normal backup cadence.</li>
-        <li><span class="font-semibold">Patch regularly:</span> recreate containers on updated images after RustDesk releases security fixes.</li>
+    <!-- Section 5 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">5. Hardening & Best Practices</h2>
+
+      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
+        <li>Limit WAN access to trusted IP ranges</li>
+        <li>Use Cloudflare Tunnel for protected TCP access</li>
+        <li>Backup the <code>./data</code> directory</li>
+        <li>Rotate container images regularly</li>
+        <li>Enable strong unattended access passwords</li>
       </ul>
     </section>
 
-    <!-- 6. Troubleshooting -->
-    <section class="mt-10 mb-12 space-y-4">
-      <h2 class="text-2xl font-bold text-slate-100 flex items-center">
-        <span class="step-badge">6</span> Troubleshooting Cheatsheet
-      </h2>
-      <ul class="list-disc list-inside text-sm text-slate-300 space-y-1.5">
-        <li><span class="font-semibold">Client says “Not Ready”:</span> check ID/relay hostnames and ports, and confirm DNS resolves to your WAN/tunnel IP.</li>
-        <li><span class="font-semibold">Can reach internally but not externally:</span> firewall or NAT is not forwarding all required ports.</li>
-        <li><span class="font-semibold">Random disconnects:</span> check for double-NAT, upstream carrier-grade NAT, or aggressive IDS/IPS blocking RustDesk traffic.</li>
-        <li><span class="font-semibold">Containers won’t start:</span> run <code>docker logs rustdesk-hbbs</code> and <code>docker logs rustdesk-hbbr</code> for details.</li>
+    <!-- Section 6 -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100">6. Troubleshooting</h2>
+
+      <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
+        <li><strong>“Not Ready”</strong> → DNS or port forwarding not correct</li>
+        <li><strong>Internal works, external fails</strong> → missing NAT rules</li>
+        <li><strong>Random disconnects</strong> → ISP NAT or IDS interference</li>
+        <li><strong>Container errors</strong> → check <code>docker logs hbbs</code> and <code>hbbr</code></li>
       </ul>
     </section>
 
-    <footer class="py-8 border-t border-slate-800 text-center text-xs text-slate-500">
+    <!-- Footer -->
+    <footer class="mt-20 py-10 text-center text-xs text-slate-500">
       © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
     </footer>
   </main>
