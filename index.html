@@ -11,8 +11,11 @@
   <style>
     html { scroll-behavior: smooth; }
     [id] { scroll-margin-top: 84px; }
+    .card { display: flex; flex-direction: column; justify-content: space-between; }
     .card:hover { transform: translateY(-2px); }
-    .glow:hover { box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35); }
+    .glow:hover {
+      box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35);
+    }
   </style>
 </head>
 
@@ -37,26 +40,30 @@
     <section class="py-14 sm:py-20">
       <div class="grid md:grid-cols-2 gap-10 items-center">
         <div>
-          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-100">
-            Michael Dziegiel
-          </h1>
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-100">Michael Dziegiel</h1>
           <p class="mt-3 text-lg text-slate-300">Senior Network Administrator · Lowell/Haverhill, MA</p>
 
           <p class="mt-5 leading-relaxed text-slate-300">
             Motivated IT Professional with 20+ years of experience designing, securing, and managing enterprise & homelab
-            infrastructure. Skilled in hybrid AD/Entra ID, Intune/Autopilot, pfSense/UniFi, virtualization, and cloud
-            security. Known for automation, troubleshooting, and securing critical systems.
+            infrastructure. Skilled in hybrid AD/Entra ID, Intune/Autopilot, pfSense/UniFi, virtualization, and cloud security.
+            Known for automation, troubleshooting, and securing critical systems.
           </p>
 
           <div class="mt-6 flex flex-wrap gap-3">
             <a href="https://resume.mrdtech.me/" target="_blank" rel="noopener"
-               class="glow inline-flex items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/20">View Resume</a>
+               class="glow inline-flex items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/20">
+              View Resume
+            </a>
 
             <a href="#projects"
-               class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-800/60 px-4 py-2 text-sm font-medium hover:bg-slate-800">View Projects</a>
+               class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-800/60 px-4 py-2 text-sm font-medium hover:bg-slate-800">
+               View Projects
+            </a>
 
             <a href="mailto:Michael.dziegiel@gmail.com"
-               class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-800">Email</a>
+               class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-800">
+               Email
+            </a>
           </div>
 
           <div class="mt-6 flex gap-4 text-sm text-slate-400">
@@ -77,59 +84,90 @@
 
         <!-- 1. Cloudflare Zero Trust -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Cloudflare Zero-Trust for Homelab</h3>
-          <p class="mt-2 text-sm text-slate-400">Identity-aware access for Immich, RustDesk, dashboards — without open ports.</p>
-          <div class="mt-3 text-sm"><a class="text-emerald-300 hover:underline" href="/projects/cloudflare-zero-trust.html">Docs</a></div>
+          <div>
+            <h3 class="font-semibold text-slate-100">Cloudflare Zero-Trust for Homelab</h3>
+            <p class="mt-2 text-sm text-slate-400">Identity-aware access for Immich, RustDesk, dashboards — without open ports.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/cloudflare-zero-trust.html">Docs</a>
+          </div>
         </article>
 
-        <!-- 2. UniFi -->
+        <!-- 2. UniFi Firewalls -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">UniFi VLAN Segmentation & Firewalls</h3>
-          <p class="mt-2 text-sm text-slate-400">Zone-based rules, IoT isolation, DNS control, and hardened routing.</p>
-          <div class="mt-3 text-sm"><a class="text-emerald-300 hover:underline" href="/projects/unifi-vlan-firewalls.html">Guide</a></div>
+          <div>
+            <h3 class="font-semibold text-slate-100">UniFi VLAN Segmentation & Firewalls</h3>
+            <p class="mt-2 text-sm text-slate-400">Zone-based rules, IoT isolation, DNS control, and hardened routing.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/unifi-vlan-firewalls.html">Guide</a>
+          </div>
         </article>
 
         <!-- 3. RustDesk -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">RustDesk Self-Hosting</h3>
-          <p class="mt-2 text-sm text-slate-400">Self-hosted remote desktop (ID + Relay) with Cloudflare, DNS, pfSense.</p>
-          <div class="mt-3 text-sm"><a class="text-emerald-300 hover:underline" href="/projects/rustdesk-guide.html">Guide</a></div>
+          <div>
+            <h3 class="font-semibold text-slate-100">RustDesk Self-Hosting</h3>
+            <p class="mt-2 text-sm text-slate-400">Self-hosted remote desktop (ID + Relay) with Cloudflare, DNS, pfSense.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/rustdesk-guide.html">Guide</a>
+          </div>
         </article>
 
         <!-- 4. Home Assistant -->
-       <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-         <h3 class="font-semibold text-slate-100">Home Assistant Automations</h3>
-         <p class="mt-2 text-sm text-slate-400">VLAN-isolated IoT environment with dashboards, automations, and secure remote accessusing Tailscale and Cloudflare Zero Trust; optimized device tracking and presence.</p>
-         <div class="mt-3 text-sm">
-         <a class="text-emerald-300 hover:underline" href="/projects/home-assistant.html">Guide</a></div>
-       </article>
+        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div>
+            <h3 class="font-semibold text-slate-100">Home Assistant Automations</h3>
+            <p class="mt-2 text-sm text-slate-400">IoT VLAN isolation, dashboards, automations, secure access.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/home-assistant.html">Guide</a>
+          </div>
+        </article>
 
         <!-- 5. Uptime Kuma -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Uptime Kuma Monitoring</h3>
-          <p class="mt-2 text-sm text-slate-400">Monitoring stack with alerting, SSL checks, Cloudflare Zero Trust.</p>
-          <div class="mt-3 text-sm"><a class="text-emerald-300 hover:underline" href="/projects/uptime-kuma.html">Guide</a></div>
+          <div>
+            <h3 class="font-semibold text-slate-100">Uptime Kuma Monitoring</h3>
+            <p class="mt-2 text-sm text-slate-400">Monitoring stack with alerting, SSL checks, Zero Trust protection.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/uptime-kuma.html">Guide</a>
+          </div>
         </article>
 
-        <!-- 6. AdGuard + Unbound -->
+        <!-- 6. AdGuard -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">AdGuard Home + Unbound Recursive DNS</h3>
-          <p class="mt-2 text-sm text-slate-400">Network-wide DNS filtering with recursive resolving, DNSSEC, DoT.</p>
-          <div class="mt-3 text-sm"><a class="text-emerald-300 hover:underline" href="/projects/adguard-unbound.html">Config</a></div>
+          <div>
+            <h3 class="font-semibold text-slate-100">AdGuard Home + Unbound Recursive DNS</h3>
+            <p class="mt-2 text-sm text-slate-400">DNS filtering with recursive resolution, DNSSEC, and DoT.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/adguard-unbound.html">Config</a>
+          </div>
         </article>
 
         <!-- 7. Proxmox -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Proxmox — NFS Storage & PBS Backups</h3>
-          <p class="mt-2 text-sm text-slate-400">Proxmox cluster, NFS storage, GPU passthrough, PBS retention.</p>
-          <div class="mt-3 text-sm"><a class="text-emerald-300 hover:underline" href="/projects/proxmox-nfs-pbs.html">Runbook</a></div>
+          <div>
+            <h3 class="font-semibold text-slate-100">Proxmox — NFS Storage & PBS Backups</h3>
+            <p class="mt-2 text-sm text-slate-400">Proxmox cluster, NFS storage, GPU passthrough, PBS retention.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/proxmox-nfs-pbs.html">Runbook</a>
+          </div>
         </article>
 
-        <!-- 8. LAPS Deployment  (THIS IS THE RESTORED CARD) -->
+        <!-- 8. LAPS -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Microsoft LAPS Deployment — Skyterra</h3>
-          <p class="mt-2 text-sm text-slate-400">Tenant-wide rollout of LAPS for secure rotating local admin credentials.</p>
-          <div class="mt-3 text-sm"><a class="text-emerald-300 hover:underline" href="/projects/laps-deployment.html">Case Study</a></div>
+          <div>
+            <h3 class="font-semibold text-slate-100">Microsoft LAPS Deployment — Skyterra</h3>
+            <p class="mt-2 text-sm text-slate-400">Tenant-wide LAPS rollout with secure credential rotation.</p>
+          </div>
+          <div class="mt-4 text-sm">
+            <a class="text-emerald-300 hover:underline" href="/projects/laps-deployment.html">Case Study</a>
+          </div>
         </article>
 
       </div>
@@ -138,6 +176,7 @@
     <!-- Experience -->
     <section id="experience" class="py-12">
       <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-100">Experience</h2>
+
       <div class="mt-6 grid md:grid-cols-2 gap-6">
 
         <!-- Hans Kissle -->
@@ -145,9 +184,9 @@
           <h3 class="font-semibold text-slate-100">Senior Network Administrator — Hans Kissle</h3>
           <p class="text-xs text-slate-500">Feb 2025 – Present · Haverhill, MA</p>
           <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
-            <li>Manage Azure/Entra ID, Intune, SharePoint, and M365 administration.</li>
-            <li>Network management: VLANs, DNS/DHCP, VPNs, firewalls.</li>
-            <li>Automations, security hardening, and enterprise infrastructure.</li>
+            <li>Manage Azure/Entra ID, Intune, SharePoint, and M365.</li>
+            <li>Network operations: VLANs, DNS, DHCP, VPN, firewalls.</li>
+            <li>Automations, security hardening, enterprise operations.</li>
           </ul>
         </div>
 
@@ -156,20 +195,20 @@
           <h3 class="font-semibold text-slate-100">Systems Analyst — Skyterra</h3>
           <p class="text-xs text-slate-500">Sep 2021 – Feb 2025 · Nashua, NH</p>
           <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
-            <li>End-to-end Intune, Azure, MFA, and Autopilot administration.</li>
-            <li>AD/GPO management, packaging, and automation.</li>
-            <li>Led tenant-wide Microsoft LAPS deployment.</li>
+            <li>Full Intune, Azure, MFA, and Autopilot management.</li>
+            <li>AD/GPO support, packaging, PowerShell automation.</li>
+            <li>Led Microsoft LAPS deployment tenant-wide.</li>
           </ul>
         </div>
 
-        <!-- GID (FIXED ENTRY) -->
+        <!-- GID -->
         <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <h3 class="font-semibold text-slate-100">Network Technician — GID</h3>
           <p class="text-xs text-slate-500">Apr 2011 – Aug 2021 · Boston, MA</p>
           <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
-            <li>Configured and supported Cisco/Meraki networking (VPN, Wi-Fi, VoIP).</li>
-            <li>Built Windows OS images, kiosk deployments, and managed GPO hardening.</li>
-            <li>Provided Tier 2/3 troubleshooting and remote office installations.</li>
+            <li>Configured and supported Cisco/Meraki (VPN, Wi-Fi, VoIP).</li>
+            <li>Built and deployed Windows images, kiosk systems, GPO updates.</li>
+            <li>Provided Tier 2/3 troubleshooting and remote site installs.</li>
           </ul>
         </div>
 
@@ -189,7 +228,7 @@
 
         <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
           <h4 class="font-semibold text-slate-100">Networking & Security</h4>
-          <p class="mt-2 text-slate-400">Routing, Switching, VPNs, VLANs, DNS/DHCP, MFA, Conditional Access, IDS/IPS</p>
+          <p class="mt-2 text-slate-400">Routing, Switching, VPN, VLANs, DNS/DHCP, MFA, Conditional Access, IDS/IPS</p>
         </div>
 
         <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
@@ -207,11 +246,16 @@
         <p class="mt-2 text-slate-400">Best reached via email.</p>
 
         <div class="mt-4 flex flex-wrap gap-3 text-sm">
-          <a class="glow inline-flex items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 font-medium text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/20" href="mailto:Michael.dziegiel@gmail.com">Michael.dziegiel@gmail.com</a>
+          <a class="glow inline-flex items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 font-medium text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/20"
+             href="mailto:Michael.dziegiel@gmail.com">
+            Michael.dziegiel@gmail.com
+          </a>
 
-          <a class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 font-medium hover:bg-slate-800" href="https://github.com/mdziegiel" target="_blank">GitHub</a>
+          <a class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 font-medium hover:bg-slate-800"
+             href="https://github.com/mdziegiel" target="_blank">GitHub</a>
 
-          <a class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 font-medium hover:bg-slate-800" href="https://www.linkedin.com/in/mdziegiel" target="_blank">LinkedIn</a>
+          <a class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 font-medium hover:bg-slate-800"
+             href="https://www.linkedin.com/in/mdziegiel" target="_blank">LinkedIn</a>
         </div>
       </div>
     </section>
@@ -226,7 +270,7 @@
     document.getElementById('y').textContent = new Date().getFullYear();
     const headerOffset = 84;
 
-    document.querySelectorAll('a[href^="#']").forEach(a => {
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', (e) => {
         const target = document.querySelector(a.getAttribute('href'));
         if (target) {
@@ -240,7 +284,6 @@
 
 </body>
 </html>
-
 
 </body>
 </html>
