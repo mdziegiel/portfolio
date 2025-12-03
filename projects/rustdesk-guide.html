@@ -3,56 +3,46 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RustDesk Self-Hosting — Homelab</title>
+  <title>RustDesk Self-Hosting — Homelab Guide</title>
   <link rel="icon" href="../favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    .codebox {
-      @apply whitespace-pre-wrap break-words bg-slate-800/60 rounded-xl p-4 overflow-x-auto text-sm text-slate-200 border border-slate-700;
-    }
-    body { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+    pre { background: rgba(15,23,42,0.85); padding: 16px; border-radius: 10px; overflow-x: auto; }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-slate-800">
-    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
-      <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
-      <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
-        <a href="/#projects" class="hover:text-emerald-400">Projects</a>
-        <a href="/#experience" class="hover:text-emerald-400">Experience</a>
-        <a href="/#skills" class="hover:text-emerald-400">Skills</a>
-        <a href="/#contact" class="hover:text-emerald-400">Contact</a>
-      </nav>
+  <header class="border-b border-slate-800 bg-black/40 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
+      <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
+      <span class="text-slate-500 text-sm">RustDesk Guide</span>
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="max-w-5xl mx-auto px-5 py-14">
+  <main class="max-w-5xl mx-auto px-5 py-10">
 
-    <!-- Title -->
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">
-      RustDesk Self-Hosting — Homelab
-    </h1>
-
-    <p class="mt-4 text-slate-400 leading-relaxed max-w-3xl">
-      Self-hosted RustDesk <strong>ID</strong> and <strong>Relay</strong> servers on Linux or Docker.
-      Provides secure remote access to internal PCs and servers without relying on third-party cloud
-      infrastructure. Ideal for homelab or small business use.
+    <h1 class="text-3xl font-bold text-slate-100">RustDesk Self-Hosting for Homelab</h1>
+    <p class="mt-3 text-slate-400 text-lg max-w-3xl">
+      A self-hosted RustDesk <strong>ID</strong> and <strong>Relay</strong> server stack running on Linux or Docker.
+      Provides secure remote access to internal PCs and servers without relying on third-party cloud systems.
     </p>
 
-    <!-- Section 1 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">1. Prerequisites</h2>
+    <hr class="my-8 border-slate-800" />
+
+    <!-- 1. Prerequisites -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">1. Prerequisites</h2>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li>Linux host (Ubuntu/Debian recommended)</li>
-        <li>Docker + Docker Compose (optional but recommended)</li>
-        <li>Firewall capable of forwarding TCP 21114–21119</li>
-        <li>Public DNS record, e.g. <code>rustdesk.mydomain.com</code></li>
+        <li>Ubuntu/Debian Linux host or VM</li>
+        <li>Docker + Docker Compose installed (recommended)</li>
+        <li>Firewall/Router able to forward TCP ports 21114–21119</li>
+        <li>Public DNS record such as <code>rustdesk.mydomain.com</code></li>
       </ul>
 
       <p class="mt-3 text-slate-400 text-sm">
@@ -60,23 +50,19 @@
       </p>
     </section>
 
-    <!-- Section 2 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">2. Deploy RustDesk with Docker Compose</h2>
+    <!-- 2. Deploy RustDesk -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">2. Deploy RustDesk with Docker Compose</h2>
 
-      <p class="mt-3 text-slate-300">
-        Create the RustDesk directory:
+      <p class="mt-3 text-slate-300">Create the RustDesk directory:</p>
+<pre><code>mkdir -p /opt/rustdesk
+cd /opt/rustdesk</code></pre>
+
+      <p class="mt-4 text-slate-300">
+        Create <code>docker-compose.yml</code>:
       </p>
 
-      <pre class="codebox mt-4"><code>
-mkdir -p /opt/rustdesk
-cd /opt/rustdesk
-      </code></pre>
-
-      <p class="mt-4 text-slate-300">Create <code>docker-compose.yml</code>:</p>
-
-      <pre class="codebox mt-4"><code>
-version: "3.8"
+<pre><code>version: "3.8"
 
 services:
   hbbs:
@@ -99,42 +85,37 @@ services:
     restart: unless-stopped
     ports:
       - "21118:21118"
-      - "21119:21119"
-      </code></pre>
+      - "21119:21119"</code></pre>
 
-      <pre class="codebox mt-4"><code>
-docker compose up -d
-docker compose ps
-      </code></pre>
+<pre><code>docker compose up -d
+docker compose ps</code></pre>
 
       <p class="mt-3 text-slate-400 text-sm">
         Both containers should show <span class="text-emerald-300 font-semibold">Up</span>.
       </p>
     </section>
 
-    <!-- Section 3 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">3. Firewall / Reverse Proxy Publishing</h2>
+    <!-- 3. Firewall -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">3. Firewall / Reverse Proxy Publishing</h2>
 
-      <p class="mt-3 text-slate-300">
-        For direct WAN access, create inbound NAT rules:
-      </p>
+      <p class="mt-3 text-slate-300">Forward these ports on your router/firewall:</p>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
         <li><strong>21114/TCP</strong> — ID Registration</li>
         <li><strong>21115/TCP</strong> — NAT Traversal</li>
         <li><strong>21116/TCP</strong> — Web Console</li>
-        <li><strong>21117–21119/TCP</strong> — Relay</li>
+        <li><strong>21117–21119/TCP</strong> — Relay + backend</li>
       </ul>
 
-      <p class="mt-4 text-slate-400">
-        If using Cloudflare Tunnel or HAProxy, forward raw TCP to the RustDesk server.
+      <p class="mt-4 text-slate-400 text-sm">
+        For Cloudflare Tunnel or HAProxy, forward raw TCP to the server.
       </p>
     </section>
 
-    <!-- Section 4 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">4. Configure RustDesk Clients</h2>
+    <!-- 4. Configure Clients -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">4. Configure RustDesk Clients</h2>
 
       <ol class="list-decimal list-inside mt-4 text-slate-300 space-y-2">
         <li>Open RustDesk → <strong>Settings → Network</strong></li>
@@ -145,33 +126,32 @@ docker compose ps
       </ol>
     </section>
 
-    <!-- Section 5 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">5. Hardening & Best Practices</h2>
+    <!-- 5. Hardening -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">5. Hardening & Best Practices</h2>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li>Limit WAN access to trusted IP ranges</li>
-        <li>Use Cloudflare Tunnel for protected TCP access</li>
-        <li>Backup the <code>./data</code> directory</li>
-        <li>Rotate container images regularly</li>
-        <li>Enable strong unattended access passwords</li>
+        <li>Restrict inbound RustDesk ports to trusted IP ranges</li>
+        <li>Use Cloudflare Tunnel for encrypted TCP proxying</li>
+        <li>Backup the <code>./data</code> directory regularly</li>
+        <li>Update container images on every RustDesk release</li>
+        <li>Use strong unattended access passwords</li>
       </ul>
     </section>
 
-    <!-- Section 6 -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-bold text-slate-100">6. Troubleshooting</h2>
+    <!-- 6. Troubleshooting -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">6. Troubleshooting</h2>
 
       <ul class="list-disc list-inside mt-4 text-slate-300 space-y-2">
-        <li><strong>“Not Ready”</strong> → DNS or port forwarding not correct</li>
-        <li><strong>Internal works, external fails</strong> → missing NAT rules</li>
-        <li><strong>Random disconnects</strong> → ISP NAT or IDS interference</li>
-        <li><strong>Container errors</strong> → check <code>docker logs hbbs</code> and <code>hbbr</code></li>
+        <li><strong>“Not Ready”</strong> → DNS/port forwarding incorrect</li>
+        <li><strong>Works internal, fails external</strong> → missing WAN NAT</li>
+        <li><strong>Disconnects</strong> → ISP NAT or IDS/IPS interference</li>
+        <li><strong>Container errors</strong> → check <code>docker logs hbbs</code> & <code>hbbr</code></li>
       </ul>
     </section>
 
-    <!-- Footer -->
-    <footer class="mt-20 py-10 text-center text-xs text-slate-500">
+    <footer class="py-10 text-center text-xs text-slate-500">
       © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
     </footer>
   </main>
