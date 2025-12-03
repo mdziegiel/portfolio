@@ -6,88 +6,66 @@
   <title>UniFi VLAN Segmentation & Firewalls — MRDTech</title>
   <link rel="icon" href="../favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    body { scroll-behavior: smooth; }
-    .codebox {
-      white-space: pre-wrap;
-      word-break: break-word;
-      background-color: #020617; /* slate-950-ish */
-      border-radius: 0.75rem;
-      padding: 1rem;
-      overflow-x: auto;
-      font-size: 0.875rem;
-      border: 1px solid rgba(148, 163, 184, 0.6); /* slate-400 */
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-    }
-    th, td {
-      border: 1px solid rgba(51, 65, 85, 0.9); /* slate-700 */
-      padding: 0.5rem 0.75rem;
-    }
-    th {
-      background-color: rgba(15, 23, 42, 0.9); /* slate-900 */
-      text-align: left;
-    }
-    tr:nth-child(even) td {
-      background-color: rgba(15, 23, 42, 0.6);
-    }
+    html { scroll-behavior: smooth; }
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+    pre { background: rgba(15,23,42,0.85); padding: 16px; border-radius: 10px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid rgba(51,65,85,0.85); padding: 8px 12px; }
+    th { background: rgba(15,23,42,0.9); }
+    tr:nth-child(even) td { background: rgba(15,23,42,0.6); }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200">
+
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur bg-black/40 border-b border-slate-800">
-    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
-      <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
-      <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
-        <a href="/#projects" class="hover:text-emerald-400">Projects</a>
-        <a href="/#experience" class="hover:text-emerald-400">Experience</a>
-        <a href="/#skills" class="hover:text-emerald-400">Skills</a>
-        <a href="/#contact" class="hover:text-emerald-400">Contact</a>
-      </nav>
+  <header class="border-b border-slate-800 bg-black/40 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
+      <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
+      <span class="text-slate-500 text-sm">UniFi VLAN Guide</span>
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="max-w-5xl mx-auto px-5 py-14">
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">
-      UniFi VLAN Segmentation & Firewalls
+  <main class="max-w-5xl mx-auto px-5 py-10">
+
+    <!-- Hero -->
+    <h1 class="text-3xl font-bold text-slate-100">
+      UniFi VLAN Segmentation & Firewall Design
     </h1>
 
-    <p class="mt-4 text-slate-400 leading-relaxed">
-      Opinionated UniFi design for isolating Home, Guest, IoT, and VPN/VLANs with
-      sane north–south exposure (Plex, WireGuard, reverse proxy) and controlled
-      east–west traffic. This mirrors my homelab layout and is easy to adapt
-      for enterprise or SMB networks.
+    <p class="mt-4 text-slate-400 leading-relaxed text-lg max-w-3xl">
+      A practical, opinionated UniFi design for isolating Home, Guest, IoT, and VPN networks
+      with proper north–south exposure (Plex, WireGuard, Reverse Proxy) and strict east–west
+      segmentation. This layout mirrors my homelab but also applies to SMB and enterprise.
     </p>
 
-    <!-- Design goals -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">1. Design Goals</h2>
+    <hr class="my-8 border-slate-800" />
+
+    <!-- 1. Design Goals -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">1. Design Goals</h2>
 
       <ul class="mt-4 list-disc list-inside space-y-2 text-slate-300">
-        <li>Keep <strong>home PCs and servers</strong> separate from IoT and Guest devices.</li>
-        <li>Allow limited, intentional access (e.g., Plex from IoT TV, cameras to NVR).</li>
-        <li>Force all clients to use internal DNS (AdGuard/Unbound) and block direct 53/853 to the internet.</li>
-        <li>Expose only required services to WAN (WireGuard, reverse proxy) with tight rules.</li>
-        <li>Make troubleshooting sane: simple, repeatable rules per VLAN.</li>
+        <li>Fully isolate <strong>Home</strong> from IoT & Guest networks.</li>
+        <li>Allow controlled access (e.g., IoT cameras → NVR, TVs → Plex).</li>
+        <li>Force internal DNS usage via AdGuard/Unbound.</li>
+        <li>Expose only required services to WAN (WireGuard, NGINX/Proxy).</li>
+        <li>Keep firewall policies clean, predictable, and maintainable.</li>
       </ul>
     </section>
 
-    <!-- VLAN layout -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">2. VLAN & Subnet Layout</h2>
+    <!-- 2. VLAN Layout -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">2. VLAN & Subnet Layout</h2>
 
       <p class="mt-3 text-slate-300">
-        Example layout similar to my homelab. Adjust VLAN IDs, names, and subnets
-        for your environment.
+        Below is the structure used in my environment. Adjust IDs, names, and subnets to fit yours.
       </p>
 
       <div class="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-        <h3 class="font-semibold text-slate-100 mb-3">VLANs</h3>
+        <h3 class="font-semibold text-slate-200 mb-3">VLAN Definitions</h3>
         <div class="overflow-x-auto">
           <table>
             <thead>
@@ -95,7 +73,7 @@
                 <th>VLAN</th>
                 <th>Name</th>
                 <th>Subnet</th>
-                <th>Use case</th>
+                <th>Use Case</th>
               </tr>
             </thead>
             <tbody>
@@ -103,25 +81,25 @@
                 <td>1</td>
                 <td>Home</td>
                 <td>10.10.10.0/24</td>
-                <td>PCs, servers, lab gear, admin devices</td>
+                <td>PCs, Servers, Lab, Admin Devices</td>
               </tr>
               <tr>
                 <td>2</td>
                 <td>Guest</td>
                 <td>192.168.20.0/24</td>
-                <td>Guest Wi-Fi, internet-only access</td>
+                <td>Guests → Internet Only</td>
               </tr>
               <tr>
                 <td>3</td>
-                <td>PrivateInternetAccess (VPN)</td>
+                <td>PrivateInternetAccess</td>
                 <td>192.168.30.0/24</td>
-                <td>Devices forced out via PIA/other egress</td>
+                <td>Forced egress through VPN</td>
               </tr>
               <tr>
                 <td>4</td>
                 <td>IoT</td>
                 <td>192.168.40.0/24</td>
-                <td>TVs, cameras, smart plugs, random cloud things</td>
+                <td>TVs, Cameras, Smart Devices</td>
               </tr>
             </tbody>
           </table>
@@ -129,175 +107,156 @@
       </div>
     </section>
 
-    <!-- UniFi networks -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">3. Create Networks in UniFi</h2>
+    <!-- 3. Create Networks -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">3. Create Networks in UniFi</h2>
 
       <ol class="mt-4 list-decimal list-inside space-y-2 text-slate-300">
-        <li>Open the UniFi Network application.</li>
-        <li>Go to <strong>Settings → Networks → Create new network</strong>.</li>
+        <li>Open UniFi Network.</li>
+        <li>Go to <strong>Settings → Networks → Create New Network</strong>.</li>
         <li>For each VLAN:
           <ul class="mt-2 list-disc list-inside ml-5 space-y-1">
-            <li><strong>Name</strong>: e.g., <code>Home</code></li>
-            <li><strong>Purpose</strong>: Corporate</li>
-            <li><strong>VLAN ID</strong>: as per table above</li>
-            <li><strong>Gateway/Subnet</strong>: e.g., <code>10.10.10.1/24</code></li>
-            <li>DHCP: enabled for client segments (disable on infra-only nets if desired).</li>
+            <li>Name (e.g. <code>Home</code>)</li>
+            <li>Purpose: <strong>Corporate</strong></li>
+            <li>VLAN ID: matches table above</li>
+            <li>Gateway/Subnet: <code>x.x.x.1/24</code></li>
+            <li>DHCP: enable for client VLANs</li>
           </ul>
         </li>
       </ol>
 
-      <p class="mt-4 text-slate-400">
-        At this point, UniFi knows about the VLANs, but everything can still talk to everything.
-        The next step is firewall policy.
+      <p class="mt-4 text-slate-400 text-sm">
+        VLANs exist now, but without firewall rules everything can still talk freely.
       </p>
     </section>
 
-    <!-- Port profiles & SSIDs -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">4. Assign VLANs to Ports & Wi-Fi</h2>
+    <!-- 4. Assign VLANs -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">4. Assign VLANs to Switch Ports & Wi-Fi</h2>
 
-      <h3 class="mt-4 font-semibold text-slate-100">Switch ports</h3>
-      <ul class="mt-2 list-disc list-inside space-y-2 text-slate-300">
-        <li>Create <strong>Port Profiles</strong> for each VLAN (Access ports): Home, Guest, IoT, VPN.</li>
-        <li>For trunk uplinks, allow all required VLANs (e.g., between core switch and APs).</li>
-        <li>Assign IoT devices (cameras, TVs, etc.) to the <strong>IoT</strong> profile, servers/PCs to <strong>Home</strong>.</li>
+      <h3 class="mt-4 font-semibold text-slate-200">Switch Ports</h3>
+      <ul class="mt-2 list-disc list-inside text-slate-300 space-y-2">
+        <li>Create <strong>Port Profiles</strong> for Home, Guest, IoT, VPN.</li>
+        <li>Use trunk uplinks between switches/APs.</li>
+        <li>Assign ports based on device role: IoT → IoT, Servers → Home.</li>
       </ul>
 
-      <h3 class="mt-6 font-semibold text-slate-100">Wi-Fi SSIDs</h3>
-      <ul class="mt-2 list-disc list-inside space-y-2 text-slate-300">
-        <li>Create SSID <strong>Home</strong> → map to <strong>Home</strong> VLAN.</li>
-        <li>Create SSID <strong>Guest</strong> → map to <strong>Guest</strong> VLAN (enable guest policies if desired).</li>
-        <li>Create SSID <strong>IoT</strong> → map to <strong>IoT</strong> VLAN (WPA2-only if some devices are old).</li>
+      <h3 class="mt-6 font-semibold text-slate-200">Wi-Fi SSIDs</h3>
+      <ul class="mt-2 list-disc list-inside text-slate-300 space-y-2">
+        <li><strong>Home</strong> → VLAN 1</li>
+        <li><strong>Guest</strong> → VLAN 2 (with guest isolation)</li>
+        <li><strong>IoT</strong> → VLAN 4 (WPA2 only if required)</li>
       </ul>
     </section>
 
-    <!-- Firewall strategy -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">5. Firewall Strategy</h2>
+    <!-- 5. Firewall Strategy -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">5. Firewall Strategy</h2>
 
       <p class="mt-3 text-slate-300">
-        UniFi evaluates rules top-down. I keep rules organized by zone:
+        UniFi processes rules top-to-bottom. I structure my rules into logical “zones”:
       </p>
 
       <ul class="mt-3 list-disc list-inside space-y-2 text-slate-300">
-        <li><strong>LAN IN</strong> — controls traffic entering a VLAN from other internal networks.</li>
-        <li><strong>LAN LOCAL</strong> — controls access to the gateway/router itself.</li>
-        <li><strong>WAN IN</strong> — inbound from internet (usually very small set of allow rules).</li>
-        <li><strong>WAN OUT</strong> — egress control (DNS, NTP, etc.).</li>
+        <li><strong>LAN IN</strong> — VLAN → VLAN traffic</li>
+        <li><strong>LAN LOCAL</strong> — VLAN → Gateway</li>
+        <li><strong>WAN IN</strong> — Internet → LAN</li>
+        <li><strong>WAN OUT</strong> — LAN → Internet</li>
       </ul>
 
-      <p class="mt-4 text-slate-400">
-        The general pattern:
+      <p class="mt-4 text-slate-400 text-sm">
+        The fundamental rule-set is:
       </p>
 
-      <ol class="mt-2 list-decimal list-inside space-y-1 text-slate-300">
-        <li><strong>Block</strong> inter-VLAN by default.</li>
-        <li><strong>Allow</strong> specific flows back in (e.g., Home → IoT cameras, IoT → NTP/DNS).</li>
-        <li><strong>Allow</strong> trusted management devices to reach UniFi/routers.</li>
+      <ol class="mt-2 list-decimal list-inside text-slate-300 space-y-1">
+        <li>Deny inter-VLAN by default</li>
+        <li>Allow only required flows</li>
+        <li>Allow management devices to reach UniFi / gateway</li>
       </ol>
     </section>
 
-    <!-- Example rules -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">6. Example Rules</h2>
+    <!-- 6. Example Rules -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">6. Example Firewall Rules</h2>
 
       <p class="mt-3 text-slate-300">
-        Below are example rule “shapes”. Names and exact ports can be tweaked.
+        These are templates — adapt as needed.
       </p>
 
-      <div class="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-4">
-        <h3 class="font-semibold text-slate-100">LAN IN — Deny East/West by Default</h3>
-        <div class="codebox">
-Rule Name: Block IoT → Home
+      <h3 class="font-semibold text-slate-200 mt-6">Deny East/West by Default</h3>
+      <pre>Rule Name: Block IoT → Home
 Direction: LAN IN
 Interface: IoT
 Action: Drop
-Source: IoT net (192.168.40.0/24)
-Destination: Home net (10.10.10.0/24)
-Comment: Prevent IoT from talking to Home devices
-        </div>
+Source: 192.168.40.0/24
+Destination: 10.10.10.0/24
+Comment: Prevent IoT access into Home</pre>
 
-        <div class="codebox">
-Rule Name: Block Guest → All RFC1918
+      <pre>Rule Name: Block Guest → RFC1918
 Direction: LAN IN
 Interface: Guest
 Action: Drop
-Source: Guest net (192.168.20.0/24)
-Destination: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
-Comment: Guest only to internet
-        </div>
-      </div>
+Source: 192.168.20.0/24
+Destination: Any RFC1918
+Comment: Guest → Internet only</pre>
 
-      <div class="mt-6 rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-4">
-        <h3 class="font-semibold text-slate-100">Allow Required Flows</h3>
-        <div class="codebox">
-Rule Name: Allow Home → IoT Cameras
+      <h3 class="font-semibold text-slate-200 mt-8">Allow Required Flows</h3>
+
+      <pre>Rule Name: Home → IoT Cameras
 Direction: LAN IN
 Interface: IoT
 Action: Accept
-Source: Home net (10.10.10.0/24)
-Destination: Camera VLAN / specific IPs
-Protocol/Port: TCP/UDP 80, 443, 554 (or as required)
-Comment: Let Home devices manage/view cameras
-        </div>
+Source: 10.10.10.0/24
+Destination: Camera VLAN / IPs
+Ports: 80, 443, 554
+Comment: Permit camera viewing</pre>
 
-        <div class="codebox">
-Rule Name: Allow IoT → DNS/NTP
-Direction: LAN OUT or WAN OUT (depending on design)
+      <pre>Rule Name: IoT → DNS/NTP
+Direction: LAN OUT
 Action: Accept
-Source: IoT net (192.168.40.0/24)
-Destination: AdGuard/Unbound IPs, NTP servers
-Ports: UDP 53, 123 (and 853 if using DoT internally)
-Comment: Limited, controlled egress for IoT
-        </div>
-      </div>
+Source: 192.168.40.0/24
+Destination: Internal DNS + NTP
+Ports: UDP 53, 123
+Comment: Controlled egress only</pre>
     </section>
 
-    <!-- DNS and egress -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">7. DNS & Egress Control</h2>
+    <!-- 7. DNS Control -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">7. DNS & Egress Control</h2>
 
-      <p class="mt-3 text-slate-300">
-        To prevent devices from bypassing AdGuard/Unbound:
-      </p>
+      <p class="mt-3 text-slate-300">Prevent DNS bypass:</p>
 
-      <ol class="mt-3 list-decimal list-inside space-y-2 text-slate-300">
-        <li>Point DHCP DNS for all VLANs to your internal resolvers (e.g., <code>10.10.10.21</code>, <code>10.10.10.157</code>).</li>
-        <li>Create a <strong>WAN OUT</strong> rule that <strong>drops</strong> DNS/DoT from all VLANs to the internet:
-          <div class="codebox mt-2">
-Rule Name: Block Direct DNS to Internet
+      <ol class="mt-3 list-decimal list-inside space-y-3 text-slate-300">
+        <li>Set DHCP DNS to internal resolvers (AdGuard, Unbound).</li>
+        <li>Create a WAN OUT drop rule:</li>
+      </ol>
+
+<pre>Rule Name: Block Direct DNS to Internet
 Direction: WAN OUT
 Action: Drop
-Source: RFC1918 nets
+Source: All RFC1918
 Destination: Any
-Ports: UDP/TCP 53, 853
-Comment: Force use of internal DNS
-          </div>
-        </li>
-      </ol>
+Ports: TCP/UDP 53, 853
+Comment: Force internal DNS usage</pre>
     </section>
 
-    <!-- Testing -->
-    <section class="mt-10">
-      <h2 class="text-2xl font-bold text-slate-100">8. Testing & Validation</h2>
+    <!-- 8. Testing -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-emerald-400">8. Testing & Validation</h2>
 
       <ul class="mt-3 list-disc list-inside space-y-2 text-slate-300">
-        <li>From a Guest device, confirm it can reach the internet but not ping or RDP into Home subnets.</li>
-        <li>From Home, verify you can reach Plex, cameras, and other allowed IoT services, but not arbitrary IoT devices.</li>
-        <li>Use UniFi’s <strong>Traffic &amp; Insights</strong> to confirm flows match expectations.</li>
-        <li>Log into a test device on each VLAN and run:
-          <div class="codebox mt-2">
-nslookup google.com
-tracert 8.8.8.8
-          </div>
-          Confirm DNS and path go where you expect.
-        </li>
+        <li>Guest devices: confirm internet works, LAN access blocked.</li>
+        <li>Home devices: confirm cameras & Plex work as expected.</li>
+        <li>Verify DNS path with:</li>
       </ul>
+
+<pre>nslookup google.com
+tracert 8.8.8.8</pre>
+
     </section>
 
     <!-- Footer -->
-    <footer class="mt-20 py-10 text-center text-xs text-slate-500">
+    <footer class="py-10 text-center text-xs text-slate-500">
       © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
     </footer>
   </main>
@@ -305,5 +264,6 @@ tracert 8.8.8.8
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
