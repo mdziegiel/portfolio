@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCCM to Intune & Autopilot Migration — Michael Dziegiel</title>
+  <meta name="description" content="Enterprise migration from SCCM to Intune with Autopilot provisioning and Entra ID modernization." />
+  <link rel="icon" href="/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    [id] { scroll-margin-top: 84px; }
+    .glow:hover {
+      box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35);
+    }
+    .step-line::before {
+      content: '';
+      position: absolute;
+      left: 1.25rem;
+      top: 2.5rem;
+      bottom: -1.5rem;
+      width: 2px;
+      background: linear-gradient(to bottom, #10b981, transparent);
+    }
+  </style>
+</head>
+
+<body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+    <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
+      <a href="/#projects" class="text-sm text-slate-400 hover:text-emerald-400">← Back to Projects</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-5 py-12">
+
+    <!-- Title -->
+    <div class="mb-10">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Case Study</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Intune</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Autopilot</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Entra ID</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">PowerShell</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">SCCM to Intune & Autopilot Migration</h1>
+      <p class="mt-3 text-lg text-slate-400">Full endpoint management migration from SCCM co-management to cloud-native Intune MDM with zero-touch Autopilot provisioning and Entra ID-only device identity.</p>
+    </div>
+
+    <!-- Overview -->
+    <section class="mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+      <h2 class="text-lg font-semibold text-slate-100 mb-3">Overview</h2>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        At a previous employer, I led the full migration of Windows endpoint management from SCCM co-management to a fully cloud-native stack using Microsoft Intune, Windows Autopilot, and Entra ID (Azure AD). The goal was to eliminate on-premises SCCM dependency, modernize device provisioning to zero-touch Autopilot, and move to Entra ID-only device join — removing the need for hybrid Azure AD join entirely.
+      </p>
+      <p class="mt-3 text-sm text-slate-300 leading-relaxed">
+        This involved rebuilding the entire device lifecycle from scratch: enrollment profiles, compliance policies, app deployment, branding, endpoint security, and break-glass recovery — all delivered through Intune with no SCCM fallback.
+      </p>
+    </section>
+
+    <!-- Migration Phases -->
+    <section class="mb-10">
+      <h2 class="text-xl font-bold text-slate-100 mb-6">Migration Phases</h2>
+
+      <div class="space-y-6">
+
+        <!-- Phase 1 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">1</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">Entra ID-Only Device Identity</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Moved all new device provisioning to Entra ID join (cloud-only), eliminating the hybrid Azure AD join requirement that SCCM co-management depended on. Configured Autopilot deployment profiles targeting the Entra ID device group, with user-driven provisioning mode and Enrollment Status Page (ESP) to gate desktop delivery until all critical apps were installed.
+            </p>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">2</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">Autopilot Branding Package</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Built a custom Win32 app package based on the AutopilotBranding framework (Michael Niehaus) to apply corporate branding during ESP before the user ever reaches the desktop. The package handled:
+            </p>
+            <ul class="mt-3 space-y-1 text-sm text-slate-400 list-disc list-inside">
+              <li>Corporate wallpaper and lock screen deployment</li>
+              <li>Taskbar pinning via <code class="text-emerald-400 bg-slate-800 px-1 rounded">TaskbarLayoutModification.xml</code> (File Explorer, Teams, Outlook, Chrome, Edge)</li>
+              <li>Windows 11 Start Menu layout via exported <code class="text-emerald-400 bg-slate-800 px-1 rounded">Start2.bin</code> and <code class="text-emerald-400 bg-slate-800 px-1 rounded">settings.dat</code></li>
+              <li>OEM support info (IT helpdesk branding in Settings → System → About)</li>
+              <li>Search bar configured to icon-only mode</li>
+            </ul>
+            <p class="mt-3 text-sm text-slate-400">Packaged with <code class="text-emerald-400 bg-slate-800 px-1 rounded">IntuneWinAppUtil.exe</code>, deployed as Required to the Autopilot device group, and added to ESP blocking list to ensure branding applied before user login.</p>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">3</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">Win32 App Migration & Packaging</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Migrated all SCCM-deployed applications to Intune Win32 app packages. Each app required custom install/uninstall commands, detection rules, and dependency ordering. Notable challenges included:
+            </p>
+            <ul class="mt-3 space-y-1 text-sm text-slate-400 list-disc list-inside">
+              <li>Legacy 32-bit VB6/ActiveX application requiring OCX registration — resolved by bundling all 15 OCX/DLL files in the package and registering via 32-bit <code class="text-emerald-400 bg-slate-800 px-1 rounded">regsvr32</code> at install time</li>
+              <li>Used <code class="text-emerald-400 bg-slate-800 px-1 rounded">Start-Process -PassThru -Wait</code> for correct exit code capture on legacy installers</li>
+              <li><code class="text-emerald-400 bg-slate-800 px-1 rounded">$PSScriptRoot</code> used throughout to ensure scripts resolved dependencies relative to package location rather than hardcoded UNC paths</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">4</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">Endpoint Security & Compliance</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Rebuilt all endpoint security policies natively in Intune, replacing SCCM baselines with:
+            </p>
+            <ul class="mt-3 space-y-1 text-sm text-slate-400 list-disc list-inside">
+              <li>Sophos endpoint protection deployed silently via Win32 app (<code class="text-emerald-400 bg-slate-800 px-1 rounded">--quiet --no-reboot</code>)</li>
+              <li>BitLocker encryption policy via Intune disk encryption profile</li>
+              <li>Conditional Access policies enforcing compliant device requirement for M365 access</li>
+              <li>MFA enforcement via Entra ID authentication policies</li>
+              <li>Windows LAPS deployed via Intune for a local administrator account, providing break-glass recovery on Entra-only devices with no domain fallback</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="relative pl-12">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">5</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">Device Coverage Auditing</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Built a PowerShell-based cross-platform audit tool using Microsoft Graph API and the Sophos API to produce a color-coded Excel workbook showing device coverage across Intune, ConnectWise RMM, and Sophos. This replaced manual reconciliation and provided a single source of truth for identifying gaps — devices in RMM but not enrolled in Intune, missing Sophos, or inactive beyond a defined threshold.
+            </p>
+            <p class="mt-3 text-sm text-slate-400">Used an Azure App Registration with scoped Graph permissions to authenticate non-interactively. A companion script queried Entra ID and Intune for inactive devices based on last sign-in and last sync timestamps.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Key Scripts -->
+    <section class="mb-10">
+      <h2 class="text-xl font-bold text-slate-100 mb-4">Key Scripts & Automation</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">AutopilotBranding Package</h3>
+          <p class="mt-2 text-xs text-slate-400">Win32 app package applying wallpaper, lock screen, taskbar, Start Menu, OEM info, and search settings during Autopilot ESP before first login.</p>
+          <p class="mt-2 text-xs text-emerald-400">PowerShell · XML · IntuneWinAppUtil</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">OCX Registration Package</h3>
+          <p class="mt-2 text-xs text-slate-400">Bundled 15 legacy OCX/DLL files with a registration script using 32-bit regsvr32 and PSScriptRoot-relative paths for clean Intune deployment.</p>
+          <p class="mt-2 text-xs text-emerald-400">PowerShell · regsvr32 · Win32 App</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">Device Coverage Audit</h3>
+          <p class="mt-2 text-xs text-slate-400">Cross-references Intune, ConnectWise RMM, and Sophos via Graph API and Sophos API. Outputs color-coded Excel workbook showing coverage gaps and inactive devices.</p>
+          <p class="mt-2 text-xs text-emerald-400">PowerShell · Microsoft Graph · Excel</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">Inactive Device Report</h3>
+          <p class="mt-2 text-xs text-slate-400">Queries Entra ID and Intune via Graph for devices inactive beyond a configurable threshold based on last sign-in and last sync timestamps.</p>
+          <p class="mt-2 text-xs text-emerald-400">PowerShell · Microsoft Graph · Entra ID</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Outcomes -->
+    <section class="mb-10 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6">
+      <h2 class="text-lg font-semibold text-slate-100 mb-4">Outcomes</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Full SCCM decommission — all endpoint management moved to Intune with no co-management fallback</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Zero-touch Autopilot provisioning — new devices ship directly to users, fully configured on first boot</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Consistent corporate branding applied to every device before user login via ESP-blocked Win32 app</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Legacy application compatibility maintained on cloud-native devices via packaged OCX registration</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Break-glass recovery on Entra-only devices via Windows LAPS with no domain dependency</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Full device coverage visibility via automated audit across Intune, RMM, and Sophos</li>
+      </ul>
+    </section>
+
+    <!-- Back -->
+    <div class="mt-8">
+      <a href="/#projects" class="glow inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-800">
+        ← Back to Projects
+      </a>
+    </div>
+
+  </main>
+
+  <footer class="py-10 text-center text-xs text-slate-500">
+    © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
