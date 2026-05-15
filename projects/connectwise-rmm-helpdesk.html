@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ConnectWise RMM & Helpdesk Buildout — Michael Dziegiel</title>
+  <meta name="description" content="End-to-end RMM and helpdesk implementation using ConnectWise Manage, Automate, ScreenConnect, Auvik, and BrightGauge." />
+  <link rel="icon" href="/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    [id] { scroll-margin-top: 84px; }
+    .glow:hover {
+      box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35);
+    }
+    .step-line::before {
+      content: '';
+      position: absolute;
+      left: 1.25rem;
+      top: 2.5rem;
+      bottom: -1.5rem;
+      width: 2px;
+      background: linear-gradient(to bottom, #10b981, transparent);
+    }
+  </style>
+</head>
+
+<body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+    <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
+      <a href="/#projects" class="text-sm text-slate-400 hover:text-emerald-400">← Back to Projects</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-5 py-12">
+
+    <!-- Title -->
+    <div class="mb-10">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Case Study</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">ConnectWise</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">RMM</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">PSA</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Auvik</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">BrightGauge</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">ConnectWise RMM & Helpdesk Buildout</h1>
+      <p class="mt-3 text-lg text-slate-400">End-to-end implementation of a ConnectWise-based IT management stack — PSA, RMM, remote access, network monitoring, patch management, endpoint management, and executive reporting dashboards.</p>
+    </div>
+
+    <!-- Overview -->
+    <section class="mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+      <h2 class="text-lg font-semibold text-slate-100 mb-3">Overview</h2>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        At a previous employer, I led the end-to-end onboarding and configuration of the ConnectWise platform to modernize IT service delivery and establish a fully operational helpdesk from the ground up. Prior to this project, there was no centralized ticketing system, no formal patch management process, and no unified visibility across endpoints and network infrastructure.
+      </p>
+      <p class="mt-3 text-sm text-slate-300 leading-relaxed">
+        The buildout encompassed the full ConnectWise ecosystem — Manage (PSA), Automate (RMM), ScreenConnect (remote access), Auvik (network monitoring), and BrightGauge (reporting dashboards) — integrated and configured to provide a single pane of glass for IT operations.
+      </p>
+    </section>
+
+    <!-- Implementation -->
+    <section class="mb-10">
+      <h2 class="text-xl font-bold text-slate-100 mb-6">Implementation</h2>
+
+      <div class="space-y-6">
+
+        <!-- Phase 1 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">1</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">ConnectWise Manage — PSA & Service Desk</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Configured ConnectWise Manage as the PSA and service desk platform. Built out the ticketing workflow from scratch — ticket boards, service types, priorities, SLA definitions, and escalation rules. Set up company and contact records, agreement types, and billing configurations. Established the helpdesk queue structure to support Tier 1 through Tier 3 routing and resolution tracking.
+            </p>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">2</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">ConnectWise Automate — RMM & Patch Management</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Deployed the ConnectWise Automate RMM agent across all endpoints for centralized monitoring, alerting, and automated remediation. Configured patch management policies for Windows OS and third-party applications, defining approval workflows, maintenance windows, and exclusion lists. Built automation scripts for routine administrative tasks and endpoint health checks, reducing manual intervention and ensuring consistent patch compliance across the environment.
+            </p>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">3</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">ScreenConnect — Remote Access</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Integrated ScreenConnect (ConnectWise Control) for remote support and unattended access across all managed endpoints. Configured access groups, session types, and security policies to enforce least-privilege remote access. Tied ScreenConnect sessions directly into ConnectWise Manage tickets for seamless session tracking and audit logging.
+            </p>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="relative pl-12 step-line">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">4</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">Auvik — Network Monitoring</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Onboarded Auvik for network infrastructure monitoring and topology mapping. Deployed Auvik collectors to provide automated device discovery, real-time network maps, and alerting for connectivity issues, device outages, and configuration changes. Integrated Auvik alerts with ConnectWise Manage to automatically generate tickets on network events, ensuring nothing fell through the cracks.
+            </p>
+          </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="relative pl-12">
+          <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">5</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="font-semibold text-slate-100">BrightGauge — Reporting & Dashboards</h3>
+            <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+              Configured BrightGauge dashboards pulling data from ConnectWise Manage and Automate to provide real-time visibility into helpdesk performance, ticket SLA compliance, patch status, endpoint health, and open issue trends. Built custom reports for IT operations review, giving leadership clear visibility into service delivery metrics and infrastructure status without requiring manual data pulls.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Stack -->
+    <section class="mb-10">
+      <h2 class="text-xl font-bold text-slate-100 mb-4">Platform Stack</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">ConnectWise Manage</h3>
+          <p class="mt-2 text-xs text-slate-400">PSA, service desk ticketing, SLA management, billing, reporting, and helpdesk workflow configuration.</p>
+          <p class="mt-2 text-xs text-emerald-400">PSA · Service Desk · Ticketing</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">ConnectWise Automate</h3>
+          <p class="mt-2 text-xs text-slate-400">RMM agent deployment, patch management, endpoint monitoring, alerting, and automation scripting.</p>
+          <p class="mt-2 text-xs text-emerald-400">RMM · Patch Management · Automation</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">ScreenConnect</h3>
+          <p class="mt-2 text-xs text-slate-400">Remote support and unattended access with session logging, access groups, and ConnectWise Manage integration.</p>
+          <p class="mt-2 text-xs text-emerald-400">Remote Access · Session Logging</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="font-semibold text-slate-100 text-sm">Auvik</h3>
+          <p class="mt-2 text-xs text-slate-400">Network topology mapping, device discovery, real-time alerting, and automated ticket creation on network events.</p>
+          <p class="mt-2 text-xs text-emerald-400">Network Monitoring · Topology · Alerting</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 sm:col-span-2">
+          <h3 class="font-semibold text-slate-100 text-sm">BrightGauge</h3>
+          <p class="mt-2 text-xs text-slate-400">Real-time dashboards and custom reports pulling from ConnectWise Manage and Automate — SLA compliance, patch status, endpoint health, and helpdesk performance metrics.</p>
+          <p class="mt-2 text-xs text-emerald-400">Dashboards · Reporting · KPIs</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Outcomes -->
+    <section class="mb-10 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6">
+      <h2 class="text-lg font-semibold text-slate-100 mb-4">Outcomes</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Fully operational helpdesk built from scratch — centralized ticketing, SLA tracking, and escalation workflows</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Unified endpoint visibility via RMM with automated patch compliance across all Windows devices</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Network monitoring with automated ticket creation — no manual alerting or gap in coverage</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Remote access standardized across all endpoints with full session audit logging</li>
+        <li class="flex gap-3"><span class="text-emerald-400 mt-0.5">✓</span>Executive-level reporting dashboards delivering real-time IT operations visibility without manual reporting</li>
+      </ul>
+    </section>
+
+    <!-- Back -->
+    <div class="mt-8">
+      <a href="/#projects" class="glow inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-800">
+        ← Back to Projects
+      </a>
+    </div>
+
+  </main>
+
+  <footer class="py-10 text-center text-xs text-slate-500">
+    © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
