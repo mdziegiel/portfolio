@@ -146,25 +146,35 @@
           </div>
         </article>
 
-        <!-- SIEM & Threat Detection -->
+        <!-- SIEM + CrowdSec Detection -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">SIEM &amp; Threat Detection — Wazuh + CrowdSec</h3>
-            <p class="mt-2 text-sm text-slate-400">Multi-host SIEM deployment with custom Wazuh Sysmon detection rules, CrowdSec firewall/Cloudflare bouncers, and OpenCanary honeypot integration with Telegram alerting.</p>
+            <h3 class="font-semibold text-slate-100">SIEM + CrowdSec Detection</h3>
+            <p class="mt-2 text-sm text-slate-400">Wazuh SIEM custom detection rules and CrowdSec bouncer configs across a multi-host homelab, with OpenCanary honeypot integration.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Wazuh</span>
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">CrowdSec</span>
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Security</span>
+            </div>
           </div>
           <div class="mt-4 text-sm">
             <a class="text-emerald-300 hover:underline" href="https://github.com/mdziegiel/siem-crowdsec-detection" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
-        <!-- n8n Self-Healing Infrastructure -->
+        <!-- Prometheus + Grafana Alerting (n8n) -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">n8n Self-Healing Infrastructure</h3>
-            <p class="mt-2 text-sm text-slate-400">Seven automation workflows for self-healing infrastructure — Proxmox/Docker VM recovery, backup failure alerting, and SIEM/CrowdSec event routing to Telegram.</p>
+            <h3 class="font-semibold text-slate-100">Prometheus + Grafana Alerting (n8n)</h3>
+            <p class="mt-2 text-sm text-slate-400">Self-hosted homelab observability — Prometheus + Grafana + node_exporter + cAdvisor across multiple Docker hosts, with alerting via n8n polling the Prometheus API into Telegram (no Alertmanager required).</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Prometheus</span>
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Grafana</span>
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">n8n</span>
+            </div>
           </div>
           <div class="mt-4 text-sm">
-            <a class="text-emerald-300 hover:underline" href="https://github.com/mdziegiel/n8n-self-healing-infra" target="_blank" rel="noopener">GitHub</a>
+            <a class="text-emerald-300 hover:underline" href="https://github.com/mdziegiel/prometheus-n8n-alerting" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -189,7 +199,7 @@
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
             <h3 class="font-semibold text-slate-100">Vault RAG Pipeline</h3>
-            <p class="mt-2 text-sm text-slate-400">Self-hosted retrieval-augmented generation pipeline over Obsidian vault documentation — Qdrant vector store + Ollama (nomic-embed-text) embeddings, wired into the Gilfoyle AI agent for cited, hallucination-resistant answers to past-incident and config questions.</p>
+            <p class="mt-2 text-sm text-slate-400">Self-hosted RAG pipeline for an AI homelab agent — semantic search over an Obsidian vault with automated secrets/IP redaction before embedding, Qdrant + Ollama (nomic-embed-text) + gitleaks.</p>
             <div class="mt-4 flex flex-wrap gap-2">
               <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Qdrant</span>
               <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Ollama</span>
@@ -202,15 +212,16 @@
           </div>
         </article>
 
-        <!-- MRDTech MCP Gateway -->
+        <!-- Multi-Server MCP Gateway -->
         <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">MRDTech MCP Gateway</h3>
-            <p class="mt-2 text-sm text-slate-400">Multi-server read-only MCP gateway exposing Portainer, GitHub, Filesystem, Proxmox, PBS, and Vault RAG (202 tools total) to an AI agent via an authenticated, SSH-tunneled, loopback-bound endpoint — scoped credentials per server, no client-side token storage.</p>
+            <h3 class="font-semibold text-slate-100">Multi-Server MCP Gateway</h3>
+            <p class="mt-2 text-sm text-slate-400">Hardened, read-only MCP gateway exposing Portainer, GitHub, Filesystem, Proxmox, PBS, and Vault RAG visibility to an AI agent — loopback-only, SSH-tunneled, zero client-side credentials.</p>
             <div class="mt-4 flex flex-wrap gap-2">
               <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">MCP</span>
               <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Docker</span>
               <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Security</span>
+              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Python</span>
             </div>
           </div>
           <div class="mt-4 text-sm">
