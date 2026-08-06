@@ -5,17 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AdGuard Home + Unbound Recursive DNS — Guide</title>
   <link rel="icon" href="../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+    :root {
+      --bg-primary: #141519;
+      --surface-primary: rgba(24, 25, 30, 0.72);
+      --surface-secondary: rgba(20, 21, 25, 0.92);
+      --text-body: #e8e6e1;
+      --text-title: #ece8e0;
+      --text-muted: #9a9a95;
+      --font-heading: 'Lora', 'Fraunces', Georgia, serif;
+      --accent-teal: #10b981;
+      --radius-card: 10px;
+    }
+
     html { scroll-behavior: smooth; }
+    [id] { scroll-margin-top: 84px; }
+
+    body {
+      background-color: var(--bg-primary) !important;
+      color: var(--text-body) !important;
+    }
+
+    h1, h2, h3,
+    .card-title {
+      font-family: var(--font-heading) !important;
+      color: var(--text-title) !important;
+    }
+
+    .card-body,
+    .card p,
+    .card li {
+      color: var(--text-muted) !important;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(154, 154, 149, 0.2) !important;
+      border-radius: var(--radius-card) !important;
+      background: var(--surface-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .tech-pill {
+      background: transparent !important;
+      border: 1px solid rgba(154, 154, 149, 0.3) !important;
+      color: var(--text-muted) !important;
+    }
+
+    .tech-pill.tech-pill-accent {
+      border-color: rgba(16, 185, 129, 0.35) !important;
+      color: var(--accent-teal) !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    .glow:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
+    }
+
+    .section-card {
+      border-radius: var(--radius-card) !important;
+    }
+
     code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
-    pre { background: rgba(15,23,42,0.85); padding: 16px; border-radius: 10px; overflow-x: auto; }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200">
-  <header class="border-b border-slate-800 bg-black/40 backdrop-blur sticky top-0 z-40">
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#141519]">
     <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
       <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
       <span class="text-slate-500 text-sm">AdGuard + Unbound Guide</span>

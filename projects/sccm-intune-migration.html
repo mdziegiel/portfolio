@@ -6,13 +6,81 @@
   <title>SCCM to Intune & Autopilot Migration — Michael Dziegiel</title>
   <meta name="description" content="Enterprise migration from SCCM to Intune with Autopilot provisioning and Entra ID modernization." />
   <link rel="icon" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    :root {
+      --bg-primary: #141519;
+      --surface-primary: rgba(24, 25, 30, 0.72);
+      --surface-secondary: rgba(20, 21, 25, 0.92);
+      --text-body: #e8e6e1;
+      --text-title: #ece8e0;
+      --text-muted: #9a9a95;
+      --font-heading: 'Lora', 'Fraunces', Georgia, serif;
+      --accent-teal: #10b981;
+      --radius-card: 10px;
+    }
+
     html { scroll-behavior: smooth; }
     [id] { scroll-margin-top: 84px; }
-    .glow:hover {
-      box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35);
+
+    body {
+      background-color: var(--bg-primary) !important;
+      color: var(--text-body) !important;
     }
+
+    h1, h2, h3,
+    .card-title {
+      font-family: var(--font-heading) !important;
+      color: var(--text-title) !important;
+    }
+
+    .card-body,
+    .card p,
+    .card li {
+      color: var(--text-muted) !important;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(154, 154, 149, 0.2) !important;
+      border-radius: var(--radius-card) !important;
+      background: var(--surface-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .tech-pill {
+      background: transparent !important;
+      border: 1px solid rgba(154, 154, 149, 0.3) !important;
+      color: var(--text-muted) !important;
+    }
+
+    .tech-pill.tech-pill-accent {
+      border-color: rgba(16, 185, 129, 0.35) !important;
+      color: var(--accent-teal) !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    .glow:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
+    }
+
+    .section-card {
+      border-radius: var(--radius-card) !important;
+    }
+
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+
     .step-line::before {
       content: '';
       position: absolute;
@@ -20,7 +88,7 @@
       top: 2.5rem;
       bottom: -1.5rem;
       width: 2px;
-      background: linear-gradient(to bottom, #10b981, transparent);
+      background: linear-gradient(to bottom, var(--accent-teal), transparent);
     }
   </style>
 </head>
@@ -28,7 +96,7 @@
 <body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#141519]">
     <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
       <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
       <a href="/#projects" class="text-sm text-slate-400 hover:text-emerald-400">← Back to Projects</a>
@@ -40,18 +108,18 @@
     <!-- Title -->
     <div class="mb-10">
       <div class="flex flex-wrap gap-2 mb-4">
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Case Study</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Intune</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Autopilot</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Entra ID</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">PowerShell</span>
+        <span class="tech-pill tech-pill-accent text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Case Study</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Intune</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Autopilot</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Entra ID</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">PowerShell</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">SCCM to Intune & Autopilot Migration</h1>
       <p class="mt-3 text-lg text-slate-400">Full endpoint management migration from SCCM co-management to cloud-native Intune MDM with zero-touch Autopilot provisioning and Entra ID-only device identity.</p>
     </div>
 
     <!-- Overview -->
-    <section class="mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+    <section class="card mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
       <h2 class="text-lg font-semibold text-slate-100 mb-3">Overview</h2>
       <p class="text-sm text-slate-300 leading-relaxed">
         At a previous employer, I led the full migration of Windows endpoint management from SCCM co-management to a fully cloud-native stack using Microsoft Intune, Windows Autopilot, and Entra ID (Azure AD). The goal was to eliminate on-premises SCCM dependency, modernize device provisioning to zero-touch Autopilot, and move to Entra ID-only device join — removing the need for hybrid Azure AD join entirely.
@@ -70,8 +138,8 @@
         <!-- Phase 1 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">1</div>
-          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <h3 class="font-semibold text-slate-100">Entra ID-Only Device Identity</h3>
+          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="card-title font-semibold text-slate-100">Entra ID-Only Device Identity</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Moved all new device provisioning to Entra ID join (cloud-only), eliminating the hybrid Azure AD join requirement that SCCM co-management depended on. Configured Autopilot deployment profiles targeting the Entra ID device group, with user-driven provisioning mode and Enrollment Status Page (ESP) to gate desktop delivery until all critical apps were installed.
             </p>
@@ -81,8 +149,8 @@
         <!-- Phase 2 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">2</div>
-          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <h3 class="font-semibold text-slate-100">Autopilot Branding Package</h3>
+          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="card-title font-semibold text-slate-100">Autopilot Branding Package</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Built a custom Win32 app package based on the AutopilotBranding framework (Michael Niehaus) to apply corporate branding during ESP before the user ever reaches the desktop. The package handled:
             </p>
@@ -100,8 +168,8 @@
         <!-- Phase 3 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">3</div>
-          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <h3 class="font-semibold text-slate-100">Win32 App Migration & Packaging</h3>
+          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="card-title font-semibold text-slate-100">Win32 App Migration & Packaging</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Migrated all SCCM-deployed applications to Intune Win32 app packages. Each app required custom install/uninstall commands, detection rules, and dependency ordering. Notable challenges included:
             </p>
@@ -116,8 +184,8 @@
         <!-- Phase 4 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">4</div>
-          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <h3 class="font-semibold text-slate-100">Endpoint Security & Compliance</h3>
+          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="card-title font-semibold text-slate-100">Endpoint Security & Compliance</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Rebuilt all endpoint security policies natively in Intune, replacing SCCM baselines with:
             </p>
@@ -134,8 +202,8 @@
         <!-- Phase 5 -->
         <div class="relative pl-12">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">5</div>
-          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <h3 class="font-semibold text-slate-100">Device Coverage Auditing</h3>
+          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h3 class="card-title font-semibold text-slate-100">Device Coverage Auditing</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Built a PowerShell-based cross-platform audit tool using Microsoft Graph API and the Sophos API to produce a color-coded Excel workbook showing device coverage across Intune, ConnectWise RMM, and Sophos. This replaced manual reconciliation and provided a single source of truth for identifying gaps — devices in RMM but not enrolled in Intune, missing Sophos, or inactive beyond a defined threshold.
             </p>
@@ -151,26 +219,26 @@
       <h2 class="text-xl font-bold text-slate-100 mb-4">Key Scripts & Automation</h2>
       <div class="grid sm:grid-cols-2 gap-4">
 
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 text-sm">AutopilotBranding Package</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 text-sm">AutopilotBranding Package</h3>
           <p class="mt-2 text-xs text-slate-400">Win32 app package applying wallpaper, lock screen, taskbar, Start Menu, OEM info, and search settings during Autopilot ESP before first login.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · XML · IntuneWinAppUtil</p>
         </div>
 
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 text-sm">OCX Registration Package</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 text-sm">OCX Registration Package</h3>
           <p class="mt-2 text-xs text-slate-400">Bundled 15 legacy OCX/DLL files with a registration script using 32-bit regsvr32 and PSScriptRoot-relative paths for clean Intune deployment.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · regsvr32 · Win32 App</p>
         </div>
 
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 text-sm">Device Coverage Audit</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 text-sm">Device Coverage Audit</h3>
           <p class="mt-2 text-xs text-slate-400">Cross-references Intune, ConnectWise RMM, and Sophos via Graph API and Sophos API. Outputs color-coded Excel workbook showing coverage gaps and inactive devices.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · Microsoft Graph · Excel</p>
         </div>
 
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 text-sm">Inactive Device Report</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 text-sm">Inactive Device Report</h3>
           <p class="mt-2 text-xs text-slate-400">Queries Entra ID and Intune via Graph for devices inactive beyond a configurable threshold based on last sign-in and last sync timestamps.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · Microsoft Graph · Entra ID</p>
         </div>
