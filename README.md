@@ -1,7 +1,7 @@
 # Michael Dziegiel - IT Professional Portfolio
 
 ## Overview
-Welcome to my professional portfolio repository. This site showcases my experience, projects, and skills as an IT professional specializing in systems administration, cloud infrastructure, and enterprise technology solutions..
+Welcome to my professional portfolio repository. This site showcases my experience, projects, and skills as an IT professional specializing in systems administration, cloud infrastructure, and enterprise technology solutions.
 
 ## 🚀 Live Site
 [View Portfolio](https://mdziegiel.github.io/portfolio)
