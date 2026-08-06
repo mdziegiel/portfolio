@@ -6,20 +6,87 @@
   <title>Enterprise Infrastructure Management — Michael Dziegiel</title>
   <meta name="description" content="End-to-end ownership of a hybrid enterprise environment — pfSense, UniFi, Hyper-V, Microsoft 365, Entra ID, Intune, and full-stack network administration." />
   <link rel="icon" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    :root {
+      --bg-primary: #141519;
+      --surface-primary: rgba(24, 25, 30, 0.72);
+      --surface-secondary: rgba(20, 21, 25, 0.92);
+      --text-body: #e8e6e1;
+      --text-title: #ece8e0;
+      --text-muted: #9a9a95;
+      --font-heading: 'Lora', 'Fraunces', Georgia, serif;
+      --accent-teal: #10b981;
+      --radius-card: 10px;
+    }
+
     html { scroll-behavior: smooth; }
     [id] { scroll-margin-top: 84px; }
-    .glow:hover {
-      box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35);
+
+    body {
+      background-color: var(--bg-primary) !important;
+      color: var(--text-body) !important;
     }
+
+    h1, h2, h3,
+    .card-title {
+      font-family: var(--font-heading) !important;
+      color: var(--text-title) !important;
+    }
+
+    .card-body,
+    .card p,
+    .card li {
+      color: var(--text-muted) !important;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(154, 154, 149, 0.2) !important;
+      border-radius: var(--radius-card) !important;
+      background: var(--surface-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .tech-pill {
+      background: transparent !important;
+      border: 1px solid rgba(154, 154, 149, 0.3) !important;
+      color: var(--text-muted) !important;
+    }
+
+    .tech-pill.tech-pill-accent {
+      border-color: rgba(16, 185, 129, 0.35) !important;
+      color: var(--accent-teal) !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    .glow:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
+    }
+
+    .section-card {
+      border-radius: var(--radius-card) !important;
+    }
+
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#141519]">
     <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
       <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
       <a href="/#projects" class="text-sm text-slate-400 hover:text-emerald-400">← Back to Projects</a>
@@ -31,20 +98,20 @@
     <!-- Title -->
     <div class="mb-10">
       <div class="flex flex-wrap gap-2 mb-4">
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Case Study</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">pfSense</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">UniFi</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Hyper-V</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Microsoft 365</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Entra ID</span>
-        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Intune</span>
+        <span class="tech-pill tech-pill-accent text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Case Study</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">pfSense</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">UniFi</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Hyper-V</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Microsoft 365</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Entra ID</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Intune</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">Enterprise Infrastructure Management</h1>
       <p class="mt-3 text-lg text-slate-400">End-to-end ownership and administration of a full hybrid enterprise environment — covering network infrastructure, server virtualization, cloud identity, endpoint management, and Microsoft 365 services.</p>
     </div>
 
     <!-- Overview -->
-    <section class="mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+    <section class="card mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
       <h2 class="text-lg font-semibold text-slate-100 mb-3">Overview</h2>
       <p class="text-sm text-slate-300 leading-relaxed">
         As Senior Network Administrator at a previous employer, I held end-to-end ownership of the entire IT infrastructure — from the physical network layer through to cloud identity and endpoint management. The environment was built on a pfSense firewall and UniFi switching/wireless stack, with a Microsoft-centric cloud platform including Entra ID, Intune, Exchange Online, and Microsoft 365, supported by on-premises Hyper-V and Ubuntu Server infrastructure.
@@ -61,8 +128,8 @@
       <div class="grid sm:grid-cols-2 gap-6">
 
         <!-- Network -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 mb-3">Network Infrastructure</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 mb-3">Network Infrastructure</h3>
           <ul class="space-y-2 text-sm text-slate-400">
             <li class="flex gap-2"><span class="text-emerald-400">→</span>pfSense firewall management — rules, NAT, VPN (site-to-site and remote access), IDS/IPS</li>
             <li class="flex gap-2"><span class="text-emerald-400">→</span>UniFi switching and wireless — VLAN configuration, inter-VLAN routing, access point management</li>
@@ -73,8 +140,8 @@
         </div>
 
         <!-- Servers -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 mb-3">Server & Virtualization</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 mb-3">Server & Virtualization</h3>
           <ul class="space-y-2 text-sm text-slate-400">
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Hyper-V virtual machine deployment, configuration, and lifecycle management</li>
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Ubuntu Server administration — services, updates, security hardening</li>
@@ -84,8 +151,8 @@
         </div>
 
         <!-- Identity -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 mb-3">Identity & Access Management</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 mb-3">Identity & Access Management</h3>
           <ul class="space-y-2 text-sm text-slate-400">
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Active Directory and Entra ID (Azure AD) administration in a hybrid identity environment</li>
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Conditional Access policies enforcing MFA, compliant device, and location-based controls</li>
@@ -96,8 +163,8 @@
         </div>
 
         <!-- Endpoint -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 mb-3">Endpoint & Device Management</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 mb-3">Endpoint & Device Management</h3>
           <ul class="space-y-2 text-sm text-slate-400">
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Intune MDM/MAM for Windows, iOS, and Android device management</li>
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Windows Autopilot zero-touch provisioning for new device deployment</li>
@@ -108,8 +175,8 @@
         </div>
 
         <!-- M365 -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 mb-3">Microsoft 365 Services</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 mb-3">Microsoft 365 Services</h3>
           <ul class="space-y-2 text-sm text-slate-400">
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Exchange Online administration — mailboxes, distribution groups, mail flow rules</li>
             <li class="flex gap-2"><span class="text-emerald-400">→</span>SharePoint Online management — site collections, permissions, and content migration</li>
@@ -120,8 +187,8 @@
         </div>
 
         <!-- Automation -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100 mb-3">Automation & Scripting</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100 mb-3">Automation & Scripting</h3>
           <ul class="space-y-2 text-sm text-slate-400">
             <li class="flex gap-2"><span class="text-emerald-400">→</span>PowerShell automation for user provisioning, reporting, and compliance enforcement</li>
             <li class="flex gap-2"><span class="text-emerald-400">→</span>Microsoft Graph API integration for cross-platform device and user reporting</li>
@@ -134,7 +201,7 @@
     </section>
 
     <!-- Stack -->
-    <section class="mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+    <section class="card mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
       <h2 class="text-lg font-semibold text-slate-100 mb-4">Technology Stack</h2>
       <div class="flex flex-wrap gap-2">
         <span class="text-xs px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300">pfSense</span>

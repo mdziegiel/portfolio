@@ -6,23 +6,88 @@
   <title>Michael Dziegiel — Portfolio</title>
   <meta name="description" content="Senior Network Administrator — hybrid infrastructure, automation, security, and cloud." />
   <link rel="icon" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+    :root {
+      --bg-primary: #141519;
+      --surface-primary: rgba(24, 25, 30, 0.72);
+      --surface-secondary: rgba(20, 21, 25, 0.92);
+      --text-body: #e8e6e1;
+      --text-title: #ece8e0;
+      --text-muted: #9a9a95;
+      --font-heading: 'Lora', 'Fraunces', Georgia, serif;
+      --accent-teal: #10b981;
+      --radius-card: 10px;
+    }
+
     html { scroll-behavior: smooth; }
     [id] { scroll-margin-top: 84px; }
-    .card { display: flex; flex-direction: column; justify-content: space-between; }
-    .card:hover { transform: translateY(-2px); }
-    .glow:hover {
-      box-shadow: 0 0 0 2px rgba(16,185,129,0.45), 0 8px 30px rgba(0,0,0,0.35);
+
+    body {
+      background-color: var(--bg-primary) !important;
+      color: var(--text-body) !important;
     }
+
+    h1, h2, h3,
+    .card-title {
+      font-family: var(--font-heading) !important;
+      color: var(--text-title) !important;
+    }
+
+    .card-body,
+    .card p,
+    .card li {
+      color: var(--text-muted) !important;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(154, 154, 149, 0.2) !important;
+      border-radius: var(--radius-card) !important;
+      background: var(--surface-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .tech-pill {
+      background: transparent !important;
+      border: 1px solid rgba(154, 154, 149, 0.3) !important;
+      color: var(--text-muted) !important;
+    }
+
+    .tech-pill.tech-pill-accent {
+      border-color: rgba(16, 185, 129, 0.35) !important;
+      color: var(--accent-teal) !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    .glow:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
+    }
+
+    .section-card {
+      border-radius: var(--radius-card) !important;
+    }
+
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
   </style>
 </head>
 
 <body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#141519]">
     <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
       <a href="#home" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
       <nav class="hidden sm:flex gap-6 text-sm text-slate-300">
@@ -87,9 +152,9 @@
       <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
 
         <!-- AD & M365 Onboarding Automation -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">AD & M365 Onboarding Automation</h3>
+            <h3 class="card-title font-semibold text-slate-100">AD & M365 Onboarding Automation</h3>
             <p class="mt-2 text-sm text-slate-400">WPF-based PowerShell GUI automating AD and Microsoft 365 user onboarding — account creation, license assignment, and manager mapping.</p>
           </div>
           <div class="mt-4 text-sm">
@@ -98,9 +163,9 @@
         </article>
 
         <!-- SCCM to Intune -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">SCCM to Intune & Autopilot Migration</h3>
+            <h3 class="card-title font-semibold text-slate-100">SCCM to Intune & Autopilot Migration</h3>
             <p class="mt-2 text-sm text-slate-400">Enterprise migration from SCCM to Intune with Autopilot provisioning, Entra ID modernization, and zero-touch deployment.</p>
           </div>
           <div class="mt-4 text-sm">
@@ -109,9 +174,9 @@
         </article>
 
         <!-- ConnectWise -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">ConnectWise RMM & Helpdesk Buildout</h3>
+            <h3 class="card-title font-semibold text-slate-100">ConnectWise RMM & Helpdesk Buildout</h3>
             <p class="mt-2 text-sm text-slate-400">End-to-end RMM and helpdesk implementation — PSA, patch management, endpoint management, Auvik network monitoring, ScreenConnect, and BrightGauge dashboards.</p>
           </div>
           <div class="mt-4 text-sm">
@@ -120,9 +185,9 @@
         </article>
 
         <!-- Enterprise Infrastructure -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">Enterprise Infrastructure Management</h3>
+            <h3 class="card-title font-semibold text-slate-100">Enterprise Infrastructure Management</h3>
             <p class="mt-2 text-sm text-slate-400">End-to-end ownership of a hybrid enterprise environment — pfSense, UniFi, Hyper-V, Ubuntu servers, Microsoft 365, Exchange Online, Entra ID, Intune, VLANs, VPN, and DNS/DHCP across the full stack.</p>
           </div>
           <div class="mt-4 text-sm">
@@ -137,9 +202,9 @@
       <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
 
         <!-- NOC Dashboard -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">NOC Dashboard</h3>
+            <h3 class="card-title font-semibold text-slate-100">NOC Dashboard</h3>
             <p class="mt-2 text-sm text-slate-400">Self-hosted Network Operations Center dashboard with real-time visibility into Proxmox VMs, Docker containers, UPS status, backup coverage, security posture, and certificate expiry. Multi-user auth, TOTP 2FA, FastAPI + React.</p>
           </div>
           <div class="mt-4 text-sm">
@@ -148,14 +213,14 @@
         </article>
 
         <!-- SIEM + CrowdSec Detection -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">SIEM + CrowdSec Detection</h3>
+            <h3 class="card-title font-semibold text-slate-100">SIEM + CrowdSec Detection</h3>
             <p class="mt-2 text-sm text-slate-400">Wazuh SIEM custom detection rules and CrowdSec bouncer configs across a multi-host homelab, with OpenCanary honeypot integration.</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Wazuh</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">CrowdSec</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Security</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Wazuh</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">CrowdSec</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Security</span>
             </div>
           </div>
           <div class="mt-4 text-sm">
@@ -164,14 +229,14 @@
         </article>
 
         <!-- Prometheus + Grafana Alerting (n8n) -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">Prometheus + Grafana Alerting (n8n)</h3>
+            <h3 class="card-title font-semibold text-slate-100">Prometheus + Grafana Alerting (n8n)</h3>
             <p class="mt-2 text-sm text-slate-400">Self-hosted homelab observability — Prometheus + Grafana + node_exporter + cAdvisor across multiple Docker hosts, with alerting via n8n polling the Prometheus API into Telegram (no Alertmanager required).</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Prometheus</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Grafana</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">n8n</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Prometheus</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Grafana</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">n8n</span>
             </div>
           </div>
           <div class="mt-4 text-sm">
@@ -180,9 +245,9 @@
         </article>
 
         <!-- UniFi -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">UniFi VLAN Segmentation &amp; Firewalls</h3>
+            <h3 class="card-title font-semibold text-slate-100">UniFi VLAN Segmentation &amp; Firewalls</h3>
             <p class="mt-2 text-sm text-slate-400">Zone-based rules, IoT isolation, DNS control, and hardened routing.</p>
           </div>
           <div class="mt-4 text-sm">
@@ -197,15 +262,15 @@
       <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
 
         <!-- Vault RAG Pipeline -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">Vault RAG Pipeline</h3>
+            <h3 class="card-title font-semibold text-slate-100">Vault RAG Pipeline</h3>
             <p class="mt-2 text-sm text-slate-400">Self-hosted RAG pipeline for an AI homelab agent — semantic search over an Obsidian vault with automated secrets/IP redaction before embedding, Qdrant + Ollama (nomic-embed-text) + gitleaks.</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Qdrant</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Ollama</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">RAG</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Python</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Qdrant</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Ollama</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">RAG</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Python</span>
             </div>
           </div>
           <div class="mt-4 text-sm">
@@ -214,15 +279,15 @@
         </article>
 
         <!-- Multi-Server MCP Gateway -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">Multi-Server MCP Gateway</h3>
+            <h3 class="card-title font-semibold text-slate-100">Multi-Server MCP Gateway</h3>
             <p class="mt-2 text-sm text-slate-400">Hardened, read-only MCP gateway exposing Portainer, GitHub, Filesystem, Proxmox, PBS, and Vault RAG visibility to an AI agent — loopback-only, SSH-tunneled, zero client-side credentials.</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">MCP</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Docker</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Security</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Python</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">MCP</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Docker</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Security</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Python</span>
             </div>
           </div>
           <div class="mt-4 text-sm">
@@ -231,14 +296,14 @@
         </article>
 
         <!-- n8n Self-Healing Infrastructure -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">n8n Self-Healing Infrastructure</h3>
+            <h3 class="card-title font-semibold text-slate-100">n8n Self-Healing Infrastructure</h3>
             <p class="mt-2 text-sm text-slate-400">Automated VM/container recovery, backup-failure alerting, and SIEM event routing to Telegram.</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">n8n</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Proxmox</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">CrowdSec</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">n8n</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Proxmox</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">CrowdSec</span>
             </div>
           </div>
           <div class="mt-4 text-sm">
@@ -247,13 +312,13 @@
         </article>
 
         <!-- Obsidian Vault Setup -->
-        <article class="card glow rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div>
-            <h3 class="font-semibold text-slate-100">Obsidian Vault Setup</h3>
+            <h3 class="card-title font-semibold text-slate-100">Obsidian Vault Setup</h3>
             <p class="mt-2 text-sm text-slate-400">Personal knowledge base built on Obsidian, structured as long-term memory for a self-hosted AI agent — RAG-indexed, auto-logged, secrets-redacted before embedding.</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Obsidian</span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Knowledge Base</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Obsidian</span>
+              <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Knowledge Base</span>
             </div>
           </div>
           <div class="mt-4 text-sm">
@@ -271,8 +336,8 @@
       <div class="mt-6 grid md:grid-cols-2 gap-6">
 
         <!-- Jeanne D'Arc Credit Union -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Systems Administrator — Jeanne D'Arc Credit Union</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100">Systems Administrator — Jeanne D'Arc Credit Union</h3>
           <p class="text-xs text-slate-500">July 2026 – Present</p>
           <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Administer hybrid enterprise infrastructure spanning on-premises and cloud environments, ensuring high availability, security, and performance across critical business systems.</li>
@@ -287,8 +352,8 @@
         </div>
 
         <!-- Hans Kissle -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Senior Network Administrator — Hans Kissle</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100">Senior Network Administrator — Hans Kissle</h3>
           <p class="text-xs text-slate-500">Feb 2025 – Apr 2026 · Haverhill, MA</p>
           <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Own end-to-end hybrid infrastructure — pfSense firewalls, UniFi switching/wireless, Hyper-V, Ubuntu Server, and full Microsoft 365 stack.</li>
@@ -303,8 +368,8 @@
         </div>
 
         <!-- Skyterra -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Systems Analyst — Skyterra</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100">Systems Analyst — Skyterra</h3>
           <p class="text-xs text-slate-500">Sep 2021 – Feb 2025 · Nashua, NH</p>
           <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Managed Intune, Azure, MFA, and Autopilot provisioning.</li>
@@ -319,8 +384,8 @@
         </div>
 
         <!-- GID -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 class="font-semibold text-slate-100">Network Technician — GID</h3>
+        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h3 class="card-title font-semibold text-slate-100">Network Technician — GID</h3>
           <p class="text-xs text-slate-500">Apr 2011 – Aug 2021 · Boston, MA</p>
           <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Supported Cisco/Meraki networks for VPN, Wi-Fi, and VoIP.</li>
@@ -343,18 +408,18 @@
 
       <div class="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
 
-        <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-          <h4 class="font-semibold text-slate-100">Platforms</h4>
+        <div class="card rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <h4 class="card-title font-semibold text-slate-100">Platforms</h4>
           <p class="mt-2 text-slate-400">Windows Server, Azure, Entra ID, Intune, Autopilot, Exchange Online, SharePoint, Teams, VMware, Hyper-V, Proxmox, pfSense, UniFi, Linux</p>
         </div>
 
-        <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-          <h4 class="font-semibold text-slate-100">Networking & Security</h4>
+        <div class="card rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <h4 class="card-title font-semibold text-slate-100">Networking & Security</h4>
           <p class="mt-2 text-slate-400">Routing, Switching, VPN, VLANs, DNS/DHCP, MFA, Conditional Access, IDS/IPS, Firewall/WAF Management, Network Segmentation, Wireless</p>
         </div>
 
-        <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-          <h4 class="font-semibold text-slate-100">Tools & Tech</h4>
+        <div class="card rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <h4 class="card-title font-semibold text-slate-100">Tools & Tech</h4>
           <p class="mt-2 text-slate-400">Sophos, Proofpoint, ConnectWise RMM, ConnectWise Manage, Auvik, ScreenConnect, Cisco Umbrella, Veeam, PowerShell, Microsoft Graph API, Power Automate, Git, Docker, KnowBe4</p>
         </div>
 
@@ -363,7 +428,7 @@
 
     <!-- Contact -->
     <section id="contact" class="py-12">
-      <div class="rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-6">
+      <div class="card rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-6">
         <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-100">Get in touch</h2>
         <p class="mt-2 text-slate-400">Best reached via email.</p>
 
