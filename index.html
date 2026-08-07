@@ -130,6 +130,19 @@
       color: var(--accent-teal) !important;
     }
 
+    .card-link {
+      border-bottom: 1px solid rgba(16, 185, 129, 0.45);
+      padding-bottom: 2px;
+      text-decoration: none !important;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .card-link:hover {
+      border-bottom-color: var(--accent-teal);
+      color: color-mix(in srgb, var(--accent-teal) 82%, white) !important;
+      text-decoration: none !important;
+    }
+
     .primary-action {
       background: color-mix(in srgb, var(--accent-teal) 10%, transparent) !important;
       border-color: color-mix(in srgb, var(--accent-teal) 30%, transparent) !important;
@@ -218,7 +231,7 @@
             <p class="mt-2 text-sm text-slate-400">WPF-based PowerShell GUI automating AD and Microsoft 365 user onboarding — account creation, license assignment, and manager mapping.</p>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/powershell-scripts/blob/main/User-Provisioning/NewUserProvisioningGUI.ps1" target="_blank">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/powershell-scripts/blob/main/User-Provisioning/NewUserProvisioningGUI.ps1" target="_blank">GitHub</a>
           </div>
         </article>
 
@@ -229,7 +242,7 @@
             <p class="mt-2 text-sm text-slate-400">Enterprise migration from SCCM to Intune with Autopilot provisioning, Entra ID modernization, and zero-touch deployment.</p>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="/projects/sccm-intune-migration.html">Guide</a>
+            <a class="accent-link card-link" href="/projects/sccm-intune-migration.html">Guide</a>
           </div>
         </article>
 
@@ -240,7 +253,7 @@
             <p class="mt-2 text-sm text-slate-400">End-to-end RMM and helpdesk implementation — PSA, patch management, endpoint management, Auvik network monitoring, ScreenConnect, and BrightGauge dashboards.</p>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="/projects/connectwise-rmm-helpdesk.html">Case Study</a>
+            <a class="accent-link card-link" href="/projects/connectwise-rmm-helpdesk.html">Case Study</a>
           </div>
         </article>
 
@@ -251,7 +264,7 @@
             <p class="mt-2 text-sm text-slate-400">End-to-end ownership of a hybrid enterprise environment — pfSense, UniFi, Hyper-V, Ubuntu servers, Microsoft 365, Exchange Online, Entra ID, Intune, VLANs, VPN, and DNS/DHCP across the full stack.</p>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="/projects/enterprise-infrastructure.html">Case Study</a>
+            <a class="accent-link card-link" href="/projects/enterprise-infrastructure.html">Case Study</a>
           </div>
         </article>
 
@@ -268,7 +281,7 @@
             <p class="mt-2 text-sm text-slate-400">Self-hosted Network Operations Center dashboard with real-time visibility into Proxmox VMs, Docker containers, UPS status, backup coverage, security posture, and certificate expiry. Multi-user auth, TOTP 2FA, FastAPI + React.</p>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/noc-dashboard" target="_blank" rel="noopener">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/noc-dashboard" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -284,7 +297,7 @@
             </div>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/siem-crowdsec-detection" target="_blank" rel="noopener">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/siem-crowdsec-detection" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -300,7 +313,7 @@
             </div>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/prometheus-n8n-alerting" target="_blank" rel="noopener">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/prometheus-n8n-alerting" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -311,7 +324,7 @@
             <p class="mt-2 text-sm text-slate-400">Zone-based rules, IoT isolation, DNS control, and hardened routing.</p>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="/projects/unifi-vlan-firewalls.html">Guide</a>
+            <a class="accent-link card-link" href="/projects/unifi-vlan-firewalls.html">Guide</a>
           </div>
         </article>
 
@@ -334,7 +347,7 @@
             </div>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/vault-rag-pipeline" target="_blank" rel="noopener">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/vault-rag-pipeline" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -351,7 +364,7 @@
             </div>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/mrdtech-mcp-gateway" target="_blank" rel="noopener">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/mrdtech-mcp-gateway" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -367,7 +380,7 @@
             </div>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/n8n-self-healing-infra" target="_blank" rel="noopener">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/n8n-self-healing-infra" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -382,7 +395,7 @@
             </div>
           </div>
           <div class="mt-4 text-sm">
-            <a class="accent-link hover:underline" href="https://github.com/mdziegiel/obsidian-vault-setup" target="_blank" rel="noopener">GitHub</a>
+            <a class="accent-link card-link" href="https://github.com/mdziegiel/obsidian-vault-setup" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
