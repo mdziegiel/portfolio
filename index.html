@@ -187,6 +187,16 @@
       border-radius: var(--radius-card) !important;
     }
 
+    #experience .experience-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #experience .experience-meta > ul {
+      margin-top: 0 !important;
+    }
+
     @media (max-width: 767px) {
       .hero-portrait-wrap {
         margin-top: 0.5rem;
@@ -468,8 +478,9 @@
         <!-- Jeanne D'Arc Credit Union -->
         <div class="card border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100">Systems Administrator — Jeanne D'Arc Credit Union</h3>
-          <p class="text-xs text-slate-500">July 2026 – Present</p>
-          <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
+          <div class="experience-meta">
+            <p class="text-xs text-slate-500">July 2026 – Present</p>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Administer hybrid enterprise infrastructure spanning on-premises and cloud environments, ensuring high availability, security, and performance across critical business systems.</li>
             <li>Manage Windows Server and Linux environments, including Active Directory and Group Policy administration for enterprise-wide identity and access control.</li>
             <li>Administer VMware virtualization infrastructure supporting core business applications and services.</li>
@@ -478,14 +489,16 @@
             <li>Lead infrastructure projects, system upgrades, and business continuity initiatives, maintaining detailed technical documentation throughout.</li>
             <li>Automate administrative tasks using PowerShell to streamline operations and reduce manual overhead.</li>
             <li>Provide Tier 3 support for critical systems and collaborate with vendors and cross-functional teams, participating in an on-call rotation.</li>
-          </ul>
+            </ul>
+          </div>
         </div>
 
         <!-- Hans Kissle -->
         <div class="card border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100">Senior Network Administrator — Hans Kissle</h3>
-          <p class="text-xs text-slate-500">Feb 2025 – Apr 2026 · Haverhill, MA</p>
-          <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
+          <div class="experience-meta">
+            <p class="text-xs text-slate-500">Feb 2025 – Apr 2026 · Haverhill, MA</p>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Own end-to-end hybrid infrastructure — pfSense firewalls, UniFi switching/wireless, Hyper-V, Ubuntu Server, and full Microsoft 365 stack.</li>
             <li>Migrated endpoint management from SCCM to Intune with zero-touch Autopilot provisioning and Entra ID-only device identity.</li>
             <li>Administered Entra ID, Conditional Access, MFA, and AD Connect sync across a hybrid identity environment.</li>
@@ -494,14 +507,16 @@
             <li>Managed co-managed SCCM/MECM and Intune environment for imaging, application packaging, and policy enforcement.</li>
             <li>Administered Apple Business Manager integration and Autopilot provisioning for Windows 365 Cloud PCs and mobile endpoints.</li>
             <li>Monitored and improved infrastructure performance through proactive troubleshooting, upgrades, and project execution aligned with business goals.</li>
-          </ul>
+            </ul>
+          </div>
         </div>
 
         <!-- Skyterra -->
         <div class="card border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100">Systems Analyst — Skyterra</h3>
-          <p class="text-xs text-slate-500">Sep 2021 – Feb 2025 · Nashua, NH</p>
-          <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
+          <div class="experience-meta">
+            <p class="text-xs text-slate-500">Sep 2021 – Feb 2025 · Nashua, NH</p>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Managed Intune, Azure, MFA, and Autopilot provisioning.</li>
             <li>Delivered AD/GPO administration, packaging, and PowerShell automation.</li>
             <li>Strengthened physical and digital security via conditional access, PIN-based access, and FOB/camera system management.</li>
@@ -510,14 +525,16 @@
             <li>Deployed Microsoft LAPS tenant-wide for credential management and audit improvement.</li>
             <li>Administered Mimecast and Cisco Umbrella for email and DNS-layer threat protection.</li>
             <li>Delivered Tier 2/3 support across Azure, Intune, MFA, Office 365, Teams, SharePoint, and OneDrive.</li>
-          </ul>
+            </ul>
+          </div>
         </div>
 
         <!-- GID -->
         <div class="card border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100">Network Technician — GID</h3>
-          <p class="text-xs text-slate-500">Apr 2011 – Aug 2021 · Boston, MA</p>
-          <ul class="mt-3 list-disc list-inside text-sm text-slate-300 space-y-2">
+          <div class="experience-meta">
+            <p class="text-xs text-slate-500">Apr 2011 – Aug 2021 · Boston, MA</p>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2">
             <li>Supported Cisco/Meraki networks for VPN, Wi-Fi, and VoIP.</li>
             <li>Supported Meraki hardware models across switching, wireless, and security appliance deployments.</li>
             <li>Performed Active Directory administration for users, groups, workstations, permissions, and policy support.</li>
@@ -526,7 +543,8 @@
             <li>Monitored Meraki networks for outages and performance issues.</li>
             <li>Coordinated VeraCrypt encryption and tablet rollout efforts for secure field endpoint deployments.</li>
             <li>Managed IT asset inventory and procurement, tracking hardware lifecycle from acquisition through deployment and retirement across multiple properties.</li>
-          </ul>
+            </ul>
+          </div>
         </div>
 
       </div>
