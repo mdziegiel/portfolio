@@ -162,21 +162,29 @@
       justify-content: center;
     }
 
+    .hero-portrait-frame {
+      width: min(100%, 304px);
+      padding: 10px;
+      border: 4px solid rgba(154, 154, 149, 0.2);
+      border-radius: calc(var(--radius-card) + 2px) !important;
+      background: var(--surface-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .hero-portrait-frame:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-2px);
+    }
+
     .hero-portrait {
-      width: min(100%, 280px);
+      display: block;
+      width: 100%;
       aspect-ratio: 1 / 1;
       object-fit: cover;
       object-position: center 24%;
       border-radius: var(--radius-card) !important;
-      border: 1px solid rgba(154, 154, 149, 0.2);
-      background: var(--surface-primary);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    }
-
-    .hero-portrait:hover {
-      border-color: var(--accent-teal) !important;
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
-      transform: translateY(-2px);
     }
 
     @media (max-width: 767px) {
@@ -184,8 +192,8 @@
         margin-top: 0.5rem;
       }
 
-      .hero-portrait {
-        width: min(100%, 260px);
+      .hero-portrait-frame {
+        width: min(100%, 284px);
       }
     }
   </style>
@@ -247,15 +255,17 @@
         </div>
 
         <div class="hero-portrait-wrap md:justify-end order-last md:order-none">
-          <img
-            src="images/michael-dziegiel-headshot.jpg"
-            alt="Michael Dziegiel"
-            width="320"
-            height="320"
-            decoding="async"
-            fetchpriority="high"
-            class="hero-portrait"
-          />
+          <div class="hero-portrait-frame">
+            <img
+              src="images/michael-dziegiel-headshot.jpg"
+              alt="Michael Dziegiel"
+              width="320"
+              height="320"
+              decoding="async"
+              fetchpriority="high"
+              class="hero-portrait"
+            />
+          </div>
         </div>
       </div>
     </section>
