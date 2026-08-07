@@ -156,6 +156,32 @@
       border-color: var(--accent-teal) !important;
       color: var(--accent-teal) !important;
     }
+
+    .hero-portrait-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-portrait {
+      width: min(100%, 280px);
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center 24%;
+      border-radius: var(--radius-card) !important;
+      border: 1px solid rgba(154, 154, 149, 0.22);
+      background: var(--surface-primary);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.26);
+    }
+
+    @media (max-width: 767px) {
+      .hero-portrait-wrap {
+        margin-top: 0.5rem;
+      }
+
+      .hero-portrait {
+        width: min(100%, 260px);
+      }
+    }
   </style>
 </head>
 
@@ -212,6 +238,18 @@
             <a class="accent-link" href="https://www.linkedin.com/in/mdziegiel" target="_blank">LinkedIn</a>
             <a class="accent-link" href="https://mrdtech.me" target="_blank">mrdtech.me</a>
           </div>
+        </div>
+
+        <div class="hero-portrait-wrap md:justify-end order-last md:order-none">
+          <img
+            src="images/michael-dziegiel-headshot.jpg"
+            alt="Michael Dziegiel"
+            width="320"
+            height="320"
+            decoding="async"
+            fetchpriority="high"
+            class="hero-portrait"
+          />
         </div>
       </div>
     </section>
