@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modern Device Provisioning: Autopilot, Entra ID, and the End of Imaging — Michael Dziegiel</title>
+  <meta name="description" content="A practical, sysadmin-focused guide to Windows Autopilot, Entra ID join, Intune compliance, app deployment, and moving beyond traditional imaging." />
+  <link rel="icon" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-primary: #141519;
+      --surface-primary: rgba(24, 25, 30, 0.72);
+      --surface-secondary: rgba(20, 21, 25, 0.92);
+      --text-body: #e8e6e1;
+      --text-title: #ece8e0;
+      --text-muted: #9a9a95;
+      --font-heading: 'Lora', 'Fraunces', Georgia, serif;
+      --accent-teal: #10b981;
+      --radius-card: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+    [id] { scroll-margin-top: 84px; }
+
+    body {
+      background-color: var(--bg-primary) !important;
+      color: var(--text-body) !important;
+    }
+
+    h1, h2, h3,
+    .card-title {
+      font-family: var(--font-heading) !important;
+      color: var(--text-title) !important;
+    }
+
+    .card-body,
+    .card p,
+    .card li {
+      color: var(--text-muted) !important;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(154, 154, 149, 0.2) !important;
+      border-radius: var(--radius-card) !important;
+      background: var(--surface-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .tech-pill {
+      background: transparent !important;
+      border: 1px solid rgba(154, 154, 149, 0.3) !important;
+      color: var(--text-muted) !important;
+    }
+
+    .tech-pill.tech-pill-accent {
+      border-color: rgba(16, 185, 129, 0.35) !important;
+      color: var(--accent-teal) !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    .glow:hover {
+      border-color: var(--accent-teal) !important;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
+    }
+
+    .section-card {
+      border-radius: var(--radius-card) !important;
+    }
+
+    code { background: rgba(15,23,42,0.6); padding: 3px 6px; border-radius: 6px; }
+
+    .article-body {
+      color: var(--text-body);
+      line-height: 1.8;
+    }
+
+    .article-body h2 {
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .article-body h3 {
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .article-body p {
+      margin-top: 1rem;
+      color: var(--text-body);
+    }
+
+    .article-body ul,
+    .article-body ol {
+      margin-top: 1rem;
+      margin-left: 1.35rem;
+      color: var(--text-muted);
+    }
+
+    .article-body ul { list-style: disc; }
+    .article-body ol { list-style: decimal; }
+
+    .article-body li {
+      margin-top: 0.45rem;
+      padding-left: 0.15rem;
+    }
+
+    .article-body a {
+      color: var(--accent-teal);
+      border-bottom: 1px solid rgba(16,185,129,0.45);
+      text-decoration: none;
+      padding-bottom: 2px;
+    }
+
+    .article-body a:hover {
+      border-bottom-color: var(--accent-teal);
+      color: color-mix(in srgb, var(--accent-teal) 82%, white);
+    }
+
+    .article-body table {
+      width: 100%;
+      margin-top: 1.25rem;
+      margin-bottom: 1.5rem;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(154,154,149,0.22);
+      background: rgba(15, 23, 42, 0.22);
+      font-size: 0.9rem;
+    }
+
+    .article-body th,
+    .article-body td {
+      border: 1px solid rgba(154,154,149,0.18);
+      padding: 0.85rem;
+      vertical-align: top;
+      color: var(--text-muted);
+    }
+
+    .article-body th {
+      color: var(--text-title);
+      background: rgba(16,185,129,0.08);
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .article-body pre {
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      border: 1px solid rgba(154,154,149,0.22);
+      border-radius: var(--radius-card);
+      background: rgba(2, 6, 23, 0.72);
+      padding: 1rem;
+    }
+
+    .article-body pre code {
+      display: block;
+      background: transparent;
+      padding: 0;
+      color: #d1fae5;
+      font-size: 0.86rem;
+      line-height: 1.65;
+      border-radius: 0;
+    }
+
+    .article-body strong { color: var(--text-title); }
+  </style>
+</head>
+
+<body class="bg-[#0b0c0e] text-slate-200 selection:bg-emerald-500/20">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#141519]">
+    <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="/" class="text-slate-100 font-semibold tracking-tight text-lg">mrdtech</a>
+      <a href="/#projects" class="text-sm text-slate-400 hover:text-emerald-400">← Back to Projects</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-5 py-12">
+
+    <!-- Title -->
+    <div class="mb-10">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="tech-pill tech-pill-accent text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Article</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Autopilot</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Intune</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Entra ID</span>
+        <span class="tech-pill text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">PowerShell</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">Modern Device Provisioning: Autopilot, Entra ID, and the End of Imaging</h1>
+      <p class="mt-3 text-lg text-slate-400">A practical, sysadmin-focused walkthrough of moving Windows provisioning from old-school imaging to Autopilot, Entra ID, Intune policy, compliance, and app delivery.</p>
+    </div>
+
+    <!-- Article -->
+    <article class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8">
+      <div class="article-body text-sm sm:text-base">
+<p>I used to tolerate imaging. WDS, MDT, SCCM OSD, task sequences that felt like a hostage negotiation — all of it. It worked, sort of, if your definition of <em>worked</em> includes praying that drivers, domain join, software deployment, and user state all behaved in the exact same five-minute window.</p>
+<p>Modern provisioning is better. Not because Microsoft made it magical. It isn't. It's better because the whole model changes: identity first, policy first, compliance first, then apps and access. That is a much saner way to build a Windows estate.</p>
+<p>If you want the condensed portfolio version, I already have a companion project card here: <a href="/projects/sccm-intune-migration.html">SCCM to Intune &amp; Autopilot Migration</a>. Related repos:</p>
+<ul>
+<li><a href="https://github.com/mdziegiel/zero-trust-homelab">zero-trust-homelab</a></li>
+<li><a href="https://github.com/mdziegiel/powershell-scripts">powershell-scripts</a></li>
+<li><a href="https://github.com/mdziegiel/powershell-scripts/tree/main/User-Provisioning">powershell-scripts / User-Provisioning</a></li>
+</ul>
+<h2 id="1-the-problem-with-imaging">1. The problem with imaging</h2>
+<p>Classic imaging has a few recurring sins:</p>
+<ul>
+<li>You spend time building a “gold image” that is obsolete the minute you finish it.</li>
+<li>Driver injection becomes a special religion.</li>
+<li>OOBE is not really OOBE. It's a pile of scripts pretending to be one.</li>
+<li>The machine is often useful only after someone on the IT side has already touched it three or four times.</li>
+</ul>
+<p>The deeper problem is that imaging is artifact-centered. Autopilot is identity-centered.</p>
+<p>That matters because the real job is not “build a perfect image.” The real job is “make a device trustworthy, compliant, and ready for a user with as little drama as possible.”</p>
+<h2 id="2-prerequisites">2. Prerequisites</h2>
+<p>Before I even think about shipping Autopilot, I want the boring pieces squared away:</p>
+<ul>
+<li>Microsoft Entra ID P1 or equivalent licensing</li>
+<li>Microsoft Intune licensing</li>
+<li>MDM authority set correctly</li>
+<li>Devices registered in Autopilot</li>
+<li>A clean separation between pilot, pre-production, and production device groups</li>
+<li>Conditional Access ready to consume compliance signals</li>
+</ul>
+<p>Microsoft's own Zero Trust guidance is basically the same thesis: require healthy and compliant devices before access is granted. That is the part that actually matters.</p>
+<p>Useful references:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/entra/identity/devices/plan-device-deployment">Plan your Microsoft Entra device deployment</a></li>
+<li><a href="https://learn.microsoft.com/en-us/autopilot/profiles">Windows Autopilot profiles</a></li>
+<li><a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">Use Conditional Access with Microsoft Intune compliance policies</a></li>
+</ul>
+<h2 id="3-autopilot-deployment-profile-setup">3. Autopilot deployment profile setup</h2>
+<p>This is where people usually overcomplicate things.</p>
+<p>I think about Autopilot in three modes:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Best for</th>
+<th>Why I use it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User-driven</td>
+<td>Standard employee laptops and desktops</td>
+<td>User signs in, policy does the rest, and I don't have to babysit the hardware</td>
+</tr>
+<tr>
+<td>Self-deploying</td>
+<td>Kiosks, shared devices, and very controlled scenarios</td>
+<td>No user affinity nonsense; the device provisions itself</td>
+</tr>
+<tr>
+<td>Pre-provisioning / white glove</td>
+<td>When I want IT to stage the device before handoff</td>
+<td>Great for reducing first-login pain and letting me verify apps before the user gets it</td>
+</tr>
+</tbody>
+</table>
+<p>Microsoft documents the same general split, and they're right for once. I also like the fact that pre-provisioning and self-deploying are explicitly profile-driven instead of being some weird side quest.</p>
+<p>If I had to keep this brutally simple: for normal staff devices, I want user-driven. For shared devices, I want self-deploying. For executive machines or anything that needs to be staged cleanly before handoff, I use pre-provisioning.</p>
+<p>Docs:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/autopilot/profiles">Configure Windows Autopilot profiles</a></li>
+<li><a href="https://learn.microsoft.com/en-us/autopilot/self-deploying">Windows Autopilot self-deploying mode</a></li>
+<li><a href="https://learn.microsoft.com/en-us/autopilot/pre-provision">Windows Autopilot for pre-provisioned deployment</a></li>
+</ul>
+<h2 id="4-getting-the-hardware-hash-into-autopilot">4. Getting the hardware hash into Autopilot</h2>
+<p>This part still trips people up because it feels like something that should be automatic and, naturally, isn't.</p>
+<h3 id="manual-collection">Manual collection</h3>
+<p>For a one-off device, I still like the old reliable route:</p>
+<pre><code class="language-powershell">Install-Script -Name Get-WindowsAutopilotInfo
+Get-WindowsAutopilotInfo.ps1 -OutputFile .\AutopilotHWID.csv
+</code></pre>
+<p>Microsoft's guidance is straightforward here: the script gives you the hardware hash and serial number, and the CSV can be imported into Autopilot.</p>
+<h3 id="bulk-import-with-graph">Bulk import with Graph</h3>
+<p>For real deployments, I prefer to stop pretending I'll only ever touch one device at a time. Bulk import is cleaner.</p>
+<pre><code class="language-powershell">Connect-MgGraph -Scopes &quot;DeviceManagementServiceConfig.ReadWrite.All&quot;
+
+$devices = Import-Csv .\AutopilotHWID.csv
+
+foreach ($device in $devices) {
+    New-MgDeviceManagementImportedWindowsAutopilotDeviceIdentity -BodyParameter @{
+        serialNumber      = $device.'Device Serial Number'
+        productKey         = $device.'Windows Product ID'
+        importId           = [guid]::NewGuid().Guid
+        hardwareIdentifier = [Convert]::FromBase64String($device.'Hardware Hash')
+        groupTag           = 'Corp'
+    }
+}
+</code></pre>
+<p>If you want to verify what came in, the Graph cmdlets are there too:</p>
+<pre><code class="language-powershell">Get-MgDeviceManagementWindowsAutopilotDeviceIdentity
+</code></pre>
+<p>Relevant docs:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/autopilot/add-devices">Manually Register Devices with Windows Autopilot</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.devicemanagement.enrollment/import-mgdevicemanagementimportedwindowsautopilotdeviceidentity?view=graph-powershell-1.0">Import-MgDeviceManagementImportedWindowsAutopilotDeviceIdentity</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.devicemanagement.enrollment/get-mgdevicemanagementwindowsautopilotdeviceidentity?view=graph-powershell-1.0">Get-MgDeviceManagementWindowsAutopilotDeviceIdentity</a></li>
+</ul>
+<h2 id="5-entra-id-join-vs-hybrid-join">5. Entra ID join vs hybrid join</h2>
+<p>This is the decision point where a lot of environments get stuck in the past.</p>
+<table>
+<thead>
+<tr>
+<th>Join type</th>
+<th>I use it when</th>
+<th>I avoid it when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entra ID join</td>
+<td>The device can live cloud-native and the app stack doesn't need on-prem Kerberos dependency</td>
+<td>The only reason to choose it is fear of changing the old model</td>
+</tr>
+<tr>
+<td>Hybrid join</td>
+<td>I still have an unavoidable legacy dependency on domain auth, old line-of-business behavior, or a server-side control plane that refuses to die</td>
+<td>I can honestly move away from it without breaking production</td>
+</tr>
+</tbody>
+</table>
+<p>My bias is simple: if I can make the device Entra ID joined and keep access controlled with Intune + Conditional Access, that's the cleaner design.</p>
+<p>Hybrid join still exists because reality is annoying. Some environments have old apps, old auth assumptions, and old vendors who think Kerberos is a personality trait. Fine. Use hybrid when you have to. Just don't pretend it's modern because it has the word <em>cloud</em> somewhere in the documentation.</p>
+<h2 id="6-intune-configuration-profiles-and-compliance">6. Intune configuration profiles and compliance</h2>
+<p>Autopilot without policy is just a nicer way to log into a machine that still isn't managed.</p>
+<p>What I want in place:</p>
+<ul>
+<li>Baseline configuration profiles</li>
+<li>BitLocker enforcement</li>
+<li>Defender or endpoint protection settings</li>
+<li>LAPS for local admin recovery</li>
+<li>Wi-Fi / VPN profiles where needed</li>
+<li>Compliance policies that map to actual access decisions</li>
+</ul>
+<p>The key idea is this: compliance should not be decorative. It should drive Conditional Access.</p>
+<p>If a device is compliant, it gets access. If it isn't, it doesn't. That is the whole point of Zero Trust. Not vibes. Not checkboxes. Access.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/security/zero-trust/manage-devices-with-intune-compliance-policies">Step 3. Set up compliance policies for devices with Intune</a></li>
+<li><a href="https://learn.microsoft.com/en-us/security/zero-trust/manage-devices-with-intune-require-compliance">Step 4. Require healthy and compliant devices with Intune</a></li>
+<li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/zero-trust-deployment">Zero Trust deployment approach with Microsoft Intune</a></li>
+</ul>
+<h2 id="7-app-deployment">7. App deployment</h2>
+<p>This is where a lot of teams still carry dead habits around like an old tool belt.</p>
+<p>If the app is a Windows app and it matters, I package it as Win32. That is the sane route now. Microsoft has made it pretty clear that Win32 is the path forward, and the old Microsoft Store for Business world is dead enough that we can stop talking about it like it's coming back.</p>
+<p>What I usually do:</p>
+<ul>
+<li>Package the app with <code>IntuneWinAppUtil.exe</code></li>
+<li>Define proper install and uninstall commands</li>
+<li>Use detection rules that actually prove the app is there</li>
+<li>Mark the app Required when it's critical to the user's first day</li>
+<li>Use Company Portal for optional user-driven installs</li>
+</ul>
+<p>Example packaging command:</p>
+<pre><code class="language-powershell">.\IntuneWinAppUtil.exe -c .\Source -s Install.ps1 -o .\Output -q
+</code></pre>
+<p>The important part is not the tool. The important part is the discipline:</p>
+<ul>
+<li>silent install support</li>
+<li>reliable detection</li>
+<li>dependency ordering</li>
+<li>no dumb GUI prompts during provisioning</li>
+</ul>
+<p>Relevant docs:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/win32">Win32 App Management in Microsoft Intune</a></li>
+<li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/add-win32">Add and Assign Win32 Apps to Microsoft Intune</a></li>
+<li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/create-win32-package">Prepare a Win32 App to Be Uploaded to Microsoft Intune</a></li>
+</ul>
+<h2 id="8-oobe-walkthrough">8. OOBE walkthrough</h2>
+<p>Here's the part the end user actually sees.</p>
+<p>On a good day:</p>
+<ol>
+<li>They unbox the device.</li>
+<li>They connect to Wi-Fi or Ethernet.</li>
+<li>They sign in once with their Entra ID account.</li>
+<li>Autopilot recognizes the device and assigns the right profile.</li>
+<li>ESP holds the desktop until the required policies and apps are in place.</li>
+<li>The machine lands on the desktop already branded, compliant, and mostly boring.</li>
+</ol>
+<p>That last word is the goal. Boring is good. Boring means I don't have to get involved.</p>
+<p>I don't have a trustworthy fleet timing benchmark from your environment, so I am not inventing one here.</p>
+<p>[NEEDS INPUT: your usual first-login timing from a pilot Autopilot device, if you want a real-world number in this section]</p>
+<h2 id="9-lessons-learned-and-gotchas">9. Lessons learned and gotchas</h2>
+<p>This is where the fantasy meets the floor.</p>
+<h3 id="sync-is-not-instant">Sync is not instant</h3>
+<p>In my user provisioning work, I literally wait for sync and poll Graph because identity systems are rarely immediate. The GUI provisioning script waits <strong>300 seconds</strong> for AD Connect sync and then polls Entra ID repeatedly until the user shows up.</p>
+<p>That is not a random implementation detail. That is reality.</p>
+<p>Relevant source: <a href="https://github.com/mdziegiel/powershell-scripts/blob/main/User-Provisioning/NewUserProvisioningGUI.ps1">New User Provisioning GUI</a></p>
+<h3 id="entra-only-changes-the-auth-game">Entra-only changes the auth game</h3>
+<p>I also have a real example of the opposite problem: a pure Entra-joined device does <strong>not</strong> magically satisfy old Windows Integrated Authentication assumptions.</p>
+<p>From the NiceLabel 2019 troubleshooting notes:</p>
+<ul>
+<li>Entra-only devices have no domain machine trust</li>
+<li>the browser can work while the client auth flow still fails</li>
+<li><code>whoami /groups</code> returned nothing useful because there was no domain security context</li>
+</ul>
+<p>That is the kind of thing that gets ignored until someone says, “but it works on my machine,” which is usually code for “my machine has the old join type.”</p>
+<h3 id="what-i-do-not-have-a-clean-source-for-here">What I do <em>not</em> have a clean source for here</h3>
+<p>I don't have a vault-captured Autopilot ESP timeout, VPN profile push timing failure, or driver-delivery postmortem that I trust enough to quote as fact.</p>
+<p>[NEEDS INPUT: one real ESP timeout or driver-delivery incident from your Autopilot rollout, if you want a concrete war story here]</p>
+<h2 id="10-closing">10. Closing</h2>
+<p>Autopilot is not just a better way to install Windows. It's a better way to think about Windows.</p>
+<p>Once you stop centering the image and start centering the identity, the rest of the stack makes more sense:</p>
+<ul>
+<li>Entra ID owns the identity</li>
+<li>Intune owns the policy</li>
+<li>Conditional Access owns the gate</li>
+<li>Win32 packaging owns the ugly legacy apps</li>
+<li>Autopilot owns the first impression</li>
+</ul>
+<p>And if the estate is still stuck on imaging because someone is emotionally attached to SCCM task sequences, I get it. I've been there. It was useful. It also belongs in the museum.</p>
+<p>The next thing I'm watching is <a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/faq">Autopilot device preparation</a>. That feels like the direction this whole mess is heading, which is probably for the best.</p>
+<p>If you want the shorter portfolio version of this story, start here:</p>
+<ul>
+<li><a href="/projects/sccm-intune-migration.html">SCCM to Intune &amp; Autopilot Migration</a></li>
+</ul>
+<p>And if you want the infrastructure philosophy behind the rest of my lab, this is the one that matters:</p>
+<ul>
+<li><a href="https://github.com/mdziegiel/zero-trust-homelab">zero-trust-homelab</a></li>
+</ul>
+      </div>
+    </article>
+
+    <!-- Back -->
+    <div class="mt-8">
+      <a href="/#projects" class="glow inline-flex items-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-800">
+        ← Back to Projects
+      </a>
+    </div>
+
+  </main>
+
+  <footer class="py-10 text-center text-xs text-slate-500">
+    © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
