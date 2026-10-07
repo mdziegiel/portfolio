@@ -165,7 +165,7 @@
         <li>Zero Trust → <strong>Access</strong> → <strong>Applications</strong></li>
         <li>Select <strong>Add Application</strong></li>
         <li>Choose <strong>Self-Hosted</strong></li>
-        <li>Enter new hostname (e.g., <code>immich.mrdtech.me</code>)</li>
+        <li>Enter new hostname (e.g., <code>app.example.com</code>)</li>
       </ol>
 
       <p class="mt-4 text-slate-400 text-sm">
@@ -205,14 +205,14 @@
 <pre><code>tunnel: YOUR_TUNNEL_ID
 
 ingress:
-  - hostname: immich.mrdtech.me
-    service: http://10.10.50.228:2283
+  - hostname: app.example.com
+    service: http://10.0.50.20:8080
 
-  - hostname: adguard.mrdtech.me
-    service: http://10.10.10.21:3000
+  - hostname: dns.example.com
+    service: http://10.0.10.21:3000
 
-  - hostname: rustdesk.mrdtech.me
-    service: http://10.10.10.33:21117
+  - hostname: remote.example.com
+    service: http://10.0.10.30:21117
 
   - service: http_status:404
 </code></pre>

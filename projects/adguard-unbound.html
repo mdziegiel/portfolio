@@ -224,7 +224,7 @@ remote-control:
 
       <p class="mt-3">In AdGuard Home → <strong>Settings → DNS settings → Upstream DNS servers</strong>:</p>
 
-<pre><code>http://10.10.10.34:53</code></pre>
+<pre><code>http://10.0.10.53:53</code></pre>
 
       <p class="text-slate-400 text-sm mt-3">
         Ensure this is the ONLY upstream server. Remove Google, Cloudflare, Quad9, etc.
@@ -244,10 +244,10 @@ Disable IPv6 (unless fully deployed): Recommended
 
       <p class="mt-2 text-slate-300">In AdGuard Home → DNS rewrites:</p>
 
-<pre><code>immich.mrdtech.me → 10.10.50.228
-rustdesk.mydomain.com → 10.10.10.230
-adguard.local → 10.10.10.21
-unbound.local → 10.10.10.34
+<pre><code>app.example.com → 10.0.50.20
+remote.example.com → 10.0.10.30
+dns-filter.example.com → 10.0.10.21
+resolver.example.com → 10.0.10.53
 </code></pre>
     </section>
 
@@ -255,9 +255,9 @@ unbound.local → 10.10.10.34
     <section class="mb-12">
       <h2 class="text-2xl font-semibold text-emerald-400">5. Verification</h2>
 
-<pre><code>dig google.com @10.10.10.34
-dig +dnssec cloudflare.com @10.10.10.34
-dig example.com @10.10.10.21
+<pre><code>dig google.com @10.0.10.53
+dig +dnssec cloudflare.com @10.0.10.53
+dig example.com @10.0.10.21
 </code></pre>
 
       <p class="mt-3 text-slate-300">

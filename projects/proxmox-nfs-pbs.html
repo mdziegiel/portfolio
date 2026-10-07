@@ -181,7 +181,7 @@
       <p class="mt-4 font-semibold text-slate-200">Recommended settings:</p>
 
 <pre><code>ID: nfs-storage
-Server: 10.10.10.50
+Server: 10.0.10.50
 Export: /mnt/pool1/proxmox-nfs
 Content: VZDump backup, ISO, Container template
 Nodes: all
@@ -207,7 +207,7 @@ apt install proxmox-backup-server
 
       <p class="mt-4 text-slate-300">Access PBS UI:</p>
 
-<pre><code>https://10.10.10.60:8007</code></pre>
+<pre><code>https://10.0.10.60:8007</code></pre>
     </section>
 
     <!-- SECTION 4 -->
@@ -245,7 +245,7 @@ Retention:
       <p class="mt-4 font-semibold text-slate-200">Config:</p>
 
 <pre><code>ID: pbs
-Server: 10.10.10.60
+Server: 10.0.10.60
 Datastore: pbs-data
 User: root@pam
 Password: (use API token if possible)
