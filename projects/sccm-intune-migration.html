@@ -12,14 +12,14 @@
   <style>
     :root {
       --bg-primary: #141519;
-      --surface-primary: rgba(24, 25, 30, 0.72);
+      --surface-primary: #18191e;
       --surface-secondary: rgba(20, 21, 25, 0.92);
       --text-body: #e8e6e1;
       --text-title: #ece8e0;
       --text-muted: #9a9a95;
       --font-heading: 'Lora', 'Fraunces', Georgia, serif;
       --accent-teal: #10b981;
-      --radius-card: 10px;
+      --radius-card: 8px;
     }
 
     html { scroll-behavior: smooth; }
@@ -119,7 +119,7 @@
     </div>
 
     <!-- Overview -->
-    <section class="card mb-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+    <section class="card mb-10 rounded-2xl border border-slate-800 p-6">
       <h2 class="text-lg font-semibold text-slate-100 mb-3">Overview</h2>
       <p class="text-sm text-slate-300 leading-relaxed">
         At a previous employer, I led the full migration of Windows endpoint management from SCCM co-management to a fully cloud-native stack using Microsoft Intune, Windows Autopilot, and Entra ID (Azure AD). The goal was to eliminate on-premises SCCM dependency, modernize device provisioning to zero-touch Autopilot, and move to Entra ID-only device join — removing the need for hybrid Azure AD join entirely.
@@ -138,7 +138,7 @@
         <!-- Phase 1 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">1</div>
-          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div class="card rounded-2xl border border-slate-800 p-5">
             <h3 class="card-title font-semibold text-slate-100">Entra ID-Only Device Identity</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Moved all new device provisioning to Entra ID join (cloud-only), eliminating the hybrid Azure AD join requirement that SCCM co-management depended on. Configured Autopilot deployment profiles targeting the Entra ID device group, with user-driven provisioning mode and Enrollment Status Page (ESP) to gate desktop delivery until all critical apps were installed.
@@ -149,7 +149,7 @@
         <!-- Phase 2 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">2</div>
-          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div class="card rounded-2xl border border-slate-800 p-5">
             <h3 class="card-title font-semibold text-slate-100">Autopilot Branding Package</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Built a custom Win32 app package based on the AutopilotBranding framework (Michael Niehaus) to apply corporate branding during ESP before the user ever reaches the desktop. The package handled:
@@ -168,7 +168,7 @@
         <!-- Phase 3 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">3</div>
-          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div class="card rounded-2xl border border-slate-800 p-5">
             <h3 class="card-title font-semibold text-slate-100">Win32 App Migration & Packaging</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Migrated all SCCM-deployed applications to Intune Win32 app packages. Each app required custom install/uninstall commands, detection rules, and dependency ordering. Notable challenges included:
@@ -184,7 +184,7 @@
         <!-- Phase 4 -->
         <div class="relative pl-12 step-line">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">4</div>
-          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div class="card rounded-2xl border border-slate-800 p-5">
             <h3 class="card-title font-semibold text-slate-100">Endpoint Security & Compliance</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Rebuilt all endpoint security policies natively in Intune, replacing SCCM baselines with:
@@ -202,7 +202,7 @@
         <!-- Phase 5 -->
         <div class="relative pl-12">
           <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">5</div>
-          <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div class="card rounded-2xl border border-slate-800 p-5">
             <h3 class="card-title font-semibold text-slate-100">Device Coverage Auditing</h3>
             <p class="mt-2 text-sm text-slate-400 leading-relaxed">
               Built a PowerShell-based cross-platform audit tool using Microsoft Graph API and the Sophos API to produce a color-coded Excel workbook showing device coverage across Intune, ConnectWise RMM, and Sophos. This replaced manual reconciliation and provided a single source of truth for identifying gaps — devices in RMM but not enrolled in Intune, missing Sophos, or inactive beyond a defined threshold.
@@ -219,25 +219,25 @@
       <h2 class="text-xl font-bold text-slate-100 mb-4">Key Scripts & Automation</h2>
       <div class="grid sm:grid-cols-2 gap-4">
 
-        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <div class="card rounded-2xl border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100 text-sm">AutopilotBranding Package</h3>
           <p class="mt-2 text-xs text-slate-400">Win32 app package applying wallpaper, lock screen, taskbar, Start Menu, OEM info, and search settings during Autopilot ESP before first login.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · XML · IntuneWinAppUtil</p>
         </div>
 
-        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <div class="card rounded-2xl border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100 text-sm">OCX Registration Package</h3>
           <p class="mt-2 text-xs text-slate-400">Bundled 15 legacy OCX/DLL files with a registration script using 32-bit regsvr32 and PSScriptRoot-relative paths for clean Intune deployment.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · regsvr32 · Win32 App</p>
         </div>
 
-        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <div class="card rounded-2xl border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100 text-sm">Device Coverage Audit</h3>
           <p class="mt-2 text-xs text-slate-400">Cross-references Intune, ConnectWise RMM, and Sophos via Graph API and Sophos API. Outputs color-coded Excel workbook showing coverage gaps and inactive devices.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · Microsoft Graph · Excel</p>
         </div>
 
-        <div class="card rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <div class="card rounded-2xl border border-slate-800 p-5">
           <h3 class="card-title font-semibold text-slate-100 text-sm">Inactive Device Report</h3>
           <p class="mt-2 text-xs text-slate-400">Queries Entra ID and Intune via Graph for devices inactive beyond a configurable threshold based on last sign-in and last sync timestamps.</p>
           <p class="mt-2 text-xs text-emerald-400">PowerShell · Microsoft Graph · Entra ID</p>
