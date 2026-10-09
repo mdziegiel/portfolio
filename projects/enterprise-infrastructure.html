@@ -104,6 +104,17 @@
       transform: translateY(-2px);
     }
 
+    .infrastructure-areas-grid > .card {
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .infrastructure-areas-grid > .card > .card-title,
+    .infrastructure-areas-grid > .card > ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
     .tech-pill {
       background: transparent !important;
       border: 1px solid rgba(154, 154, 149, 0.3) !important;
@@ -173,7 +184,7 @@
     <section class="mb-10">
       <h2 class="text-xl font-bold text-slate-100 mb-6">Infrastructure Areas</h2>
 
-      <div class="grid sm:grid-cols-2 gap-6">
+      <div class="infrastructure-areas-grid grid sm:grid-cols-2 gap-6">
 
         <!-- Network -->
         <div class="card rounded-2xl border border-slate-800 p-5">
