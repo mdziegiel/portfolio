@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Container Inventory Snapshot — 2026-08-18</title>
+  <meta name="description" content="Host-by-host container inventory captured from .237, .230, .231, .232, plus Portainer and PBS notes." />
+  <link rel="icon" href="../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+  :root {
+    --bg-primary: #141519;
+    --surface-primary: rgba(24, 25, 30, 0.72);
+    --surface-secondary: rgba(20, 21, 25, 0.92);
+    --text-body: #e8e6e1;
+    --text-title: #ece8e0;
+    --text-muted: #9a9a95;
+    --font-heading: 'Lora', 'Fraunces', Georgia, serif;
+    --accent-teal: #10b981;
+    --radius-card: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  [id] { scroll-margin-top: 84px; }
+  body { background-color: var(--bg-primary) !important; color: var(--text-body) !important; }
+  h1, h2, h3, .card-title { font-family: var(--font-heading) !important; color: var(--text-title) !important; }
+  .card, .section-card { border: 1px solid rgba(154, 154, 149, 0.2) !important; border-radius: var(--radius-card) !important; background: var(--surface-primary); }
+  .card:hover { border-color: var(--accent-teal) !important; box-shadow: 0 0 12px rgba(16, 185, 129, 0.12); }
+  .muted { color: var(--text-muted) !important; }
+  .accent { color: var(--accent-teal) !important; }
+  code { background: rgba(15,23,42,0.6); padding: 2px 6px; border-radius: 6px; }
+  th, td { border-color: rgba(154, 154, 149, 0.18) !important; }
+</style>
+</head>
+<body class="bg-[#0b0c0e] text-slate-200">
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#141519]">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="../index.html#projects" class="text-slate-100 font-semibold">← Back to Projects</a>
+      <span class="text-slate-500 text-sm">Inventory captured tonight</span>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-5 py-10">
+    <div class="mb-8">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">WikiDocs</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Container Inventory</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">Portainer</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">PBS</span>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">QNAP</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">MRDTech Container Inventory Snapshot</h1>
+      <p class="mt-3 text-lg text-slate-400 max-w-4xl">
+        Host-by-host container inventory captured on 2026-08-18. Source data came from the live .237 Docker host,
+        Portainer-registered QNAP environments, and the PBS host note recorded during discovery.
+      </p>
+    </div>
+
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">Important note</h2>
+      <p class="mt-2 muted">
+        Portainer environment naming does not follow IP order. The QNAP mappings are:
+        <span class="accent">QNAPNAS3 = .230</span>,
+        <span class="accent">QNAPNAS2 = .231</span>,
+        <span class="accent">QNAPNAS1 = .232</span>.
+        That numbering is a trap for anyone expecting humans to be consistent.
+      </p>
+    </section>
+
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">.237 — Primary Docker host</h2>
+      <p class="mt-2 muted">Full container list from tonight's live <code>docker ps -a --format</code> output. The host returned running containers only.</p>
+      <div class="mt-5"><div class="overflow-x-auto">
+<table class="min-w-full text-sm border border-white/10 rounded-xl overflow-hidden">
+<thead class="bg-white/5 text-slate-300">
+<tr><th class="text-left px-3 py-2 border-b border-white/10">Name</th><th class="text-left px-3 py-2 border-b border-white/10">Image</th><th class="text-left px-3 py-2 border-b border-white/10">Status</th><th class="text-left px-3 py-2 border-b border-white/10">Ports</th></tr>
+</thead>
+<tbody>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">syncthing</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">syncthing/syncthing</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 17 minutes (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8384-&gt;8384/tcp, 0.0.0.0:21027-&gt;21027/udp, [::]:8384-&gt;8384/tcp, [::]:21027-&gt;21027/udp, 0.0.0.0:22000-&gt;22000/tcp, [::]:22000-&gt;22000/tcp, 0.0.0.0:22000-&gt;22000/udp, [::]:22000-&gt;22000/udp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">docker-mcp-gateway-portainer-ro</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">docker/mcp-gateway:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">127.0.0.1:8811-&gt;8811/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">mcp-proxmox-readonly</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">mcp/proxmox:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">mcp-pbs-readonly</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">mrdtech/pbs-readonly-mcp:phase1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">mcp-portainer-readonly</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">mrdtech/portainer-readonly-mcp:phase1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">mcp-vault-readonly</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">mrdtech/vault-readonly-mcp:phase1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">mcp-filesystem-readonly</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">mrdtech/filesystem-readonly-mcp:phase1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">mcp-github-readonly</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">ghcr.io/github/github-mcp-server:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">8082/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">nginx-app-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">jc21/nginx-proxy-manager:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 3 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:80-81-&gt;80-81/tcp, [::]:80-81-&gt;80-81/tcp, 0.0.0.0:443-&gt;443/tcp, [::]:443-&gt;443/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">nginx-db-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">jc21/mariadb-aria:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 7 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">3306/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">pbsmap</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">fdrake/proxmox-backup-client:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 8 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">n8n</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">docker.n8n.io/n8nio/n8n</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:5678-&gt;5678/tcp, [::]:5678-&gt;5678/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">noc1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">noc1:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:9969-&gt;8081/tcp, [::]:9969-&gt;8081/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">collab-hub-frontend</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">134-collab-hub-frontend</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8087-&gt;80/tcp, [::]:8087-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">collab-hub-api</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">134-collab-hub-api</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">8080/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">uptime-kuma</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">louislam/uptime-kuma:2</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 2 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:3661-&gt;3001/tcp, [::]:3661-&gt;3001/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">homarr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">bb1909bfb830</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:7675-&gt;7575/tcp, [::]:7675-&gt;7575/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">seerr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">ghcr.io/seerr-team/seerr:v3.3.0</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:59155-&gt;5055/tcp, [::]:59155-&gt;5055/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">monitoring-alloy</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">fa92e0b416b1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">monitoring-loki</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">grafana/loki:3.1.1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">3100/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">monitoring-grafana</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">grafana/grafana-oss:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:3000-&gt;3000/tcp, [::]:3000-&gt;3000/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">monitoring-cadvisor</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">gcr.io/cadvisor/cadvisor:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8086-&gt;8080/tcp, [::]:8086-&gt;8080/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">monitoring-node-exporter</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">prom/node-exporter:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">monitoring-prometheus</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">9c3c26cff425</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:9090-&gt;9090/tcp, [::]:9090-&gt;9090/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">monitoring-unifi-poller</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">golift/unifi-poller:v3.3.4</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">9130/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">wikidocs-wikidocs-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">mrdtech/wikidocs-category:20260728</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:11122-&gt;80/tcp, [::]:11122-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">crowdsec-cloudflare-bouncer</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">mrdtech/cloudflare-bouncer:legacy-rules-api-patched</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">portainer</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">be26dc26896a</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8000-&gt;8000/tcp, [::]:8000-&gt;8000/tcp, 9000/tcp, 0.0.0.0:9005-&gt;9443/tcp, [::]:9005-&gt;9443/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">portainer_agent</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">e4ff0a7073d5</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:9001-&gt;9001/tcp, [::]:9001-&gt;9001/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">wordpress-wordpress-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">24380e4a3c7e</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8181-&gt;80/tcp, [::]:8181-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">tandoor-recipes</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">vabene1111/recipes:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">8080/tcp, 0.0.0.0:10333-&gt;80/tcp, [::]:10333-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">watchtower-watchtower-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">6d5e5255b2d3</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">8080/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">gotify-server-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">gotify/server</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:10143-&gt;80/tcp, [::]:10143-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">wallos</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">2c5c2cc1da33</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">9000/tcp, 0.0.0.0:8982-&gt;80/tcp, [::]:8982-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">adguardhome-sync</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">quay.io/bakito/adguardhome-sync</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8660-&gt;8080/tcp, [::]:8660-&gt;8080/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">seafile</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">seafileltd/seafile-mc:13.0-latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8900-&gt;80/tcp, [::]:8900-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">seafile-redis</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">da3958f512ee</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">6379/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">qdrant</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">qdrant/qdrant</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:6333-6334-&gt;6333-6334/tcp, [::]:6333-6334-&gt;6333-6334/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">daily-command-portal</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">daily-command-portal-daily-command-portal</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:9951-&gt;9951/tcp, [::]:9951-&gt;9951/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">seafile-mysql</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">37b9f8bf6fe1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">3306/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">job-watch</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">job-watch-job-watch</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8085-&gt;8085/tcp, [::]:8085-&gt;8085/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">noc2</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">noc2:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:9900-&gt;8081/tcp, [::]:9900-&gt;8081/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">asset-overview</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">asset-overview-asset-overview</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:11188-&gt;11188/tcp, [::]:11188-&gt;11188/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">system-tools-suite</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">system-tools-suite-system-tools-suite</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:10233-&gt;10233/tcp, [::]:10233-&gt;10233/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">resume-builder</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">resume-builder-resume-builder</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:8084-&gt;8084/tcp, [::]:8084-&gt;8084/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">crowdsec</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">crowdsecurity/crowdsec:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:18080-&gt;8080/tcp, [::]:18080-&gt;8080/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">crowdsec-firewall-bouncer</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">faa39e627215</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 6 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">tandoor-db_recipes-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">fff3594bf464</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">5432/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">readeck</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">e79f6436ad40</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:10271-&gt;8000/tcp, [::]:10271-&gt;8000/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">speedtest-tracker</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">ghcr.io/alexjustesen/speedtest-tracker:v0.18.2</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">80/tcp, 9000/tcp, 0.0.0.0:8443-&gt;443/tcp, [::]:8443-&gt;443/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">speedtest-tracker-db-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">b09758891b16</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">3306/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">pingvin-pingvin-share-1</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">stonith404/pingvin-share</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:3450-&gt;3000/tcp, [::]:3450-&gt;3000/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">excalidraw</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">excalidraw/excalidraw:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:3630-&gt;80/tcp, [::]:3630-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">heuristic_swartz</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">c1d35f78a5f6</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">wordpress-db</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">yobasystems/alpine-mariadb:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:3306-&gt;3306/tcp, [::]:3306-&gt;3306/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">memos</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">neosmemo/memos:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:5230-&gt;5230/tcp, [::]:5230-&gt;5230/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">it-tools</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">corentinth/it-tools:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:10380-&gt;80/tcp, [::]:10380-&gt;80/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">authelia</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">c1318c1f98a5</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:9091-&gt;9091/tcp, [::]:9091-&gt;9091/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">cloudflare-ddns</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">oznu/cloudflare-ddns:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 9 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400"></td>
+</tr>
+</tbody></table></div></div>
+    </section>
+
+    
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">.230 — QNAPNAS3</h2>
+      <p class="mt-2 muted">Portainer-registered endpoint 4. Container Station/Docker service inventory pulled tonight.</p>
+      <div class="mt-5"><div class="overflow-x-auto">
+<table class="min-w-full text-sm border border-white/10 rounded-xl overflow-hidden">
+<thead class="bg-white/5 text-slate-300">
+<tr><th class="text-left px-3 py-2 border-b border-white/10">Name</th><th class="text-left px-3 py-2 border-b border-white/10">Image</th><th class="text-left px-3 py-2 border-b border-white/10">Status</th><th class="text-left px-3 py-2 border-b border-white/10">Ports</th></tr>
+</thead>
+<tbody>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">suggestarr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">ciuse99/suggestarr:v2.4.3</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:49179-&gt;5000/tcp</td>
+</tr>
+</tbody></table></div></div>
+    </section>
+    
+    
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">.231 — QNAPNAS2</h2>
+      <p class="mt-2 muted">Portainer-registered endpoint 5. Container Station/Docker service inventory pulled tonight.</p>
+      <div class="mt-5"><div class="overflow-x-auto">
+<table class="min-w-full text-sm border border-white/10 rounded-xl overflow-hidden">
+<thead class="bg-white/5 text-slate-300">
+<tr><th class="text-left px-3 py-2 border-b border-white/10">Name</th><th class="text-left px-3 py-2 border-b border-white/10">Image</th><th class="text-left px-3 py-2 border-b border-white/10">Status</th><th class="text-left px-3 py-2 border-b border-white/10">Ports</th></tr>
+</thead>
+<tbody>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">lidarr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">lscr.io/linuxserver/lidarr:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:49154-&gt;8686/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">komga</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">gotson/komga:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:25600-&gt;25600/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">navidrome</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">deluan/navidrome:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:49170-&gt;4533/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">tautulli</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">ghcr.io/tautulli/tautulli:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours (healthy)</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:32770-&gt;8181/tcp</td>
+</tr>
+</tbody></table></div></div>
+    </section>
+    
+    
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">.232 — QNAPNAS1</h2>
+      <p class="mt-2 muted">Portainer-registered endpoint 6. Container Station/Docker service inventory pulled tonight.</p>
+      <div class="mt-5"><div class="overflow-x-auto">
+<table class="min-w-full text-sm border border-white/10 rounded-xl overflow-hidden">
+<thead class="bg-white/5 text-slate-300">
+<tr><th class="text-left px-3 py-2 border-b border-white/10">Name</th><th class="text-left px-3 py-2 border-b border-white/10">Image</th><th class="text-left px-3 py-2 border-b border-white/10">Status</th><th class="text-left px-3 py-2 border-b border-white/10">Ports</th></tr>
+</thead>
+<tbody>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">radarr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">lscr.io/linuxserver/radarr:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:49153-&gt;7878/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">sonarr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">ghcr.io/hotio/sonarr:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:49156-&gt;8989/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">sabnzbd</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">lscr.io/linuxserver/sabnzbd:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:49157-&gt;8080/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">bazarr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">lscr.io/linuxserver/bazarr:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:32770-&gt;6767/tcp</td>
+</tr>
+<tr class="align-top odd:bg-white/[0.02]">
+<td class="px-3 py-2 border-t border-white/10 text-slate-200">prowlarr</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">ghcr.io/linuxserver/prowlarr:latest</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">Up 28 hours</td>
+<td class="px-3 py-2 border-t border-white/10 text-slate-400">0.0.0.0:49160-&gt;9696/tcp</td>
+</tr>
+</tbody></table></div></div>
+    </section>
+    
+
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">.76 — Portainer2 environment</h2>
+      <p class="mt-2 muted">
+        Registered in Portainer as endpoint 3, but its containers were not cross-checked tonight. The environment
+        exists and was listed through the Portainer API, but no fresh container pull was performed for this page.
+      </p>
+    </section>
+
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">.77 — PBS host</h2>
+      <p class="mt-2 muted">
+        Dedicated backup appliance, not a Docker host. No containers were reported on .77 during the discovery pass.
+      </p>
+    </section>
+
+    <section class="card section-card p-6 mb-6">
+      <h2 class="text-2xl font-semibold">Inventory source summary</h2>
+      <ul class="mt-3 space-y-2 text-slate-400 list-disc pl-5">
+        <li>.237 inventory: live <code>docker ps -a</code> output gathered tonight.</li>
+        <li>.230, .231, .232 inventory: Portainer-registered QNAP environments with live container listings.</li>
+        <li>.76: Portainer-registered environment noted for reference only.</li>
+        <li>.77: PBS host noted as a dedicated backup appliance, not a Docker host.</li>
+      </ul>
+    </section>
+
+    <footer class="py-10 text-center text-xs text-slate-500">
+      © <span id="y"></span> Michael Dziegiel — Built with GitHub Pages
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
